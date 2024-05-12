@@ -1,3 +1,3 @@
 from django.shortcuts import render
 
-# Create your views here.
+# Creando los modelos de ver perfil de usuario
