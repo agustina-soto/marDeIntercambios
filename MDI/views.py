@@ -14,3 +14,6 @@ def login(request):
     return render(request, 'login.html', {
         #context
     })
+
+def prueba(request):
+    return render(request, 'prueba.html')
