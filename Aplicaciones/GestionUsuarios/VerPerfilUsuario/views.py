@@ -1,3 +1,3 @@
 from django.shortcuts import render
 
-# Creando los modelos de ver perfil de usuario
+# Creando los modelos de ver
