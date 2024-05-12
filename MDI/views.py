@@ -17,3 +17,6 @@ def login(request):
 
 def prueba(request):
     return render(request, 'prueba.html')
+
+def prueba2(request):
+    return render(request, 'prueba2.html')
