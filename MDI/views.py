@@ -36,7 +36,3 @@ def logout_view(request):
     logout(request) #La peticion ya conoce la sesion
     messages.success(request, 'Sesion cerrada exitosamente')
     return redirect('login')
-
-#def prueba(request):
-#    return render(request, 'prueba.html')
-
