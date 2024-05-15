@@ -3,6 +3,7 @@ from django.shortcuts import redirect # Recibe un string (la dir a donde deseamo
 
 from django.contrib import messages
 from django.contrib.auth import login # Encargada de generar la sesion
+from django.contrib.auth import logout # Encargada de cerrar la sesion
 from django.contrib.auth import authenticate # Encargada de autenticar un usuario
 
 def home(request): # cuando un cliente realice una consulta sobre la url "home", se va a ejecutar esta funcion :)
@@ -30,6 +31,11 @@ def login_view(request):
         #context
     })
 
+
+def logout_view(request):
+    logout(request) #La peticion ya conoce la sesion
+    messages.success(request, 'Sesion cerrada exitosamente')
+    return redirect('login')
 
 #def prueba(request):
 #    return render(request, 'prueba.html')
