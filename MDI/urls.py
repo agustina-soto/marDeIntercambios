@@ -17,10 +17,13 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from . import views
+from . import views 
+from Aplicaciones.GestionUsuarios.RegistrarUsuario.views import *
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.home, name='home'), #base
+    path('registro/', registro, name='registro'),
+    path('registro/exitoRegistro/', exito_registro, name='exito_registro'),
     path('usuarios/login', views.login, name='login'),
     path('admin/', admin.site.urls),
     path('prueba/', views.prueba, name='prueba'),
