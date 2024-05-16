@@ -21,11 +21,7 @@ from . import views
 from Aplicaciones.GestionUsuarios.RegistrarUsuario.views import *
 
 urlpatterns = [
-    path('', views.home, name='home'), #base
-    path('registro/', registro, name='registro'),
-    path('registro/exitoRegistro/', exito_registro, name='exito_registro'),
+    path('', views.home, name='home'),
     path('usuarios/login', views.login, name='login'),
     path('admin/', admin.site.urls),
-    path('prueba/', views.prueba, name='prueba'),
-    path('prueba2/', views.prueba2, name='prueba2'),
 ]
