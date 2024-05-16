@@ -1,3 +1,3 @@
 from django.db import models
 
-# Create your models here.
+from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import Publicacion
