@@ -1,13 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
-from Aplicaciones.Autenticacion.IniciarSesion import views as iniciarSesion_views
-from Aplicaciones.Autenticacion.CerrarSesion import views as cerrarSesion_views
 from . import views
 
 urlpatterns = [
+    # path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('usuarios/login/', iniciarSesion_views.login_view, name='login'),
-    path('logout/', cerrarSesion_views.logout_view, name='logout'),
-    path('admin/', admin.site.urls),
-    path('usuarios/', include('Aplicaciones.AdministracionPublicaciones.urls')), #Incluye las URLs de la carpeta
+    path('autenticacion/', include('Aplicaciones.Autenticacion.urls')), #Incluye las URLs de Autenticacion    
+    path('publicacion/', include('Aplicaciones.AdministracionPublicaciones.urls')), #Incluye las URLs de AdministrarPublicaciones
+    path('usuarios/', include('Aplicaciones.GestionUsuarios.urls')), #Incluye las URLs de GestionUsuario
 ]

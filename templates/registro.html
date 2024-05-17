@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <style>
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registro de Usuario</h1>
+    <form id="registro-form" method="post" novalidate>
+        {% csrf_token %} <!--Token que genera Django por seguridad-->
+        <div>
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            <span class="error-message">
+                {{ form.email.errors }}
+            </span>
+        </div>
+        <div>
+            {{ form.contraseña.label_tag }}
+            {{ form.contraseña }}
+            <span class="error-message">
+                {{ form.contraseña.errors }}
+            </span>
+        </div>
+        <div>
+            {{ form.contraseña2.label_tag }}
+            {{ form.contraseña2 }}
+            <span class="error-message">
+                {{ form.contraseña2.errors }}
+            </span>
+        </div>
+        <div>
+            {{ form.dni.label_tag }}
+            {{ form.dni }}
+            <span class="error-message">
+                {{ form.dni.errors }}
+            </span>
+        </div>
+        <div>
+            {{ form.fecha_nacimiento.label_tag }}
+            {{ form.fecha_nacimiento }}
+            <span class="error-message">
+                {{ form.fecha_nacimiento.errors }}
+            </span>
+        </div>
+        <button type="submit">Registrarse</button>
+    </form>
+</body>
+</html>

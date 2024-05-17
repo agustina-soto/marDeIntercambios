@@ -9,7 +9,7 @@ def editar_publicacion(request, publicacion_id):
         form = EditarPublicacionForm(request.POST, request.FILES, instance=publicacion)
         if form.is_valid():
             form.save()
-            return redirect('ruta_hacia_la_vista_de_publicaciones')  # Reemplaza 'ruta_hacia_la_vista_de_publicaciones' con la URL de la vista donde quieres redirigir después de editar la publicación
+            return redirect('ver_detalle.html') #Este tiene que ser el html de maite, recordar usar el mismo nombre!
     else:
         form = EditarPublicacionForm(instance=publicacion)
     return render(request, 'editar_publicacion.html', {'form': form})

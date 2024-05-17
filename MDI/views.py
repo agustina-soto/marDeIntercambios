@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate # Encargada de autenticar un usuari
 
 def home(request): # cuando un cliente realice una consulta sobre la url "home", se va a ejecutar esta funcion :)
     return render(request, 'home.html', {
-        #context
+    
     })
 
 def login_view(request):
@@ -31,8 +31,8 @@ def login_view(request):
         #context
     })
 
+def prueba(request):
+    return render(request, 'prueba.html')
 
-def logout_view(request):
-    logout(request) #La peticion ya conoce la sesion
-    messages.success(request, 'Sesion cerrada exitosamente')
-    return redirect('login')
+def prueba2(request):
+    return render(request, 'prueba2.html')
