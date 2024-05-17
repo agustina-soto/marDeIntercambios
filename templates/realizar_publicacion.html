@@ -8,9 +8,33 @@
 </head>
 <body>
     <h1>Realizar Publicación</h1>
+    
+    <!-- Aquí se mostrarán los mensajes -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        <label for="id_titulo">Título:</label>
+        <input type="text" id="id_titulo" name="titulo"><br>
+        
+        <label for="id_precio_minimo">Precio mínimo:</label>
+        <input type="number" id="id_precio_minimo" name="precio_minimo"><br>
+        
+        <label for="id_tipo_embarcacion">Tipo de embarcación:</label>
+        <input type="text" id="id_tipo_embarcacion" name="tipo_embarcacion"><br>
+        
+        <label for="id_anio">Año:</label>
+        <input type="number" id="id_anio" name="anio"><br>
+        
+        <label for="id_foto">Foto:</label>
+        <input type="file" id="id_foto" name="foto"><br>
+        
         <button type="submit">Publicar</button>
     </form>
 </body>
