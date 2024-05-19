@@ -1,17 +1,98 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Publicación</title>
+    <style>
+        .error-message {
+            color: red;
+        }
+        .messages {
+            list-style-type: none;
+            padding: 0;
+        }
+        .messages li {
+            margin-bottom: 10px;
+            color: green;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <h1>Editar Publicación</h1>
+
+    <!-- Acá se muestran los mensajes -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <!-- Campo Título -->
+        <div>
+            {{ publicacion_form.titulo.label_tag }}
+            {{ publicacion_form.titulo }}
+            <span class="error-message">{{ publicacion_form.titulo.errors }}</span>
+        </div>
+
+        <!-- Campo Precio Minimo -->
+        <div>
+            {{ publicacion_form.precio_minimo.label_tag }}
+            {{ publicacion_form.precio_minimo }}
+            <span class="error-message">{{ publicacion_form.precio_minimo.errors }}</span>
+        </div>
+
+        <!-- Campo tipo_embarcacion -->
+        <div>
+            {{ publicacion_form.tipo_embarcacion.label_tag }}
+            {{ publicacion_form.tipo_embarcacion }}
+            <span class="error-message">{{ publicacion_form.tipo_embarcacion.errors }}</span>
+        </div>
+
+        <!-- Campo anio -->
+        <div>
+            {{ publicacion_form.anio.label_tag }}
+            {{ publicacion_form.anio }}
+            <span class="error-message">{{ publicacion_form.anio.errors }}</span>
+        </div>
+
+        <!-- Campo para Subir Fotos -->
+        <h2>Fotos existentes</h2>
+            {% for foto in fotos_publicacion %}
+                <img src="{{ foto.foto.url }}" alt="{{ foto.foto.name }}">
+            {% endfor %}
+            <h2>Subir nuevas fotos</h2>
+            {{ foto_form.as_p }}
+        
         <button type="submit">Guardar Cambios</button>
+
     </form>
 </body>
 </html>
