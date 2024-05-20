@@ -50,6 +50,7 @@ class PublicacionForm(forms.ModelForm):
             raise forms.ValidationError('Por favor, complete este campo.')
         return tipo_embarcacion
 
+
 class FotoPublicacionForm(forms.ModelForm):
     class Meta:
         model = FotoPublicacion

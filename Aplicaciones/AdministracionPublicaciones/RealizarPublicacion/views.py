@@ -4,7 +4,10 @@ from django.contrib import messages
 from .models import FotoPublicacion
 from .forms import PublicacionForm, FotoPublicacionForm
 
+from django.contrib.auth.decorators import login_required
+from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.decorator import login_required
 
+@login_required # No se si esta bien puesto esto aca
 def realizar_publicacion(request):
     if request.method == 'POST':
         # Instancia los formularios con los datos proporcionados por el usuario
