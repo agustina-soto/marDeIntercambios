@@ -25,23 +25,52 @@
         form div {
             margin-bottom: 15px;
         }
+        
         label {
-            font-weight: bold;
+            font-weight: black;
         }
-        button {
+
+        /* Estilos para el campo de archivo personalizado */
+        .custom-file-input {
+            display: none; /* Ocultar el campo de archivo original */
+        }
+
+
+        /* Estilo para el botón "Elegir archivos" */
+        .custom-file-label {
+            display: inline-block;
+            padding: 7px 10px;
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            border-radius: 0px;
+            cursor: pointer;
+        }
+        
+        .custom-file-label:hover {
+            background-color: #AAAAAA; /* Cambiar color de fondo al pasar sobre el botón */
+        }
+
+        .file-preview {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Boton Publicar */
+        button { 
             padding: 10px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #4CAF50; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
             border: none;
             cursor: pointer;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #45a049; /* Cambiar color de fondo al pasar sobre el botón */
         }
     </style>
 </head>
 <body>
     <h1>Realizar Publicación</h1>
+    
 
     <!-- Acá se muestran los mensajes -->
     {% if messages %}
@@ -53,6 +82,7 @@
     {% endif %}
 
     <form method="post" enctype="multipart/form-data">
+        <form id="mensaje" method="POST" novalidate> <!--- ESTO ES LO QUE ME DIJO LU QUE PONGA -->
         {% csrf_token %}
         
         <!-- Campo Título -->
@@ -85,12 +115,36 @@
 
         <!-- Campo para Subir Fotos -->
         <div>
-            <label for="id_foto">Fotos:</label>
-            <input type="file" id="id_foto" name="foto" multiple>
+            <label>Fotos:</label>
+            <!-- Utiliza un campo de archivo personalizado -->
+            <label for="custom-file" class="custom-file-label">Elegir archivos</label>
+            <input type="file" id="custom-file" class="custom-file-input" name="foto" multiple onchange="updateFileList(this)">
             <span class="error-message">{{ foto_form.foto.errors }}</span>
+            <div id="file-preview" class="file-preview"></div> <!-- Aquí se mostrará la lista de archivos seleccionados -->
         </div>
 
         <button type="submit">Publicar</button>
     </form>
+
+    <script>
+        function updateFileList(input) {
+            var preview = document.getElementById('file-preview');
+            preview.innerHTML = ''; // Limpiar la lista de archivos previa
+            
+            // Crear una lista para mostrar los nombres de los archivos seleccionados
+            var fileList = document.createElement('ul');
+            fileList.classList.add('file-list');
+
+            // Iterar sobre los archivos seleccionados y agregarlos a la lista
+            for (var i = 0; i < input.files.length; i++) {
+                var fileItem = document.createElement('li');
+                fileItem.textContent = input.files[i].name;
+                fileList.appendChild(fileItem);
+            }
+
+            // Mostrar la lista de archivos en el contenedor de vista previa
+            preview.appendChild(fileList);
+        }
+    </script>
 </body>
 </html>

@@ -26,7 +26,7 @@
             margin-bottom: 15px;
         }
         label {
-            font-weight: bold;
+            font-weight: black;
         }
         button {
             padding: 10px;
@@ -37,6 +37,73 @@
         }
         button:hover {
             background-color: #45a049;
+        }
+        /* Estilo para el campo de archivo personalizado */
+        .custom-file-input {
+            display: none; /* Ocultar el campo de archivo original */
+        }
+        /* Estilo para el botón "Elegir archivos" */
+        .custom-file-label {
+            display: inline-block;
+            padding: 7px 10px;
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            border-radius: 0px;
+            cursor: pointer;
+        }
+        .custom-file-label:hover {
+            background-color: #AAAAAA; /* Cambiar color de fondo al pasar sobre el botón */
+        }
+        .file-preview {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .photo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .photo-container img {
+            width: 100px;
+            height: auto;
+            margin-right: 10px;
+        }
+        .photo-container button {
+            background-color: #f44336;
+        }
+        /* Ocultar el texto "Ningún archivo seleccionado" */
+        input[type="file"] {
+            display: none;
+        }
+        /* Estilo personalizado para el botón "Elegir archivos" */
+        .custom-file-upload {
+            padding: 4px 8px; /* Tamaño del botón */
+            background-color: #ddd; /* Color de fondo gris claro */
+            color: #666; /* Cambia el color del texto a un tono grisáceo */
+            border: 1px solid #ccc; /* Añade un borde delgado */
+            cursor: pointer;
+            display: inline-block;
+            border-radius: 0px;
+            font-size: 16px; /* Ajusta el tamaño del texto */
+        }
+        .custom-file-upload:hover {
+            background-color: #ccc; /* Cambia el color de fondo cuando se pasa el cursor */
+        }
+        .eliminar-foto {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            background-color: #ccc;
+            color: #666;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 5px; /* Ajusta la separación entre la "x" y el texto */
+        }
+        .eliminar-foto:hover {
+            background-color: #aaa;
+            color: #fff;
         }
     </style>
 </head>
@@ -54,7 +121,7 @@
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-
+        
         <!-- Campo Título -->
         <div>
             {{ publicacion_form.titulo.label_tag }}
@@ -83,16 +150,80 @@
             <span class="error-message">{{ publicacion_form.anio.errors }}</span>
         </div>
 
-        <!-- Campo para Subir Fotos -->
-        <h2>Fotos existentes</h2>
-            {% for foto in fotos_publicacion %}
-                <img src="{{ foto.foto.url }}" alt="{{ foto.foto.name }}">
-            {% endfor %}
-            <h2>Subir nuevas fotos</h2>
-            {{ foto_form.as_p }}
-        
-        <button type="submit">Guardar Cambios</button>
 
+        <!-- Campo para Subir Fotos -->
+        <div>
+            <label>Fotos:</label>
+            <!-- Utiliza un campo de archivo personalizado -->
+            <label for="custom-file" class="custom-file-label">Elegir archivos</label>
+            <input type="file" id="custom-file" class="custom-file-input" name="foto" multiple onchange="updateFileList(this)">
+            <span class="error-message">{{ foto_form.foto.errors }}</span>
+            <div id="file-preview" class="file-preview"></div> <!-- Aquí se mostrará la lista de archivos seleccionados -->
+        </div>
+
+        <!-- Mostrar las fotos vinculadas a la publicación -->
+        {% for foto in fotos_publicacion %}
+            <div class="photo-container">
+                <img src="{{ foto.foto.url }}" alt="{{ foto.titulo }}">
+                <span class="eliminar-foto" onclick="eliminarFoto('{{ foto.id }}')">x</span>
+            </div>
+        {% endfor %}
+
+        <button type="submit">Guardar Cambios</button>
+        
     </form>
+
+    <script>
+        function updateFileList(input) {
+            var preview = document.getElementById('file-preview');
+            while (preview.firstChild) {
+                preview.removeChild(preview.firstChild);
+            }
+            if (input.files.length === 0) {
+                var para = document.createElement('p');
+                var node = document.createTextNode('Ningún archivo seleccionado');
+                para.appendChild(node);
+                preview.appendChild(para);
+            } else {
+                var para = document.createElement('p');
+                var node = document.createTextNode('Archivos seleccionados:');
+                para.appendChild(node);
+                preview.appendChild(para);
+                var ul = document.createElement('ul');
+                for (var i = 0; i < input.files.length; i++) {
+                    var li = document.createElement('li');
+                    li.textContent = input.files[i].name;
+                    ul.appendChild(li);
+                }
+                preview.appendChild(ul);
+            }
+        }
+
+        function eliminarFoto(fotoId) {
+            // Confirma si el usuario realmente quiere eliminar la foto
+            if (confirm('¿Estás seguro de que quieres eliminar esta foto?')) {
+                // Hace una solicitud POST al servidor para eliminar la foto
+                fetch('/eliminar-foto', { // URL del endpoint para eliminar la foto
+                    method: 'POST', // Método de la solicitud
+                    headers: {
+                        'Content-Type': 'application/json' // Tipo de contenido del cuerpo de la solicitud
+                    },
+                    body: JSON.stringify({ fotoId: fotoId }) // Convierte el ID de la foto a JSON y lo envía en el cuerpo de la solicitud
+                })
+                .then(response => { // Maneja la respuesta de la solicitud
+                    if (response.ok) { // Verifica si la respuesta es exitosa
+                        location.reload(); // Recarga la página si la eliminación fue exitosa
+                    } else {
+                        throw new Error('Error al eliminar la foto'); // Lanza un error si la respuesta no es exitosa
+                    }
+                })
+                .catch(error => { // Captura cualquier error que ocurra durante la solicitud
+                    // console.error('Error:', error); // Registra el error en la consola del navegador
+                    alert('Hubo un error al eliminar la foto. Por favor, inténtalo de nuevo más tarde.'); // Muestra un mensaje al usuario en caso de error
+                });
+            }
+        }
+    </script>
+    
 </body>
 </html>

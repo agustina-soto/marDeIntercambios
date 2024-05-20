@@ -1,3 +1,5 @@
+import random
+import string
 from django.db import models
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -13,3 +15,26 @@ class Publicacion(models.Model):
 class FotoPublicacion(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='fotos', on_delete=models.CASCADE)
     foto = models.ImageField(upload_to='publicaciones_fotos/')
+
+    def default_title(): 
+        return 'foto_' + str(FotoPublicacion.id) + '_' + generate_random_str()
+
+    titulo = models.CharField(max_length=50, default=default_title)  
+
+def generate_random_str(length=7): 
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+
+"""
+class FotoPublicacion(models.Model):
+    publicacion = models.ForeignKey(Publicacion, related_name='fotos', on_delete=models.CASCADE)
+    foto = models.ImageField(upload_to='publicaciones_fotos/')
+
+    def default_title(self): # Genera un título predeterminado único.
+        return 'foto_' + str(self.id) + '_' + generate_random_str()
+   
+    titulo = models.CharField(max_length=50, default=default_title)  # Título predeterminado único
+    
+
+def generate_random_str(length=7): # Genera una cadena aleatoria de caracteres.
+        return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+"""

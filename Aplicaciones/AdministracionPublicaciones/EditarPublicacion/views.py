@@ -15,14 +15,17 @@ def editar_publicacion(request, publicacion_id):
         
         # Creamos instancias de los formularios de edición de publicación y foto
         publicacion_form = EditarPublicacionForm(request.POST, instance=publicacion)
-        foto_form = EditarFotoPublicacionForm(request.POST, request.FILES, instance=publicacion)
+        foto_form = EditarFotoPublicacionForm(request.POST, request.FILES)
+
         
         # Verificamos si ambos formularios son válidos
         if publicacion_form.is_valid() and foto_form.is_valid():
             # Si son válidos, guardamos los cambios en la base de datos
             publicacion_form.save()
-            foto_form.save()
-            
+            # Guardar las fotos asociadas a la publicación si el formulario es válido
+            foto_form.instance = publicacion  # Asignar la instancia de la publicación al formulario de fotos
+            foto_form.save()  # Guardar las fotos
+
             # Mostramos un mensaje de éxito
             messages.success(request, '¡Se editó la publicación!')
             
