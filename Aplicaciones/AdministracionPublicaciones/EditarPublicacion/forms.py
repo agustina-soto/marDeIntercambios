@@ -2,17 +2,21 @@ from django.utils import timezone
 from django import forms
 
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
+
 from .models import Publicacion, FotoPublicacion
+
 from MDI.widgets import MultipleFileInput
+
 from django.core.validators import MinValueValidator
 
 
 class EditarPublicacionForm(forms.ModelForm):
+    # Declaración de campos adicionales que no están definidos en el modelo
     titulo = forms.CharField(label='Título')
-    tipo_embarcacion = forms.ChoiceField(label='Tipo de Embarcación', choices=[('', 'Seleccione un tipo de embarcación')] + TIPOS_EMBARCACION)    
+    tipo_embarcacion = forms.ChoiceField(label='Tipo de Embarcación', choices=[('', 'Seleccione un tipo de embarcación')] + TIPOS_EMBARCACION)
     anio = forms.IntegerField(label='Año', min_value=1900, max_value=timezone.now().year)
     precio_minimo = forms.DecimalField(label='Precio mínimo permitido', validators=[MinValueValidator(0)])
-    tipo_embarcacion = forms.ChoiceField(label='Tipo de Embarcación', choices=[('', 'Seleccione un tipo de embarcación')] + TIPOS_EMBARCACION) 
+
 
     class Meta:
         model = Publicacion
@@ -20,15 +24,17 @@ class EditarPublicacionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Formulario con los valores actuales de la publicación
+        
+        # Asigna clases y placeholders a los campos del formulario
         if self.instance:
             self.fields['titulo'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el título'})
-            self.fields['precio_minimo'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el precio minimo'})
+            self.fields['precio_minimo'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el precio mínimo'})
             self.fields['anio'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el año'})
         
-        # Asigna el valor inicial al campo tipo_embarcacion obteniendo el valor actual del tipo de embarcación de la instancia
-        self.initial['tipo_embarcacion'] = self.instance.tipo_embarcacion  # NO LO HACE BIEN 
+        # Asigna valor inicial al campo tipo_embarcacion
+        self.initial['tipo_embarcacion'] = self.instance.tipo_embarcacion  # Este bloque podría no estar funcionando correctamente
 
+    # Métodos de validación personalizados para cada campo
     def clean_titulo(self):
         titulo = self.cleaned_data.get('titulo')
         if not titulo:
@@ -53,11 +59,10 @@ class EditarPublicacionForm(forms.ModelForm):
             raise forms.ValidationError('Por favor, complete este campo.')
         return tipo_embarcacion
 
-
 class EditarFotoPublicacionForm(forms.ModelForm):
     class Meta:
         model = FotoPublicacion
         fields = ['foto']
         widgets = {
-            'foto': MultipleFileInput(),
+            'foto': MultipleFileInput(),  # Utiliza el widget MultipleFileInput para la carga múltiple de imágenes
         }

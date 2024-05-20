@@ -7,11 +7,11 @@ from django.core.validators import MinValueValidator
 
 
 class PublicacionForm(forms.ModelForm):
+    # Declaración de campos adicionales que no están definidos en el modelo
     titulo = forms.CharField(label='Título')
-    tipo_embarcacion = forms.ChoiceField(label='Tipo de Embarcación', choices=[('', 'Seleccione un tipo de embarcación')] + TIPOS_EMBARCACION)    
+    tipo_embarcacion = forms.ChoiceField(label='Tipo de Embarcación', choices=[('', 'Seleccione un tipo de embarcación')] + TIPOS_EMBARCACION)
     anio = forms.IntegerField(label='Año', min_value=1900, max_value=timezone.now().year)
     precio_minimo = forms.DecimalField(label='Precio mínimo permitido', validators=[MinValueValidator(0)])
-
 
     class Meta:
         model = Publicacion
@@ -19,11 +19,13 @@ class PublicacionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
+        # Asigna clases y placeholders a los campos del formulario
         self.fields['titulo'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el título'})
-        self.fields['precio_minimo'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el precio minimo'})
+        self.fields['precio_minimo'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el precio mínimo'})
         self.fields['anio'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el año'})
 
-
+    # Métodos de validación personalizados para cada campo
     def clean_titulo(self):
         titulo = self.cleaned_data.get('titulo')
         if not titulo:
@@ -53,7 +55,7 @@ class FotoPublicacionForm(forms.ModelForm):
         model = FotoPublicacion
         fields = ['foto']
         widgets = {
-            'foto': MultipleFileInput(),
+            'foto': MultipleFileInput(),  # Utiliza el widget MultipleFileInput para la carga múltiple de imágenes
         }
     
 # Nunca entra aca... no tengo ni idea en donde defini el otro mensaje que es el que sale

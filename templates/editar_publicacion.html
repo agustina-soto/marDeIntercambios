@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Publicación</title>
+
+    <!-- Estilos CSS -->
     <style>
+
+        /* Estilos para mensajes de error */
         .error-message {
             color: red;
         }
+
+        /* Estilos para mensajes de éxito */
         .messages {
             list-style-type: none;
             padding: 0;
@@ -16,6 +22,8 @@
             margin-bottom: 10px;
             color: green;
         }
+
+        /* Estilos para el formulario */
         form {
             display: flex;
             flex-direction: column;
@@ -26,7 +34,7 @@
             margin-bottom: 15px;
         }
         label {
-            font-weight: black;
+            /* No especificar font-weight, podemos poner bold pero a mi no me gusta mucho */
         }
         button {
             padding: 10px;
@@ -38,10 +46,14 @@
         button:hover {
             background-color: #45a049;
         }
+
+        
         /* Estilo para el campo de archivo personalizado */
         .custom-file-input {
             display: none; /* Ocultar el campo de archivo original */
         }
+        
+        
         /* Estilo para el botón "Elegir archivos" */
         .custom-file-label {
             display: inline-block;
@@ -77,10 +89,11 @@
         .photo-container button {
             background-color: #f44336;
         }
-        /* Ocultar el texto "Ningún archivo seleccionado" */
-        input[type="file"] {
-            display: none;
-        }
+
+        
+        
+
+
         /* Estilo personalizado para el botón "Elegir archivos" */
         .custom-file-upload {
             padding: 4px 8px; /* Tamaño del botón */
@@ -114,9 +127,10 @@
     </style>
 </head>
 <body>
+    <!-- Encabezado -->
     <h1>Editar Publicación</h1>
 
-    <!-- Acá se muestran los mensajes -->
+    <!-- Muestra mensajes de éxito o error -->
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -125,6 +139,7 @@
         </ul>
     {% endif %}
 
+    <!-- Formulario de edición -->
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         
@@ -167,21 +182,23 @@
             <div id="file-preview" class="file-preview"></div> <!-- Aquí se mostrará la lista de archivos seleccionados -->
         </div>
 
-        <!-- Mostrar las fotos vinculadas a la publicación -->
+        <!-- Muestra las fotos vinculadas a la publicación -->
         {% for foto in fotos_publicacion %}
             <div class="photo-container">
-                <span class="file-name">{{ foto.foto.name }}</span> <!-- Agregar la clase al nombre del archivo -->
+                <span class="file-name">{{ foto.foto.name }}</span> <!-- Agrega la clase al nombre del archivo -->
                 <span class="eliminar-foto" onclick="eliminarFoto('{{ foto.id }}')">x</span>
             </div>
         {% endfor %}
 
 
-
+        <!-- Botón para guardar cambios -->
         <button type="submit">Guardar Cambios</button>
         
     </form>
 
+    <!-- Script JavaScript -->
     <script>
+        // Actualiza la lista de archivos seleccionados
         function updateFileList(input) {
             var preview = document.getElementById('file-preview');
             while (preview.firstChild) {
@@ -207,6 +224,7 @@
             }
         }
 
+        // Elimina una foto
         function eliminarFoto(fotoId) {
             // Confirma si el usuario realmente quiere eliminar la foto
             if (confirm('¿Estás seguro de que quieres eliminar esta foto?')) {
