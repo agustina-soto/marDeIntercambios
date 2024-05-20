@@ -68,6 +68,12 @@
             height: auto;
             margin-right: 10px;
         }
+        .photo-container .file-name {
+            width: auto; /* Ajustar el ancho para que se ajuste al contenido */
+            white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+            overflow: hidden; /* Ocultar el texto que sobresale del contenedor */
+            text-overflow: ellipsis; /* Mostrar puntos suspensivos (...) cuando el texto se recorta */
+        }
         .photo-container button {
             background-color: #f44336;
         }
@@ -99,7 +105,7 @@
             color: #666;
             border-radius: 50%;
             cursor: pointer;
-            margin-left: 5px; /* Ajusta la separación entre la "x" y el texto */
+            margin-left: 10px; /* Ajusta la separación entre la "x" y el texto */
         }
         .eliminar-foto:hover {
             background-color: #aaa;
@@ -164,10 +170,12 @@
         <!-- Mostrar las fotos vinculadas a la publicación -->
         {% for foto in fotos_publicacion %}
             <div class="photo-container">
-                <img src="{{ foto.foto.url }}" alt="{{ foto.titulo }}">
+                <span class="file-name">{{ foto.foto.name }}</span> <!-- Agregar la clase al nombre del archivo -->
                 <span class="eliminar-foto" onclick="eliminarFoto('{{ foto.id }}')">x</span>
             </div>
         {% endfor %}
+
+
 
         <button type="submit">Guardar Cambios</button>
         
