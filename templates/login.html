@@ -1,17 +1,39 @@
-{% extends "base.html" %}
-
-{% block content %}
-
-    <div class="col">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+</head>
+<body>
+    {% extends 'base.html' %}
+    {% block content %}
+        <form method="post">
+            {% csrf_token %}
+            <h1>Iniciar sesión</h1>
             
-        <h2>Login</h2>
+            <div class="form-group">
+                <label>{{form.username.label}}</label>
+                {{ form.username }}
+            </div>
 
-        <!-- Formulario -->
+            <div class="form-group">
+                <label>{{form.password.label}}</label>
+                {{ form.password }}
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+        </form>
+    {% endblock %}
+</body>
+</html>
+
+<!-- Formulario 
 
         <form method="post">
             {% csrf_token %}
-        <!-- formulario va a enviar la informacion a traves del metodo post. para este formulario vamos a indicar
-        2 inputs: uno de tipo texto y uno de tipo password -->
+        formulario va a enviar la informacion a traves del metodo post. para este formulario vamos a indicar
+        2 inputs: uno de tipo texto y uno de tipo password 
 
             <div class="form-group">
                 <label form="username">Username</label>
@@ -27,5 +49,4 @@
 
         </form>
 
-    </div>
-{% endblock content %}
+        -->
