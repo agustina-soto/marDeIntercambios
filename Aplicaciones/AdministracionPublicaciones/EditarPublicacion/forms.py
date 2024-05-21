@@ -1,12 +1,8 @@
 from django.utils import timezone
 from django import forms
-
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
-
 from .models import Publicacion, FotoPublicacion
-
 from MDI.widgets import MultipleFileInput
-
 from django.core.validators import MinValueValidator
 
 
@@ -17,22 +13,20 @@ class EditarPublicacionForm(forms.ModelForm):
     anio = forms.IntegerField(label='Año', min_value=1900, max_value=timezone.now().year)
     precio_minimo = forms.DecimalField(label='Precio mínimo permitido', validators=[MinValueValidator(0)])
 
-
     class Meta:
         model = Publicacion
         fields = ['titulo', 'precio_minimo', 'tipo_embarcacion', 'anio']
 
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
         # Asigna clases y placeholders a los campos del formulario
-        if self.instance:
+        if self.instance: # Se usa para asegurar que estamos trabajando con una instancia existente del modelo y no simplemente con un formulario vacio
             self.fields['titulo'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el título'})
             self.fields['precio_minimo'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el precio mínimo'})
             self.fields['anio'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el año'})
-        
-        # Asigna valor inicial al campo tipo_embarcacion
-        self.initial['tipo_embarcacion'] = self.instance.tipo_embarcacion  # Este bloque podría no estar funcionando correctamente
+            self.initial['tipo_embarcacion'] = self.instance.tipo_embarcacion # Asigna valor inicial al campo tipo_embarcacion
+
 
     # Métodos de validación personalizados para cada campo
     def clean_titulo(self):
@@ -58,6 +52,7 @@ class EditarPublicacionForm(forms.ModelForm):
         if not tipo_embarcacion:
             raise forms.ValidationError('Por favor, complete este campo.')
         return tipo_embarcacion
+
 
 class EditarFotoPublicacionForm(forms.ModelForm):
     class Meta:
