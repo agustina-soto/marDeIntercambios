@@ -13,4 +13,8 @@ class Publicacion(models.Model):
 
 class FotoPublicacion(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='fotos', on_delete=models.CASCADE)
-    foto = models.ImageField(upload_to='publicaciones_fotos/')
+    foto = models.ImageField(upload_to='static/fotos_publicaciones/')
+    """
+    El upload es necesario porque sino las fotos se almacenan directamente en la base de datos como datos binarios,
+    lo que puede hacerla más pesada y menos eficiente para recuperar y manejar
+    """

@@ -141,3 +141,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Especifica el modelo de usuario personalizado
 AUTH_USER_MODEL = 'RegistrarUsuario.Usuario'
+
+LOGIN_URL = 'login' # Esto le dice a Django que redirija a la URL llamada login cuando un usuario no autenticado intente acceder a una vista protegida
