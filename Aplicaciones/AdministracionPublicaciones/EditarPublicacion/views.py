@@ -3,6 +3,11 @@ from django.shortcuts import render, redirect
 from .forms import EditarPublicacionForm, EditarFotoPublicacionForm
 from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import Publicacion, FotoPublicacion
 
+# Importaciones para eliminar una foto
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST # Asegura que la vista eliminar_foto solo acepte solicitudes HTTP POST
+
+
 def editar_publicacion(request, publicacion_id):
     # Obtenemos la instancia de la publicación que queremos editar
     publicacion = Publicacion.objects.get(pk=publicacion_id)
@@ -15,32 +20,45 @@ def editar_publicacion(request, publicacion_id):
         
         # Creamos instancias de los formularios de edición de publicación y foto
         publicacion_form = EditarPublicacionForm(request.POST, instance=publicacion)
-        foto_form = EditarFotoPublicacionForm(request.POST, request.FILES)
-
+        fotos_nuevas = request.FILES.getlist('foto')  # Obtiene las nuevas fotos subidas
         
-        # Verificamos si ambos formularios son válidos
-        if publicacion_form.is_valid() and foto_form.is_valid():
-            # Si son válidos, guardamos los cambios en la base de datos
+        # Verificamos si el formulario es válido
+        if publicacion_form.is_valid():
+
+            # Si es válido guardamos los cambios en la base de datos
             publicacion_form.save()
-            # Guarda las fotos asociadas a la publicación si el formulario es válido
-            foto_form.instance = publicacion  # Asigna la instancia de la publicación al formulario de fotos
-            foto_form.save()  # Guarda las fotos
+            
+            # Si hay fotos nuevas a subir
+            if fotos_nuevas:
+                for foto in fotos_nuevas:
+                    FotoPublicacion.objects.create(publicacion=publicacion, foto=foto) 
+                # Para cada foto nueva subida, crea ua instancia y la enlaza con la publicacion
 
             # Mostramos un mensaje de éxito
             messages.success(request, '¡Se editó la publicación!')
             
             # Redireccionamos a la página de detalle de la publicación
-            #return redirect('ver_detalle.html', , pk=publicacion.pk) # DES-COMENTAR CUANDO MAITE SUBA EL HTML
+            # return redirect('ver_detalle', pk=publicacion.pk)  # # DES-COMENTAR CUANDO MAITE SUBA EL HTML
     else:
-        # Si la solicitud no es un POST, mostramos los formularios con los datos actuales de la publicación
+        # Si la solicitud no es un POST, muestra el formulario con los datos actuales de la publicación
         publicacion_form = EditarPublicacionForm(instance=publicacion)
-        foto_form = EditarFotoPublicacionForm(instance=publicacion)
     
-    # Renderizamos la plantilla 'editar_publicacion.html' con los formularios y las fotos de la publicación
+    # Renderizamos la plantilla 'editar_publicacion.html' con el formulario y las fotos de la publicación
     return render(request, 'editar_publicacion.html', {
-        'publicacion_form': publicacion_form,
-        'foto_form': foto_form,
-        'fotos_publicacion': fotos_publicacion,
-        })
-    # publicacion_form y foto_form contienen instancias de los formularios EditarPublicacionForm y EditarFotoPublicacionForm (respectivamente)
-    # fotos_publicacion contiene las fotos asociadas a la publicación que se está editando
+        'publicacion_form': publicacion_form, # Contiene una instancia del formulario EditarPublicacionForm
+        'fotos_publicacion': fotos_publicacion, # Contiene las fotos asociadas a la publicación que se está editando
+    })
+
+    
+# Esta funcion maneja la solicitud de eliminacion de una foto especifica asociada a una publicacion y responde con un JSON indicando el resultado de la operación.
+@require_POST
+def eliminar_foto(request):
+    foto_id = request.POST.get('fotoId') # Obtiene el ID de la foto que se desea eliminar de los datos enviados en la solicitud POST
+    if foto_id: # Verifica que el ID de la foto se haya proporcionado en la solicitud
+        try:
+            foto = FotoPublicacion.objects.get(pk=foto_id) # Intenta obtener la instancia de la foto de la base de datos usando el ID proporcionado
+            foto.delete() # Si la foto se encuentra, se elimina de la base de datos. 
+            return JsonResponse({'status': 'success'})
+        except FotoPublicacion.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Foto no encontrada.'})
+    return JsonResponse({'status': 'error', 'message': 'ID de foto no proporcionado.'})
