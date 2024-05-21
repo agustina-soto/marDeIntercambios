@@ -1,6 +1,5 @@
 from django.shortcuts import redirect
 from django.contrib import messages
-from Aplicaciones.Autenticacion.urls import iniciarSesion_views
 
 def login_required(view_func):
     def wrapper(request, *args, **kwargs):

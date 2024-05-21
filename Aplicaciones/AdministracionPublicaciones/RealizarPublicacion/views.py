@@ -5,9 +5,9 @@ from .models import FotoPublicacion
 from .forms import PublicacionForm, FotoPublicacionForm
 
 from django.contrib.auth.decorators import login_required
-from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.decorator import login_required
+from MDI.decorator import login_required #Luck: creé el decorator en MDI para reutilizarlo
 
-@login_required # No se si esta bien puesto esto aca
+@login_required 
 def realizar_publicacion(request):
     if request.method == 'POST':
         # Instancia los formularios con los datos proporcionados por el usuario
