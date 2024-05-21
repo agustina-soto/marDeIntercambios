@@ -8,7 +8,15 @@
 <body>
     {% extends 'base.html' %}
     {% block content %}
-        <h1>PERFIL DE USUARIO</h1>
+        <h1>Información Personal</h1>
+            <div>
+                <ul>
+                    <li><p>Correo Electronico: {{username}}</p></li>
+                    <li><p>Fecha de nacimiento: {{fechaNacimiento}} </p></li>
+                    <li><p>Dni: {{dni}} </p></li>
+                </ul>
+            </div>
+        <h2>Publicaciones</h2>
     {% endblock %}
 </body>
 </html>
