@@ -38,7 +38,7 @@ def editar_publicacion(request, publicacion_id):
             messages.success(request, '¡Se editó la publicación!')
             
             # Redireccionamos a la página de detalle de la publicación
-            # return redirect('ver_detalle', pk=publicacion.pk)  # # DES-COMENTAR CUANDO MAITE SUBA EL HTML
+            return redirect('ver_detalle', pk=publicacion.pk)
     else:
         # Si la solicitud no es un POST, muestra el formulario con los datos actuales de la publicación
         publicacion_form = EditarPublicacionForm(instance=publicacion)

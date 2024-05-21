@@ -16,15 +16,19 @@ def realizar_publicacion(request):
 
         # Verifica si ambos formularios son válidos
         if publicacion_form.is_valid() and foto_form.is_valid():
+            
             # Guarda la instancia de Publicacion y obtener la lista de fotos
             publicacion = publicacion_form.save()
             fotos = request.FILES.getlist('foto')
+            
             # Crea una instancia de FotoPublicacion para cada foto cargada, enlazándola con la publicación
             for foto in fotos:
-                FotoPublicacion.objects.create(publicacion=publicacion, foto=foto)  # Establece la relación entre Publicacion y FotoPublicacion
+                FotoPublicacion.objects.create(publicacion=publicacion, foto=foto) # Establece la relación entre Publicacion y FotoPublicacion
+            
             # Muestra un mensaje de éxito y redireccionar a algún lugar apropiado
             messages.success(request, '¡La publicación se realizó con éxito!')
-            #return redirect('ver_detalle.html', , pk=publicacion.pk) # DES-COMENTAR CUANDO MAITE SUBA EL HTML
+            return redirect('ver_detalle', pk=publicacion.pk)
+        
         else:
             # Muestra un mensaje de error si los formularios no son válidos
             messages.error(request, '¡No se pudo realizar la publicación! Por favor, corrija los errores indicados.')

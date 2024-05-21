@@ -128,11 +128,12 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'archivos-estaticos/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'), # Los archivos static se buscan en la carpeta 'static'
+    os.path.join(BASE_DIR, 'archivos-estaticos'), # Los archivos static se buscan aca
 )
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
