@@ -1,14 +1,19 @@
 from django.shortcuts import render
+from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import Publicacion
+from django.contrib.auth.decorators import login_required
+from MDI.decorator import login_required
 
-# Creando los modelos de ver
+@login_required 
 def perfil_view(request):
     usuario = request.user
-    nombreDeUsuario = usuario.username
-    fechaDeNacimiento = usuario.fecha_nacimiento
-    dniDeUsuario = usuario.dni
-    return render(request, 'perfilDeUsuario.html',{ #acá agrego el arreglo de publicaciones
-        'username': nombreDeUsuario, 
-        'fechaNacimiento': fechaDeNacimiento,
-        'dni': dniDeUsuario
-        }
+    correo = usuario.username
+    fechaDN = usuario.fecha_nacimiento
+    dni = usuario.dni
+    pubs = Publicacion.objects.filter(usuario=request.user).prefetch_related('fotos')
+    return render(request, 'perfilDeUsuario.html',
+    {'username': correo,
+     'fechaNacimiento': fechaDN,
+      'dni': dni,
+      'publicaciones': pubs
+     }
     )

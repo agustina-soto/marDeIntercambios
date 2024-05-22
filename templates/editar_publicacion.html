@@ -1,17 +1,155 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Publicación</title>
+
+    <!-- Estilos CSS -->
+    <style>
+        .error-message { color: red; }
+        .messages { list-style-type: none; padding: 0; }
+        .messages li { margin-bottom: 10px; color: green; }
+        form { display: flex; flex-direction: column; max-width: 400px; margin: 0 auto; }
+        form div { margin-bottom: 15px; }
+        button { padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .custom-file-input { display: none; }
+        .custom-file-label { display: inline-block; padding: 7px 10px; background-color: #f8f8f8; border: 1px solid #ccc; cursor: pointer; }
+        .custom-file-label:hover { background-color: #AAAAAA; }
+        .file-preview { font-size: 14px; margin-top: 5px; }
+        .photo-container { display: flex; align-items: center; margin-bottom: 10px; }
+        .photo-container img { width: 100px; height: auto; margin-right: 10px; }
+        .photo-container .file-name { width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .photo-container button { background-color: #f44336; }
+        .custom-file-upload { padding: 4px 8px; background-color: #ddd; color: #666; border: 1px solid #ccc; cursor: pointer; display: inline-block; border-radius: 0px; font-size: 16px; }
+        .custom-file-upload:hover { background-color: #ccc; }
+        .eliminar-foto { display: inline-block; width: 20px; height: 20px; line-height: 20px; text-align: center; background-color: #ccc; color: #666; border-radius: 50%; cursor: pointer; margin-left: 10px; }
+        .eliminar-foto:hover { background-color: #aaa; color: #fff; }
+    </style>
 </head>
 <body>
+    <!-- Encabezado -->
     <h1>Editar Publicación</h1>
+
+    <!-- Muestra mensajes de éxito o error -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Formulario de edición -->
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <!-- Campo Título -->
+        <div>
+            {{ publicacion_form.titulo.label_tag }}
+            {{ publicacion_form.titulo }}
+            <span class="error-message">{{ publicacion_form.titulo.errors }}</span>
+        </div>
+
+        <!-- Campo Precio Minimo -->
+        <div>
+            {{ publicacion_form.precio_minimo.label_tag }}
+            {{ publicacion_form.precio_minimo }}
+            <span class="error-message">{{ publicacion_form.precio_minimo.errors }}</span>
+        </div>
+
+        <!-- Campo tipo_embarcacion -->
+        <div>
+            {{ publicacion_form.tipo_embarcacion.label_tag }}
+            {{ publicacion_form.tipo_embarcacion }}
+            <span class="error-message">{{ publicacion_form.tipo_embarcacion.errors }}</span>
+        </div>
+
+        <!-- Campo anio -->
+        <div>
+            {{ publicacion_form.anio.label_tag }}
+            {{ publicacion_form.anio }}
+            <span class="error-message">{{ publicacion_form.anio.errors }}</span>
+        </div>
+
+
+        <!-- Campo para Subir Fotos -->
+        <div>
+            <label>Fotos:</label>
+            <!-- Utiliza un campo de archivo personalizado -->
+            <label for="custom-file" class="custom-file-label">Elegir archivos</label>
+            <input type="file" id="custom-file" class="custom-file-input" name="foto" multiple onchange="updateFileList(this)">
+            <span class="error-message">{{ foto_form.foto.errors }}</span>
+            <div id="file-preview" class="file-preview"></div> <!-- Aca se muestra la lista de archivos seleccionados -->
+        </div>
+
+        <!-- Muestra las fotos vinculadas a la publicación -->
+        {% for foto in fotos_publicacion %}
+            <div class="photo-container">
+                <span class="file-name">{{ foto.foto.name }}</span> <!-- Agrega la clase al nombre del archivo -->
+                <span class="eliminar-foto" onclick="eliminarFoto('{{ foto.id }}')">x</span>
+            </div>
+        {% endfor %}
+
+        <!-- Botón para guardar cambios -->
         <button type="submit">Guardar Cambios</button>
+        
     </form>
+
+    <!-- Script JavaScript -->
+    <script>
+        // Actualiza la lista de archivos seleccionados
+        function updateFileList(input) {
+            var preview = document.getElementById('file-preview');
+            while (preview.firstChild) {
+                preview.removeChild(preview.firstChild);
+            }
+            if (input.files.length === 0) {
+                var para = document.createElement('p');
+                var node = document.createTextNode('Ningún archivo seleccionado');
+                para.appendChild(node);
+                preview.appendChild(para);
+            } else {
+                var para = document.createElement('p');
+                var node = document.createTextNode('Archivos seleccionados:');
+                para.appendChild(node);
+                preview.appendChild(para);
+                var ul = document.createElement('ul');
+                for (var i = 0; i < input.files.length; i++) {
+                    var li = document.createElement('li');
+                    li.textContent = input.files[i].name;
+                    ul.appendChild(li);
+                }
+                preview.appendChild(ul);
+            }
+        }
+
+        // Elimina una foto
+        function eliminarFoto(fotoId) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta foto?')) {
+                var formData = new FormData();
+                formData.append('fotoId', fotoId);
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+                fetch('{% url "eliminar_foto" %}', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        location.reload();
+                    } else {
+                        alert('Hubo un error al eliminar la foto. Por favor, inténtalo de nuevo más tarde.');
+                    }
+                })
+                .catch(error => {
+                    alert('Hubo un error al eliminar la foto. Por favor, inténtalo de nuevo más tarde.');
+                });
+            }
+        }
+    </script>
+
 </body>
 </html>

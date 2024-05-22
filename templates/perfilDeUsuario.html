@@ -17,6 +17,26 @@
                 </ul>
             </div>
         <h2>Publicaciones</h2>
+            <div>
+                <ul>
+                    {% for publicacion in publicaciones %}
+                        <li>
+                            <h2>{{ publicacion.titulo }}</h2>
+                            <p>Precio minimo: {{ publicacion.precio_minimo }}</p>
+                            <p>Tipo de embarcacion: {{publicacion.tipo_embarcacion}}</p>
+                            <p>año: {{publicacion.anio}}</p>
+                            <h3>Fotos:</h3>
+                            <ul>
+                                {% for foto in publicacion.fotos.all %}
+                                    <li>
+                                        <img src="{{ foto.foto.url }}" width="400px" height="auto"> <!--En realidad esto se hace en styles, pero por el momento lo dejo así-->
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
     {% endblock %}
 </body>
 </html>

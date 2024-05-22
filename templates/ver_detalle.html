@@ -1,0 +1,23 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>{{ post.titulo }}</title>
+    </head>
+
+    <body>
+        <h1>{{ post.titulo }}</h1>
+        <p><strong>Precio minimo:</strong> {{ post.precio_minimo }}</p>
+        <p><strong>Tipo de embarcacion:</strong> {{ post.tipo_embarcacion }}</p>
+        <p><strong>Año:</strong> {{ post.anio }}</p>
+        
+        <p><strong>Fotos: </strong></p>
+        {% for foto in fotos %}
+            <img src="{{ foto.foto.url }}" alt="{{ post.titulo }}" style="width: 30%; max-height: 350px;">
+        {% endfor %}
+
+    </body>
+    
+</html>

@@ -1,17 +1,153 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Realizar Publicación</title>
+    <!-- Estilos CSS -->
+    <style>
+
+        /* Estilos para mensajes de error y éxito */
+        .error-message {
+            color: red;
+        }
+        .messages {
+            list-style-type: none;
+            padding: 0;
+        }
+        .messages li {
+            margin-bottom: 10px;
+            color: green;
+        }
+
+
+        /* Estilos para el formulario */
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+
+
+        /* Estilos para el campo de archivo personalizado */
+        .custom-file-input {
+            display: none; /* Oculta el campo de archivo original */
+        }
+        .custom-file-label {
+            display: inline-block;
+            padding: 7px 10px;
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            border-radius: 0px;
+            cursor: pointer;
+        }
+        .custom-file-label:hover {
+            background-color: #AAAAAA; /* Cambia color de fondo al pasar sobre el botón */
+        }
+        .file-preview {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+
+        /* Estilos para el botón "Publicar" */
+        button {
+            padding: 10px;
+            background-color: #4CAF50; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049; /* Cambia color de fondo al pasar sobre el botón */
+        }
+    </style>
 </head>
 <body>
+    <!-- Encabezado -->
     <h1>Realizar Publicación</h1>
-    <form method="post" enctype="multipart/form-data">
+
+    <!-- Muestra mensajes de éxito o error -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Formulario de publicación -->
+    <form method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <!-- Campo Título -->
+        <div>
+            {{ publicacion_form.titulo.label_tag }}
+            {{ publicacion_form.titulo }}
+            <span class="error-message">{{ publicacion_form.titulo.errors }}</span>
+        </div>
+
+        <!-- Campo Precio Mínimo -->
+        <div>
+            {{ publicacion_form.precio_minimo.label_tag }}
+            {{ publicacion_form.precio_minimo }}
+            <span class="error-message">{{ publicacion_form.precio_minimo.errors }}</span>
+        </div>
+
+        <!-- Campo tipo_embarcacion -->
+        <div>
+            {{ publicacion_form.tipo_embarcacion.label_tag }}
+            {{ publicacion_form.tipo_embarcacion }}
+            <span class="error-message">{{ publicacion_form.tipo_embarcacion.errors }}</span>
+        </div>
+
+        <!-- Campo año -->
+        <div>
+            {{ publicacion_form.anio.label_tag }}
+            {{ publicacion_form.anio }}
+            <span class="error-message">{{ publicacion_form.anio.errors }}</span>
+        </div>
+
+        <!-- Campo para Subir Fotos -->
+        <div>
+            <label>Fotos:</label>
+            <!-- Utiliza un campo de archivo personalizado -->
+            <label for="custom-file" class="custom-file-label">Elegir archivos</label>
+            <input type="file" id="custom-file" class="custom-file-input" name="foto"  accept="image/jpeg,image/png, image/jpg" multiple onchange="updateFileList(this)">
+            <span class="error-message">{{ foto_form.foto.errors }}</span>
+            <div id="file-preview" class="file-preview"></div> <!-- Aquí se mostrará la lista de archivos seleccionados -->
+        </div>
+
+        <!-- Botón para publicar -->
         <button type="submit">Publicar</button>
+
     </form>
+
+    <!-- Script JavaScript -->
+    <script>
+        // Función para actualizar la lista de archivos seleccionados
+        function updateFileList(input) {
+            var preview = document.getElementById('file-preview');
+            preview.innerHTML = ''; // Limpiar la lista de archivos previa
+            
+            // Crea una lista para mostrar los nombres de los archivos seleccionados
+            var fileList = document.createElement('ul');
+            fileList.classList.add('file-list');
+
+            // Itera sobre los archivos seleccionados y agregarlos a la lista
+            for (var i = 0; i < input.files.length; i++) {
+                var fileItem = document.createElement('li');
+                fileItem.textContent = input.files[i].name;
+                fileList.appendChild(fileItem);
+            }
+
+            // Muestra la lista de archivos en el contenedor de vista previa
+            preview.appendChild(fileList);
+        }
+    </script>
 </body>
 </html>
