@@ -5,11 +5,13 @@ from MDI.decorator import login_required
 
 @login_required 
 def perfil_view(request):
+    #Podría haber mandado un usuario completo, pero no lo contemplé, después lo arreglo
     usuario = request.user
     correo = usuario.username
     fechaDN = usuario.fecha_nacimiento
     dni = usuario.dni
-    pubs = Publicacion.objects.filter(usuario=request.user).prefetch_related('fotos')
+    #El ver perfil de la h.u estaba raro, por el momento agregé para que un usuario autenticado vea su perfil
+    pubs = Publicacion.objects.filter(usuario=request.user).prefetch_related('fotos') 
     return render(request, 'perfilDeUsuario.html',
     {'username': correo,
      'fechaNacimiento': fechaDN,
