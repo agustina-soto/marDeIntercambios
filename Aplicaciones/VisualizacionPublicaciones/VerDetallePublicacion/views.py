@@ -14,4 +14,6 @@ class ver_detalle (DetailView):
         publicacion = self.get_object()
         # Agrega las fotos relacionadas al contexto
         context['fotos'] = FotoPublicacion.objects.filter(publicacion=publicacion)
+        # Verifica si el usuario actual es el dueño de la publicación
+        context['es_dueno'] = self.request.user == publicacion.autor
         return context
