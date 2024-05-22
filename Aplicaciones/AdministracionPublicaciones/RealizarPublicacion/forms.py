@@ -8,10 +8,10 @@ from django.core.validators import MinValueValidator
 
 class PublicacionForm(forms.ModelForm):
     # Declaración de campos adicionales que no están definidos en el modelo
-    titulo = forms.CharField(label='Título')
-    tipo_embarcacion = forms.ChoiceField(label='Tipo de Embarcación', choices=[('', 'Seleccione un tipo de embarcación')] + TIPOS_EMBARCACION)
-    anio = forms.IntegerField(label='Año', min_value=1900, max_value=timezone.now().year)
-    precio_minimo = forms.DecimalField(label='Precio mínimo permitido', validators=[MinValueValidator(0)])
+    titulo = forms.CharField(label='Título', required=False)
+    tipo_embarcacion = forms.ChoiceField(label='Tipo de Embarcación', choices=[('', 'Seleccione un tipo de embarcación')] + TIPOS_EMBARCACION, required=False)
+    anio = forms.IntegerField(label='Año', min_value=1900, max_value=timezone.now().year, required=False)
+    precio_minimo = forms.DecimalField(label='Precio mínimo permitido', validators=[MinValueValidator(0)], required=False)
 
     class Meta:
         model = Publicacion
@@ -40,7 +40,7 @@ class PublicacionForm(forms.ModelForm):
 
     def clean_anio(self):
         anio = self.cleaned_data.get('anio')
-        if anio is not None and (anio < 1900 or anio > timezone.now().year):
+        if not anio or (anio < 1900 or anio > timezone.now().year):
             raise forms.ValidationError('El año debe estar entre 1900 y el año actual.')
         return anio
 
@@ -49,7 +49,28 @@ class PublicacionForm(forms.ModelForm):
         if not tipo_embarcacion:
             raise forms.ValidationError('Por favor, complete este campo.')
         return tipo_embarcacion
+    
 
+class FotoPublicacionForm(forms.ModelForm):
+   
+    foto = forms.ImageField(
+        widget = MultipleFileInput(),
+        required = False #anulo la verificación por defecto del formulario para control manual
+    )
+
+    class Meta:
+        model = FotoPublicacion
+        fields = ['foto']
+
+    def clean_foto(self):
+        cleaned_data = super().clean()
+        fotos = cleaned_data.get('foto')
+        if not fotos:
+            raise forms.ValidationError('Debes proporcionar al menos una foto.')
+        return cleaned_data
+
+""" 
+ #te cambié algo la implementación fotoPublcacion para mostrar el mensaje del caso que no hay fotos
 
 class FotoPublicacionForm(forms.ModelForm):
     class Meta:
@@ -59,12 +80,10 @@ class FotoPublicacionForm(forms.ModelForm):
             'foto': MultipleFileInput(),  # Utiliza el widget MultipleFileInput para la carga múltiple de imágenes
         }
     
-# Nunca entra aca... no tengo ni idea en donde defini el otro mensaje que es el que sale
-"""
-    def clean(self):
+    def clean_foto(self):
         cleaned_data = super().clean()
         fotos = cleaned_data.get('foto')
         if not fotos:
             raise forms.ValidationError('Debes proporcionar al menos una foto.') 
         return cleaned_data
-""" 
+"""

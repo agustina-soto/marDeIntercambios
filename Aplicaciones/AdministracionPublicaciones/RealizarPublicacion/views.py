@@ -18,7 +18,11 @@ def realizar_publicacion(request):
         if publicacion_form.is_valid() and foto_form.is_valid():
             
             # Guarda la instancia de Publicacion y obtener la lista de fotos
-            publicacion = publicacion_form.save()
+            publicacion = publicacion_form.save(commit=False) #creo instancia pero no guardo aun en la base de datos para crear relación con usuario logueado
+           
+            publicacion.usuario = request.user
+            publicacion.save()
+
             fotos = request.FILES.getlist('foto')
             
             # Crea una instancia de FotoPublicacion para cada foto cargada, enlazándola con la publicación

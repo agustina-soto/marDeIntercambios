@@ -81,7 +81,7 @@
     {% endif %}
 
     <!-- Formulario de publicación -->
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
         
         <!-- Campo Título -->
@@ -117,7 +117,7 @@
             <label>Fotos:</label>
             <!-- Utiliza un campo de archivo personalizado -->
             <label for="custom-file" class="custom-file-label">Elegir archivos</label>
-            <input type="file" id="custom-file" class="custom-file-input" name="foto" multiple onchange="updateFileList(this)">
+            <input type="file" id="custom-file" class="custom-file-input" name="foto"  accept="image/jpeg,image/png, image/jpg" multiple onchange="updateFileList(this)">
             <span class="error-message">{{ foto_form.foto.errors }}</span>
             <div id="file-preview" class="file-preview"></div> <!-- Aquí se mostrará la lista de archivos seleccionados -->
         </div>
