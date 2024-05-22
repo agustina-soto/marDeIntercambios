@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Publicaciones</title>
+</head>
+<body>
+    <h1>Buscar Publicaciones</h1>
+    <form action="/publicacion/ver-publicacion/buscar_publicaciones/" method="GET" enctype="multipart/form-data">
+        <!-- {% csrf_token %} -->
+        <input type="text" name="buscar" id="buscar">
+        <button type="submit">Publicar</button>
+    </form>
+    <section>
+        {% if not publicaciones %}
+            <div>No se encontraron resultados para: {{busqueda}}</div>
+
+        {% else %}
+            {% for pub in publicaciones %}
+        <div>
+            <p>Título: {{pub.titulo}}</p>
+            <p>Año: {{pub.año}}</p>
+            <p>Tipo: {{pub.tipo_embarcacion}}</p>
+            <p>Precio: ${{pub.precio_minimo}}</p>
+        </div>
+        <hr>
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if publicaciones.has_previous %}
+                        <!-- <a href="?buscar={{busqueda}}&page=1">&laquo; first</a> -->
+                        <a href="?buscar={{busqueda}}&page={{ publicaciones.previous_page_number }}">Ver página anterior</a>
+                    {% endif %}
+            
+                    <span class="current">
+                        Page {{ publicaciones.number }} of {{ publicaciones.paginator.num_pages }}.
+                    </span>
+            
+                    {% if publicaciones.has_next %}
+                        <a href="?buscar={{busqueda}}&page={{ publicaciones.next_page_number }}">Ver más publiaciones</a>
+                        <!-- <a href="?buscar={{busqueda}}&page={{ publicaciones.paginator.num_pages }}">last &raquo;</a> -->
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
+    </section>
+</body>
+</html>
