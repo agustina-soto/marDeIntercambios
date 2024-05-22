@@ -52,7 +52,16 @@
             font-size: 14px;
             margin-top: 5px;
         }
-
+        .photo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .photo-container img {
+            width: 100px;
+            height: auto;
+            margin-right: 10px;
+        }
 
         /* Estilos para el botón "Publicar" */
         button {
@@ -65,6 +74,38 @@
         button:hover {
             background-color: #45a049; /* Cambia color de fondo al pasar sobre el botón */
         }
+
+        /* Estilos para el botón "x" que elimina la seleccion de una foto */
+        .eliminar-foto {
+            display: inline-flex; /* Cambia la visualización a flex para centrar verticalmente */
+            justify-content: center; /* Centra horizontalmente */
+            align-items: center; /* Centra verticalmente */
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            background-color: #ccc;
+            color: #666;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 10px;
+            /* Elimina el color verde del botón */
+            background-color: #f8f8f8;
+            color: #ccc;
+            border: 1px solid #ccc;
+        }
+        .eliminar-foto:hover {
+            /* Cambia el color de fondo al pasar el mouse */
+            background-color: #aaa;
+            color: #fff;
+        }
+
+        .file-list li {
+            font-size: 16px; /* Cambia el tamaño de la fuente según tus preferencias */
+            list-style-type: none; /* Elimina el punto de listado */
+            margin-left: 0; /* Elimina cualquier margen izquierdo que pueda tener el elemento */
+        }
+        
     </style>
 </head>
 <body>
@@ -119,9 +160,10 @@
             <label for="custom-file" class="custom-file-label">Elegir archivos</label>
             <input type="file" id="custom-file" class="custom-file-input" name="foto" multiple onchange="updateFileList(this)">
             <span class="error-message">{{ foto_form.foto.errors }}</span>
-            <div id="file-preview" class="file-preview"></div> <!-- Aquí se mostrará la lista de archivos seleccionados -->
+            <div id="file-preview" class="file-preview"></div> <!-- Aca se muestra la lista de archivos seleccionados -->
         </div>
 
+        
         <!-- Botón para publicar -->
         <button type="submit">Publicar</button>
 
@@ -133,20 +175,36 @@
         function updateFileList(input) {
             var preview = document.getElementById('file-preview');
             preview.innerHTML = ''; // Limpiar la lista de archivos previa
-            
-            // Crea una lista para mostrar los nombres de los archivos seleccionados
-            var fileList = document.createElement('ul');
-            fileList.classList.add('file-list');
 
             // Itera sobre los archivos seleccionados y agregarlos a la lista
             for (var i = 0; i < input.files.length; i++) {
-                var fileItem = document.createElement('li');
-                fileItem.textContent = input.files[i].name;
-                fileList.appendChild(fileItem);
-            }
+                var file = input.files[i];
+                var fileReader = new FileReader();
 
-            // Muestra la lista de archivos en el contenedor de vista previa
-            preview.appendChild(fileList);
+                fileReader.onload = (function(e) {
+                    var fileItem = document.createElement('div');
+                    fileItem.classList.add('photo-container');
+                    
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = file.name;
+
+                    var deleteButton = document.createElement('span');
+                    deleteButton.textContent = 'x';
+                    deleteButton.className = 'eliminar-foto';
+                    deleteButton.onclick = function() {
+                        // Encuentra y elimina el contenedor de la foto al hacer clic en el botón
+                        var container = this.parentNode;
+                        container.parentNode.removeChild(container);
+                    };
+
+                    fileItem.appendChild(img);
+                    fileItem.appendChild(deleteButton);
+                    preview.appendChild(fileItem);
+                });
+
+                fileReader.readAsDataURL(file);
+            }
         }
     </script>
 </body>

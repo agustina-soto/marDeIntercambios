@@ -1,0 +1,261 @@
+[
+    {
+        "id": 1,
+        "titulo": "Barco de Pesca Moderna",
+        "tipo_embarcacion": "Pesca",
+        "año": 2015,
+        "precio_minimo": 25000
+    },
+    {
+        "id": 2,
+        "titulo": "Yate de Lujo",
+        "tipo_embarcacion": "Yate",
+        "año": 2020,
+        "precio_minimo": 120000
+    },
+    {
+        "id": 3,
+        "titulo": "Velero Clásico",
+        "tipo_embarcacion": "Velero",
+        "año": 1980,
+        "precio_minimo": 15000
+    },
+    {
+        "id": 4,
+        "titulo": "Lancha Rápida",
+        "tipo_embarcacion": "Lancha",
+        "año": 2018,
+        "precio_minimo": 35000
+    },
+    {
+        "id": 5,
+        "titulo": "Catamarán Familiar",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2021,
+        "precio_minimo": 95000
+    },
+    {
+        "id": 6,
+        "titulo": "Yate de Lujo II",
+        "tipo_embarcacion": "Yate",
+        "año": 2021,
+        "precio_minimo": 125000
+    },
+    {
+        "id": 7,
+        "titulo": "Barco de Pesca Profesional",
+        "tipo_embarcacion": "Pesca",
+        "año": 2017,
+        "precio_minimo": 40000
+    },
+    {
+        "id": 8,
+        "titulo": "Lancha de Velocidad",
+        "tipo_embarcacion": "Lancha",
+        "año": 2019,
+        "precio_minimo": 30000
+    },
+    {
+        "id": 9,
+        "titulo": "Velero de Aventura",
+        "tipo_embarcacion": "Velero",
+        "año": 1995,
+        "precio_minimo": 20000
+    },
+    {
+        "id": 10,
+        "titulo": "Catamarán de Crucero",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2022,
+        "precio_minimo": 98000
+    },
+    {
+        "id": 11,
+        "titulo": "Barco de Pesca Moderna II",
+        "tipo_embarcacion": "Pesca",
+        "año": 2016,
+        "precio_minimo": 26000
+    },
+    {
+        "id": 12,
+        "titulo": "Yate Familiar",
+        "tipo_embarcacion": "Yate",
+        "año": 2019,
+        "precio_minimo": 110000
+    },
+    {
+        "id": 13,
+        "titulo": "Velero de Regata",
+        "tipo_embarcacion": "Velero",
+        "año": 2005,
+        "precio_minimo": 45000
+    },
+    {
+        "id": 14,
+        "titulo": "Lancha Deportiva",
+        "tipo_embarcacion": "Lancha",
+        "año": 2018,
+        "precio_minimo": 32000
+    },
+    {
+        "id": 15,
+        "titulo": "Catamarán de Lujo",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2020,
+        "precio_minimo": 105000
+    },
+    {
+        "id": 16,
+        "titulo": "Barco de Pesca Económico",
+        "tipo_embarcacion": "Pesca",
+        "año": 2010,
+        "precio_minimo": 18000
+    },
+    {
+        "id": 17,
+        "titulo": "Yate de Lujo III",
+        "tipo_embarcacion": "Yate",
+        "año": 2023,
+        "precio_minimo": 130000
+    },
+    {
+        "id": 18,
+        "titulo": "Velero Clásico II",
+        "tipo_embarcacion": "Velero",
+        "año": 1985,
+        "precio_minimo": 17000
+    },
+    {
+        "id": 19,
+        "titulo": "Lancha Familiar",
+        "tipo_embarcacion": "Lancha",
+        "año": 2020,
+        "precio_minimo": 29000
+    },
+    {
+        "id": 20,
+        "titulo": "Catamarán Deportivo",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2019,
+        "precio_minimo": 95000
+    },
+    {
+        "id": 21,
+        "titulo": "Barco de Pesca Avanzado",
+        "tipo_embarcacion": "Pesca",
+        "año": 2018,
+        "precio_minimo": 35000
+    },
+    {
+        "id": 22,
+        "titulo": "Yate de Lujo IV",
+        "tipo_embarcacion": "Yate",
+        "año": 2022,
+        "precio_minimo": 135000
+    },
+    {
+        "id": 23,
+        "titulo": "Velero de Aventura II",
+        "tipo_embarcacion": "Velero",
+        "año": 2000,
+        "precio_minimo": 22000
+    },
+    {
+        "id": 24,
+        "titulo": "Lancha de Velocidad II",
+        "tipo_embarcacion": "Lancha",
+        "año": 2021,
+        "precio_minimo": 31000
+    },
+    {
+        "id": 25,
+        "titulo": "Catamarán Familiar XIII",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2023,
+        "precio_minimo": 97000
+    },
+    {
+        "id": 25,
+        "titulo": "Catamarán Familiar XII",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2023,
+        "precio_minimo": 97000
+    },
+    {
+        "id": 25,
+        "titulo": "Catamarán Familiar XI",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2023,
+        "precio_minimo": 97000
+    },
+    {
+        "id": 26,
+        "titulo": "Catamarán Familiar I",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2021,
+        "precio_minimo": 95000
+    },
+    {
+        "id": 27,
+        "titulo": "Catamarán Familiar II",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2022,
+        "precio_minimo": 96000
+    },
+    {
+        "id": 28,
+        "titulo": "Catamarán Familiar III",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2023,
+        "precio_minimo": 97000
+    },
+    {
+        "id": 29,
+        "titulo": "Catamarán Familiar IV",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2021,
+        "precio_minimo": 95000
+    },
+    {
+        "id": 30,
+        "titulo": "Catamarán Familiar V",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2022,
+        "precio_minimo": 96000
+    },
+    {
+        "id": 31,
+        "titulo": "Catamarán Familiar VI",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2023,
+        "precio_minimo": 97000
+    },
+    {
+        "id": 32,
+        "titulo": "Catamarán Familiar VII",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2021,
+        "precio_minimo": 95000
+    },
+    {
+        "id": 33,
+        "titulo": "Catamarán Familiar VIII",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2022,
+        "precio_minimo": 96000
+    },
+    {
+        "id": 34,
+        "titulo": "Catamarán Familiar IX",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2023,
+        "precio_minimo": 97000
+    },
+    {
+        "id": 35,
+        "titulo": "Catamarán Familiar X",
+        "tipo_embarcacion": "Catamarán",
+        "año": 2021,
+        "precio_minimo": 95000
+    }
+]

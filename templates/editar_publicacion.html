@@ -24,8 +24,38 @@
         .photo-container button { background-color: #f44336; }
         .custom-file-upload { padding: 4px 8px; background-color: #ddd; color: #666; border: 1px solid #ccc; cursor: pointer; display: inline-block; border-radius: 0px; font-size: 16px; }
         .custom-file-upload:hover { background-color: #ccc; }
-        .eliminar-foto { display: inline-block; width: 20px; height: 20px; line-height: 20px; text-align: center; background-color: #ccc; color: #666; border-radius: 50%; cursor: pointer; margin-left: 10px; }
-        .eliminar-foto:hover { background-color: #aaa; color: #fff; }
+        
+        /* Estilos para el botón "x" que elimina la seleccion de una foto */
+        .eliminar-foto {
+            display: inline-flex; /* Cambia la visualización a flex para centrar verticalmente */
+            justify-content: center; /* Centra horizontalmente */
+            align-items: center; /* Centra verticalmente */
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            background-color: #ccc;
+            color: #666;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 10px;
+            /* Elimina el color verde del botón */
+            background-color: #f8f8f8;
+            color: #ccc;
+            border: 1px solid #ccc;
+        }
+        .eliminar-foto:hover {
+            /* Cambia el color de fondo al pasar el mouse */
+            background-color: #aaa;
+            color: #fff;
+        }
+
+        .file-list li {
+            font-size: 16px; /* Cambia el tamaño de la fuente según tus preferencias */
+            list-style-type: none; /* Elimina el punto de listado */
+            margin-left: 0; /* Elimina cualquier margen izquierdo que pueda tener el elemento */
+        }
+        
     </style>
 </head>
 <body>
@@ -39,6 +69,20 @@
                 <li>{{ message }}</li>
             {% endfor %}
         </ul>
+    {% endif %}
+
+    <!-- Mostrar errores de formulario -->
+    {% if publicacion_form.errors %}
+    <div class="error-message">
+        <p>Corrige los siguientes errores:</p>
+        <ul>
+            {% for field, error_list in publicacion_form.errors.items %}
+                {% for error in error_list %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
     {% endif %}
 
     <!-- Formulario de edición -->
@@ -76,80 +120,100 @@
 
         <!-- Campo para Subir Fotos -->
         <div>
+            <!-- Etiqueta para el campo de selección de archivos -->
             <label>Fotos:</label>
-            <!-- Utiliza un campo de archivo personalizado -->
+            <!-- Etiqueta personalizada para el botón de selección de archivos -->
             <label for="custom-file" class="custom-file-label">Elegir archivos</label>
+            <!-- Campo de entrada para seleccionar archivos. Permite seleccionar múltiples archivos -->
             <input type="file" id="custom-file" class="custom-file-input" name="foto" multiple onchange="updateFileList(this)">
+            <!-- Muestra mensajes de error relacionados con la subida de fotos -->
             <span class="error-message">{{ foto_form.foto.errors }}</span>
-            <div id="file-preview" class="file-preview"></div> <!-- Aca se muestra la lista de archivos seleccionados -->
+            <!-- Contenedor para la previsualización de archivos seleccionados -->
+            <div id="file-preview" class="file-preview"></div>
         </div>
 
-        <!-- Muestra las fotos vinculadas a la publicación -->
+        <!-- Itera sobre las fotos ya existentes en la publicación -->
         {% for foto in fotos_publicacion %}
-            <div class="photo-container">
-                <span class="file-name">{{ foto.foto.name }}</span> <!-- Agrega la clase al nombre del archivo -->
-                <span class="eliminar-foto" onclick="eliminarFoto('{{ foto.id }}')">x</span>
-            </div>
+        <!-- Contenedor para cada foto existente -->
+        <div class="photo-container" data-id="{{ foto.id }}">
+            <!-- Muestra la imagen de la foto existente -->
+            <img src="{{ foto.foto.url }}" alt="Foto">
+            <!-- Botón para eliminar la foto -->
+            <span class="eliminar-foto" onclick="eliminarFoto(this.parentNode)">x</span>
+        </div>
         {% endfor %}
 
-        <!-- Botón para guardar cambios -->
+        <!-- Campo oculto para almacenar las IDs de las fotos a eliminar -->
+        <input type="hidden" id="fotos-a-eliminar" name="fotos_a_eliminar">
+
+        <!-- Botón para guardar los cambios -->
         <button type="submit">Guardar Cambios</button>
-        
-    </form>
 
-    <!-- Script JavaScript -->
-    <script>
-        // Actualiza la lista de archivos seleccionados
-        function updateFileList(input) {
-            var preview = document.getElementById('file-preview');
-            while (preview.firstChild) {
-                preview.removeChild(preview.firstChild);
-            }
-            if (input.files.length === 0) {
-                var para = document.createElement('p');
-                var node = document.createTextNode('Ningún archivo seleccionado');
-                para.appendChild(node);
-                preview.appendChild(para);
-            } else {
-                var para = document.createElement('p');
-                var node = document.createTextNode('Archivos seleccionados:');
-                para.appendChild(node);
-                preview.appendChild(para);
-                var ul = document.createElement('ul');
+        <!-- Script JavaScript -->
+        <script>
+            // Arreglo para almacenar las IDs de las fotos que se quieren eliminar
+            var fotosAEliminar = [];
+
+            // Función para actualizar la lista de archivos seleccionados
+            function updateFileList(input) {
+                var preview = document.getElementById('file-preview');
+                preview.innerHTML = '';
+
+                var fileList = document.createElement('ul');
+                fileList.classList.add('file-list');
+
+                // Itera sobre los archivos seleccionados y los agrega a la lista de previsualización
                 for (var i = 0; i < input.files.length; i++) {
-                    var li = document.createElement('li');
-                    li.textContent = input.files[i].name;
-                    ul.appendChild(li);
+                    var fileItem = document.createElement('li');
+                    var fileName = input.files[i].name;
+                    fileItem.textContent = fileName;
+
+                    // Botón para eliminar la selección del archivo
+                    var deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'x';
+                    deleteButton.className = 'eliminar-foto';
+                    deleteButton.onclick = function() {
+                        var container = this.parentNode;
+                        container.parentNode.removeChild(container);
+                    };
+
+                    fileItem.appendChild(deleteButton);
+                    fileList.appendChild(fileItem);
                 }
-                preview.appendChild(ul);
-            }
-        }
 
-        // Elimina una foto
-        function eliminarFoto(fotoId) {
-            if (confirm('¿Estás seguro de que quieres eliminar esta foto?')) {
-                var formData = new FormData();
-                formData.append('fotoId', fotoId);
-                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-
-                fetch('{% url "eliminar_foto" %}', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        location.reload();
-                    } else {
-                        alert('Hubo un error al eliminar la foto. Por favor, inténtalo de nuevo más tarde.');
-                    }
-                })
-                .catch(error => {
-                    alert('Hubo un error al eliminar la foto. Por favor, inténtalo de nuevo más tarde.');
-                });
+                preview.appendChild(fileList);
             }
-        }
-    </script>
+
+            // Función para actualizar el campo oculto con las IDs de las fotos a eliminar
+            function actualizarCampoFotosAEliminar() {
+                var campoFotosAEliminar = document.getElementById('fotos-a-eliminar');
+                campoFotosAEliminar.value = fotosAEliminar.filter(Boolean).join(',');
+            }
+
+            // Función para manejar la eliminación de una foto existente
+            function eliminarFoto(fotoContainer) {
+                var fotoId = fotoContainer.getAttribute('data-id');
+                
+                // Confirmación antes de eliminar la foto
+                if (confirm('¿Estás seguro de que quieres eliminar esta foto?')) {
+                    fotoContainer.remove();
+                    fotosAEliminar.push(fotoId);
+                    actualizarCampoFotosAEliminar();
+                }
+            }
+
+            // Función para validar el formulario antes de enviarlo
+            function validarYEnviarFormulario(event) {
+                var fotosRestantes = document.querySelectorAll('.photo-container').length;
+                var nuevasFotos = document.getElementById('custom-file').files.length;
+
+                // Verifica que haya al menos una foto
+                if (fotosRestantes + nuevasFotos === 0) {
+                    event.preventDefault();
+                    alert('¡Debes subir por lo menos una foto!');
+                }
+            }
+        </script>
 
 </body>
 </html>

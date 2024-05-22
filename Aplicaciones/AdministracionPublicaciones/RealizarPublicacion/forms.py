@@ -19,7 +19,6 @@ class PublicacionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
         # Asigna clases y placeholders a los campos del formulario
         self.fields['titulo'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el título'})
         self.fields['precio_minimo'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el precio mínimo'})
@@ -58,13 +57,11 @@ class FotoPublicacionForm(forms.ModelForm):
         widgets = {
             'foto': MultipleFileInput(),  # Utiliza el widget MultipleFileInput para la carga múltiple de imágenes
         }
-    
-# Nunca entra aca... no tengo ni idea en donde defini el otro mensaje que es el que sale
-"""
+    """
     def clean(self):
         cleaned_data = super().clean()
         fotos = cleaned_data.get('foto')
         if not fotos:
             raise forms.ValidationError('Debes proporcionar al menos una foto.') 
         return cleaned_data
-""" 
+    """
