@@ -17,6 +17,10 @@ def realizar_publicacion(request):
         # Verifica si ambos formularios son válidos
         if publicacion_form.is_valid() and foto_form.is_valid():
             
+            # Establecer el autor como el usuario actual antes de guardar el formulario
+            publi = publicacion_form.save(commit=False) #permite quedarte con uns instancia del modelo de publicacion antes de que se guarde en la base de datos
+            publi.autor = request.user #Establece el autor de esta publicación como el usuario que está realizando la solicitud.
+
             # Guarda la instancia de Publicacion y obtener la lista de fotos
             publicacion = publicacion_form.save(commit=False) #creo instancia pero no guardo aun en la base de datos para crear relación con usuario logueado
            
