@@ -16,12 +16,11 @@ def buscar_publicaciones(request):
         query = request.GET.get('buscar') # Método para retirar valores del QueryDict en POST
         resultados = []
         for element in dataPublicaciones:
-            if (query.lower() in element['titulo'].lower()):
+            if (query.lower() in element.titulo.lower()):
                 resultados.append(element)
                 # if (len(resultados) == 10):
                 #     break
         
-        print("RESULTADOS FULL " , resultados)
         resultados_paginados = Paginator(resultados, 10)
 
         if (request.GET.get("page")):
@@ -46,7 +45,7 @@ def buscar_publicaciones(request):
 
         return render(request, 'buscar_publicaciones.html', { 'publicaciones': page_obj})
 
-# def carga_manual (request):
+def carga_manual (request):
     publi = Publicacion(id=1, titulo="Velero de telgopor I", tipo_embarcacion="velero", precio_minimo=20000, anio=1997) 
     publi.save()
     publi = Publicacion(id=2, titulo="Velero de telgopor II", tipo_embarcacion="velero", precio_minimo=20000, anio=1997) 
