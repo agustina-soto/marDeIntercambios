@@ -24,7 +24,6 @@ def editar_publicacion(request, publicacion_id):
         
         # Verificamos si el formulario es válido
         if publicacion_form.is_valid():
-
             # Si es válido guardamos los cambios en la base de datos
             publicacion_form.save()
             
