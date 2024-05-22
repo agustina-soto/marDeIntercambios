@@ -2,6 +2,9 @@ from django.db import models
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+from django.contrib.auth.models import User
+
+from MDI import settings #se importa para manejar los permisos que puede tener un user 
 
 
 class Publicacion(models.Model):
@@ -9,6 +12,7 @@ class Publicacion(models.Model):
     precio_minimo = models.DecimalField(max_digits=7, decimal_places=2)
     tipo_embarcacion = models.CharField(max_length=60, choices=TIPOS_EMBARCACION)
     anio = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(timezone.now().year)])
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
 class FotoPublicacion(models.Model):
