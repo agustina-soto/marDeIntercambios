@@ -45,10 +45,7 @@ INSTALLED_APPS = [
     'Aplicaciones.AdministracionPublicaciones.RealizarPublicacion',
     'Aplicaciones.AdministracionPublicaciones.EditarPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.BuscarPublicacion',
-    'Aplicaciones.VisualizacionPublicaciones.ExpandirFotoPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.VerDetallePublicacion',
-    'Aplicaciones.VisualizacionPublicaciones.VerMasPublicaciones',
-    'Aplicaciones.VisualizacionPublicaciones.VerProximaFoto',
 ]
 
 MIDDLEWARE = [

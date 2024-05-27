@@ -46,4 +46,4 @@ def realizar_publicacion(request):
         foto_form = FotoPublicacionForm()
     
     # Renderiza la plantilla con los formularios
-    return render(request, 'realizar_publicacion.html', {'publicacion_form': publicacion_form, 'foto_form': foto_form})
+    return render(request, 'AdministracionPublicaciones/realizar_publicacion.html', {'publicacion_form': publicacion_form, 'foto_form': foto_form})

@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 
 class ver_detalle (DetailView):
     model = Publicacion
-    template_name = 'ver_detalle.html'
+    template_name = 'VisualizacionPublicaciones/ver_detalle.html'
     context_object_name = 'post'
 
     def get_context_data(self, **kwargs):

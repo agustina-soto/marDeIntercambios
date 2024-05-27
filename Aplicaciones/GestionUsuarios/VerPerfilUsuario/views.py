@@ -12,7 +12,7 @@ def perfil_view(request):
     dni = usuario.dni
     #El ver perfil de la h.u estaba raro, por el momento agregé para que un usuario autenticado vea su perfil
     pubs = Publicacion.objects.filter(autor=request.user).prefetch_related('fotos') 
-    return render(request, 'perfilDeUsuario.html',
+    return render(request, 'GestionUsuarios/perfilDeUsuario.html',
     {'username': correo,
      'fechaNacimiento': fechaDN,
       'dni': dni,

@@ -52,7 +52,7 @@ def editar_publicacion(request, publicacion_id):
         publicacion_form = EditarPublicacionForm(instance=publicacion)
 
     # Renderizamos la plantilla 'editar_publicacion.html' con el formulario y las fotos de la publicación
-    return render(request, 'editar_publicacion.html', {
+    return render(request, 'AdministracionPublicaciones/editar_publicacion.html', {
         'publicacion_form': publicacion_form,
         'fotos_publicacion': fotos_publicacion,
     })

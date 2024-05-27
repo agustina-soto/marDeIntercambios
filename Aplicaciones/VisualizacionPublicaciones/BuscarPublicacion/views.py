@@ -29,7 +29,7 @@ def buscar_publicaciones(request):
         else:
             page_obj = resultados_paginados.get_page(1)
 
-        return render(request, 'buscar_publicaciones.html', { 'publicaciones': page_obj, 'busqueda': query})
+        return render(request, 'VisualizacionPublicaciones/buscar_publicaciones.html', { 'publicaciones': page_obj, 'busqueda': query})
       
     else: ## Si viene por GET, se muestra todo
         resultados = []
@@ -43,7 +43,7 @@ def buscar_publicaciones(request):
         else:
             page_obj = resultados_paginados.get_page(1)
 
-        return render(request, 'buscar_publicaciones.html', { 'publicaciones': page_obj})
+        return render(request, 'VisualizacionPublicaciones/buscar_publicaciones.html', { 'publicaciones': page_obj})
 
 def carga_manual (request):
     publi = Publicacion(id=1, titulo="Velero de telgopor I", tipo_embarcacion="velero", precio_minimo=20000, anio=1997) 

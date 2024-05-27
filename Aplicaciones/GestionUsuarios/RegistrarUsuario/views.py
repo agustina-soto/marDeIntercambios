@@ -15,7 +15,7 @@ def registro(request):
                 form.add_error(None, str(e))
     else:
         form = RegistroForm()
-    return render(request, 'registro.html', {'form': form})
+    return render(request, 'GestionUsuarios/registro.html', {'form': form})
 
 def exito_registro(request):
-    return render(request, 'exitoRegistro.html')
+    return render(request, 'GestionUsuarios/exitoRegistro.html')

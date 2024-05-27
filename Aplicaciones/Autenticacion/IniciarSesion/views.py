@@ -31,7 +31,7 @@ def login_view(request):
             messages.error(request, "Usuario o contraseña no validos. Por favor, intenta de nuevo")
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'Autenticacion/login.html', {'form': form})
 
 """
 TE LO COMENTO POR LAS DUDAS
