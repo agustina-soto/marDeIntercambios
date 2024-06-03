@@ -50,7 +50,6 @@ class Usuario(auth_models.AbstractUser):
         self.bloqueado = True
         self.fecha_bloqueo = timezone.now() #Uso timezone.now() para guardar también hora,dia,minutos,segundos...
         self.save(update_fields=['bloqueado', 'fecha_bloqueo'])
-        #raise ValidationError('Usuario o contraseña no validos. Por favor, intenta de nuevo')
     
     def desbloquear(self):
         self.bloqueado = False
