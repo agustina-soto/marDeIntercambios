@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import models as auth_models
 
 
-# ---------- USUARIOS ----------
+# ---------- USUARIOS ---------------------------------------------------------------------------
 
 class Persona(models.Model):
     nombre=models.CharField(max_length=50)
@@ -77,7 +77,7 @@ class Usuario(auth_models.AbstractUser):
         verbose_name_plural = "Mis modelos de usuario"
 
 
-# ---------- PUBLICACIONES ----------
+# ---------- PUBLICACIONES ----------------------------------------------------------------------
 
 class Publicacion(models.Model):
     titulo = models.CharField(max_length=50)
@@ -86,6 +86,7 @@ class Publicacion(models.Model):
     anio = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(timezone.now().year)])
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='publicaciones')
     descripcion = models.CharField(max_length=150, null=True, blank=True)
+    # estado
 
 class FotoPublicacion(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='fotos', on_delete=models.CASCADE)
@@ -95,13 +96,24 @@ class FotoPublicacion(models.Model):
     lo que puede hacerla más pesada y menos eficiente para recuperar y manejar
     """
 
-# ---------- OFERTAS ----------
+# ---------- OFERTAS -----------------------------------------------------------------------------
+
 class Oferta(models.Model):
-    # ofertante = foreign key
-    # publicacion = foreign key
+    autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ofertas')
+    publicacion = models.ForeignKey(Publicacion, related_name='ofertas', on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=150)
     precio_estimado = models.DecimalField(max_digits=7, decimal_places=2)
+    # estado
 
 class FotoOferta(models.Model):
     oferta = models.ForeignKey(Oferta, related_name='fotos', on_delete=models.CASCADE)
     foto = models.ImageField(upload_to='archivos-estaticos/fotos_ofertas/', null=True, blank=True)
+
+
+# ---------- INTERCAMBIOS -----------------------------------------------------------------------------
+"""
+class Intercambios(models.Model):
+    # publicacion = foreign key
+    # oferta = foreign key
+    # estado
+"""

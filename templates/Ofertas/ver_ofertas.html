@@ -1,0 +1,15 @@
+<!-- falta acomodar con el html base, esta hecho asi nomas  -->
+<h1>Ofertas para la Publicación "{{ publicacion.titulo }}"</h1>
+
+{% if ofertas %}
+    <ul>
+        OFERTAS:
+        <ul>
+        {% for oferta in ofertas %}
+            <li>Oferta de ${{ oferta.precio_estimado }} - "{{oferta.descripcion}}"</li>
+        {% endfor %}
+        </ul>
+    </ul>
+{% else %}
+    <p>Aún no hay ofertas disponibles.</p>
+{% endif %}

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'Aplicaciones.AdministracionPublicaciones.EditarPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.BuscarPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.VerDetallePublicacion',
+    'Aplicaciones.Ofertas',
 ]
 
 MIDDLEWARE = [
