@@ -1,1 +1,1 @@
-from Aplicaciones.Modelos.models import Publicacion, FotoPublicacion
+from Aplicaciones.Modelos.models import Publicacion, FotoPublicacion, Oferta
