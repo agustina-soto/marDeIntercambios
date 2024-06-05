@@ -14,8 +14,6 @@ class Persona(models.Model):
 
 class Usuario(auth_models.AbstractUser):
     #Se usa campo password de la clase AbstractUser
-    # Campos adicionales
-
     dni = models.IntegerField( validators=[
             MinValueValidator(10000000),
             MaxValueValidator(99999999)
@@ -87,6 +85,33 @@ class Publicacion(models.Model):
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='publicaciones')
     descripcion = models.CharField(max_length=150, null=True, blank=True)
     # estado
+    oferta_aceptada = models.OneToOneField('Oferta', on_delete=models.SET_NULL, null=True, related_name='publicacion_ofertada')
+    # Con el OneToOne cada publicacion puede tener como maximo una oferta aceptada, y cada oferta aceptada puede estar vinculada solo a una publicacion
+
+
+    def aceptar_oferta(self, oferta):
+        if oferta.publicacion == self:
+            if self.oferta_aceptada:
+                raise Exception("Ya hay una oferta aceptada para esta publicación.")
+            else:
+                self.oferta_aceptada = oferta
+                self.save(update_fields=['oferta_aceptada'])
+                print('Se aceptó la oferta')
+        else:
+            raise Exception("La oferta no pertenece a esta publicación.")
+
+    def rechazar_oferta(self, oferta):
+        if oferta in self.ofertas.all():
+            oferta.delete()
+            print('Se rechazó la oferta')
+        else:
+            raise Exception("La oferta no está asociada a esta publicación.")
+
+    def cancelar_oferta_aceptada(self):
+        self.oferta_aceptada = None
+        self.save(update_fields=['oferta_aceptada'])
+        print('Se canceló la aceptación de la oferta')
+
 
 class FotoPublicacion(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='fotos', on_delete=models.CASCADE)

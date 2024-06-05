@@ -1,15 +1,25 @@
-<!-- falta acomodar con el html base, esta hecho asi nomas  -->
-<h1>Ofertas para la Publicación "{{ publicacion.titulo }}"</h1>
+{% extends "base.html" %}
 
-{% if ofertas %}
-    <ul>
-        OFERTAS:
+{% block content %}
+    <h3>Ofertas para la Publicación "{{ publicacion.titulo }}"</h3>
+    {% if ofertas %}
         <ul>
-        {% for oferta in ofertas %}
-            <li>Oferta de ${{ oferta.precio_estimado }} - "{{oferta.descripcion}}"</li>
-        {% endfor %}
+            {% for oferta in ofertas %}
+                <li>
+                    Oferta de ${{ oferta.precio_estimado }} - "{{ oferta.descripcion }}"
+                    <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="button">Ver Detalle</a>
+                    {% if oferta == publicacion.oferta_aceptada %}
+                        <!-- Si la oferta esta aceptada, muestra el botón para cancelar la oferta aceptada -->
+                        <a href="{% url 'cancelar_oferta_aceptada' publicacion.id %}" class="button">Cancelar Oferta Aceptada</a>
+                    {% else %}
+                        <!-- Si la oferta no esta aceptada, muestra los botones para aceptar o rechazar la oferta -->
+                        <a href="{% url 'aceptar_oferta' oferta.id %}" class="button">Aceptar Oferta</a>
+                        <a href="{% url 'rechazar_oferta' oferta.id %}" class="button">Rechazar Oferta</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
         </ul>
-    </ul>
-{% else %}
-    <p>Aún no hay ofertas disponibles.</p>
-{% endif %}
+    {% else %}
+        <p>Aún no hay ofertas disponibles.</p>
+    {% endif %}
+{% endblock %}
