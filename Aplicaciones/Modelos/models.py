@@ -4,6 +4,7 @@ from django.utils import timezone
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import models as auth_models
+from Aplicaciones.Modelos.estados import ESTADO_PUBLICACION, ESTADO_OFERTA
 
 
 # ---------- USUARIOS ---------------------------------------------------------------------------
@@ -79,12 +80,12 @@ class Usuario(auth_models.AbstractUser):
 
 class Publicacion(models.Model):
     titulo = models.CharField(max_length=50)
-    precio_minimo = models.DecimalField(max_digits=7, decimal_places=2)
+    precio_minimo = models.DecimalField(max_digits=10, decimal_places=1)
     tipo_embarcacion = models.CharField(max_length=60, choices=TIPOS_EMBARCACION)
     anio = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(timezone.now().year)])
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='publicaciones')
     descripcion = models.CharField(max_length=150, null=True, blank=True)
-    # estado
+    estado = models.CharField(max_length=10, choices=ESTADO_PUBLICACION, default='pendiente')
     oferta_aceptada = models.OneToOneField('Oferta', on_delete=models.SET_NULL, null=True, related_name='publicacion_ofertada')
     # Con el OneToOne cada publicacion puede tener como maximo una oferta aceptada, y cada oferta aceptada puede estar vinculada solo a una publicacion
 
@@ -124,17 +125,12 @@ class FotoPublicacion(models.Model):
 # ---------- OFERTAS -----------------------------------------------------------------------------
 
 class Oferta(models.Model):
-    ESTADO_CHOICES = [
-        ('pendiente', 'Pendiente'),
-        ('aceptada', 'Aceptada'),
-        ('rechazada', 'Rechazada')
-    ]
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ofertas')
     publicacion = models.ForeignKey(Publicacion, related_name='ofertas', on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=150)
-    precio_estimado = models.DecimalField(max_digits=7, decimal_places=2)
+    precio_estimado = models.DecimalField(max_digits=10, decimal_places=1)
     # no me acuerdo como lo hizo gio, por ahora lo dejo asi el Estado
-    estado = models.CharField(max_length=10, choices=ESTADO_CHOICES, default='pendiente')
+    estado = models.CharField(max_length=10, choices=ESTADO_OFERTA, default='pendiente')
 
 
 class FotoOferta(models.Model):

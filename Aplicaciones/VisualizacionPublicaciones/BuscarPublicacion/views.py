@@ -9,8 +9,10 @@ from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import 
 def buscar_publicaciones(request):
     # json_data = open('archivos-estaticos/json/publicaciones.json', encoding='utf-8')   
     # dataPublicaciones = json.load(json_data) # deserialises it
-    dataPublicaciones = Publicacion.objects.all()
-    
+    #dataPublicaciones = Publicacion.objects.all()
+    # Comente lo de arriba y agregue la linea de abajo para que no muestre las publicaciones borradas
+    dataPublicaciones = Publicacion.objects.exclude(estado='eliminada')
+
     if request.GET.get('buscar'): ## Si se accede vía POST, se realiza la búsqueda de resultados con la query
 
         query = request.GET.get('buscar') # Método para retirar valores del QueryDict en POST

@@ -4,12 +4,7 @@
 
     <h3>Detalles de la Oferta</h3>
 
-    {% if oferta == oferta.publicacion.oferta_aceptada %}
-        <p>Estado: Oferta Aceptada</p>
-    {% else %}
-        <p>Estado: Oferta Pendiente</p>
-    {% endif %}
-
+    <p>Estado: {{ oferta.estado }}</p>
     <p>Autor: {{ oferta.autor.username }}</p>
     <p>Descripción: {{ oferta.descripcion }}</p>
     <p>Precio Estimado: ${{ oferta.precio_estimado }}</p>

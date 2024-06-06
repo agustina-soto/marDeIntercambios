@@ -1,9 +1,9 @@
+from Aplicaciones.Modelos.models import Publicacion, Oferta
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, Http404
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.contrib.auth.decorators import login_required
-from Aplicaciones.Modelos.models import Publicacion, Oferta
+from MDI.decorator import login_required
 
 @login_required
 def ver_ofertas(request, publicacion_id):
@@ -29,7 +29,7 @@ def aceptar_oferta_vista(request, oferta_id):
         try:
             publicacion = oferta.publicacion
             publicacion.aceptar_oferta(oferta)
-            enviarCorreo(oferta, 'aceptada', 'Correo/oferta_aceptada.html')
+            # enviarCorreo(oferta, 'aceptada', 'Correo/oferta_aceptada.html')
             return redirect('ver_ofertas', publicacion_id=publicacion.id)
         except Exception as e:
             return HttpResponse(str(e))
@@ -43,7 +43,7 @@ def rechazar_oferta_vista(request, oferta_id):
         try:
             publicacion = oferta.publicacion
             publicacion.rechazar_oferta(oferta)
-            enviarCorreo(oferta, 'rechazada', 'Correo/oferta_rechazada.html')
+            # enviarCorreo(oferta, 'rechazada', 'Correo/oferta_rechazada.html')
             return redirect('ver_ofertas', publicacion_id=publicacion.id)
         except Exception as e:
             return HttpResponse(str(e))
@@ -58,7 +58,7 @@ def cancelar_oferta_aceptada_vista(request, publicacion_id):
             oferta_aceptada = publicacion.oferta_aceptada
             try:
                 publicacion.cancelar_oferta_aceptada()
-                enviarCorreo(oferta_aceptada, 'cancelada', 'Correo/oferta_cancelada.html')
+                # enviarCorreo(oferta_aceptada, 'cancelada', 'Correo/oferta_cancelada.html')
                 return redirect('ver_ofertas', publicacion_id=publicacion_id)
             except Exception as e:
                 return HttpResponse(str(e))
@@ -66,6 +66,7 @@ def cancelar_oferta_aceptada_vista(request, publicacion_id):
             return HttpResponse("No hay oferta aceptada para cancelar.")
     else:
         return HttpResponse("Esta vista solo acepta solicitudes POST.")
+
 
 # No funciona :(
 def enviarCorreo(oferta, accion, html):
