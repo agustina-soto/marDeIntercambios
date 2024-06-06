@@ -10,6 +10,7 @@ class Publicacion(models.Model):
     tipo_embarcacion = models.CharField(max_length=60, choices=TIPOS_EMBARCACION)
     anio = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(timezone.now().year)])
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='publicaciones')
+    estado = models.CharField(max_length=10, default="pendiente") #no se si deberia de ser un string 
 
 class FotoPublicacion(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='fotos', on_delete=models.CASCADE)

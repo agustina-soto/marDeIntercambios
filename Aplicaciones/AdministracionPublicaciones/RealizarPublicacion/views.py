@@ -25,6 +25,7 @@ def realizar_publicacion(request):
             publicacion = publicacion_form.save(commit=False) #creo instancia pero no guardo aun en la base de datos para crear relación con usuario logueado
            
             publicacion.usuario = request.user
+            publicacion.estado = 'pendiente' #cuando se sea una publi su estado esta pendiente a validar 
             publicacion.save()
 
             fotos = request.FILES.getlist('foto')

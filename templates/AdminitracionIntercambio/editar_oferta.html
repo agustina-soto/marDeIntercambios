@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+    {% block content %}
+
+        <h1> Editar oferta </h1>
+
+        <!-- Muestra mensajes de éxito o error -->
+        <!--Este bloque maneja los mensajes flash de éxito o error que se podrían haber establecido en las vistas.-->
+        {% if messages %} 
+            <ul class="messages">
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                        <li>{{ message }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Muestra errores generales del formulario -->
+            <!--Este bloque adicional muestra los errores generales del formulario, incluidos aquellos que no están vinculados a un campo específico-->
+            {% if oferta_form.non_field_errors %}
+                <div class="error-message">
+                    {{ oferta_form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <!--Pone prioridad a los mensajes de error, si la publicacion no esta validada no muestra el siguiente bloque-->
+            {% if not oferta_form.non_field_errors %}
+                <div>
+                    {{ oferta_form.descripcion.label_tag }}
+                    {{ oferta_form.descripcion }}
+                    <span class="error-message">{{ oferta_form.descripcion.errors }}</span>
+                </div>
+
+                <div>
+                    {{ oferta_form.precio_estimado.label_tag }}
+                    {{ oferta_form.precio_estimado }}
+                    <span class="error-message">{{ oferta_form.precio_estimado.errors }}</span>
+                </div>
+
+                <div>
+                    <label>Fotos:</label>
+                    <label for="custom-file" class="custom-file-label">Elegir archivos</label>
+                    <input type="file" id="custom-file" class="custom-file-input" name="foto" accept="image/jpeg,image/png, image/jpg" multiple onchange="updateFileList(this)">
+                    <span class="error-message">{{ foto_form.foto.errors }}</span>
+                    <div id="file-preview" class="file-preview"></div> 
+                </div> 
+
+                <!-- Itera sobre las fotos ya existentes en la oferta -->
+                {% for foto in fotos_publicacion %}
+                    <!-- Contenedor para cada foto existente -->
+                    <div class="photo-container" data-id="{{ foto.id }}">
+                        <!-- Muestra la imagen de la foto existente -->
+                        <img src="{{ foto.foto.url }}" alt="Foto">
+                        <!-- Botón para eliminar la foto -->
+                        <span class="eliminar-foto" onclick="eliminarFoto(this.parentNode)">x</span>
+                    </div>
+                {% endfor %}
+
+                <!-- Campo oculto para almacenar las IDs de las fotos a eliminar -->
+                <input type="hidden" id="fotos-a-eliminar" name="fotos_a_eliminar">
+
+                <!-- Botón para guardar los cambios -->
+                <button type="submit">Guardar Cambios</button>
+            {% endif %}
+
+        </form>
+
+        <!-- Script JavaScript -->
+        <script>
+
+            // Arreglo para almacenar las IDs de las fotos que se quieren eliminar
+            var fotosAEliminar = [];
+
+            // Función para actualizar la lista de archivos seleccionados
+            function updateFileList(input) {
+                var preview = document.getElementById('file-preview');
+                preview.innerHTML = ''; // Limpiar la lista de archivos previa
+
+                // Itera sobre los archivos seleccionados y agregarlos a la lista
+                for (var i = 0; i < input.files.length; i++) {
+                    var file = input.files[i];
+                    var fileReader = new FileReader();
+
+                    fileReader.onload = (function(e) {
+                        var fileItem = document.createElement('div');
+                        fileItem.classList.add('photo-container');
+                        
+                        var img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = file.name;
+
+                        var deleteButton = document.createElement('span');
+                        deleteButton.textContent = 'x';
+                        deleteButton.className = 'eliminar-foto';
+                        deleteButton.onclick = function() {
+                            // Encuentra y elimina el contenedor de la foto al hacer clic en el botón
+                            var container = this.parentNode;
+                            container.parentNode.removeChild(container);
+                        };
+
+                        fileItem.appendChild(img);
+                        fileItem.appendChild(deleteButton);
+                        preview.appendChild(fileItem);
+                    });
+
+                    fileReader.readAsDataURL(file);
+                }
+            }
+
+            // Función para actualizar el campo oculto con las IDs de las fotos a eliminar
+            function actualizarCampoFotosAEliminar() {
+                var campoFotosAEliminar = document.getElementById('fotos-a-eliminar');
+                campoFotosAEliminar.value = fotosAEliminar.filter(Boolean).join(',');
+            }
+
+            // Función para manejar la eliminación de una foto existente
+            function eliminarFoto(fotoContainer) {
+                var fotoId = fotoContainer.getAttribute('data-id');
+                
+                // Confirmación antes de eliminar la foto
+                if (confirm('¿Estás seguro de que quieres eliminar esta foto?')) {
+                    fotoContainer.remove();
+                    fotosAEliminar.push(fotoId);
+                    actualizarCampoFotosAEliminar();
+                }
+            }
+        </script>
+{% endblock %}
