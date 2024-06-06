@@ -88,29 +88,29 @@ class Publicacion(models.Model):
     oferta_aceptada = models.OneToOneField('Oferta', on_delete=models.SET_NULL, null=True, related_name='publicacion_ofertada')
     # Con el OneToOne cada publicacion puede tener como maximo una oferta aceptada, y cada oferta aceptada puede estar vinculada solo a una publicacion
 
-
     def aceptar_oferta(self, oferta):
-        if oferta.publicacion == self:
-            if self.oferta_aceptada:
-                raise Exception("Ya hay una oferta aceptada para esta publicación.")
-            else:
-                self.oferta_aceptada = oferta
-                self.save(update_fields=['oferta_aceptada'])
-                print('Se aceptó la oferta')
-        else:
-            raise Exception("La oferta no pertenece a esta publicación.")
+        if oferta.estado == 'rechazada':
+            raise Exception("No se puede aceptar una oferta rechazada.")
+        if self.oferta_aceptada:
+            raise Exception("Ya hay una oferta aceptada para esta publicación.")
+        oferta.estado = 'aceptada'
+        oferta.save()
+        self.oferta_aceptada = oferta
+        self.save()
 
     def rechazar_oferta(self, oferta):
-        if oferta in self.ofertas.all():
-            oferta.delete()
-            print('Se rechazó la oferta')
-        else:
-            raise Exception("La oferta no está asociada a esta publicación.")
+        if oferta.estado == 'aceptada':
+            raise Exception("No se puede rechazar una oferta que ya ha sido aceptada.")
+        oferta.estado = 'rechazada'
+        oferta.save()
 
     def cancelar_oferta_aceptada(self):
+        if not self.oferta_aceptada:
+            raise Exception("No hay oferta aceptada para cancelar.")
+        self.oferta_aceptada.estado = 'cancelada'
+        self.oferta_aceptada.save()
         self.oferta_aceptada = None
-        self.save(update_fields=['oferta_aceptada'])
-        print('Se canceló la aceptación de la oferta')
+        self.save()
 
 
 class FotoPublicacion(models.Model):
@@ -124,11 +124,18 @@ class FotoPublicacion(models.Model):
 # ---------- OFERTAS -----------------------------------------------------------------------------
 
 class Oferta(models.Model):
+    ESTADO_CHOICES = [
+        ('pendiente', 'Pendiente'),
+        ('aceptada', 'Aceptada'),
+        ('rechazada', 'Rechazada')
+    ]
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ofertas')
     publicacion = models.ForeignKey(Publicacion, related_name='ofertas', on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=150)
     precio_estimado = models.DecimalField(max_digits=7, decimal_places=2)
-    # estado
+    # no me acuerdo como lo hizo gio, por ahora lo dejo asi el Estado
+    estado = models.CharField(max_length=10, choices=ESTADO_CHOICES, default='pendiente')
+
 
 class FotoOferta(models.Model):
     oferta = models.ForeignKey(Oferta, related_name='fotos', on_delete=models.CASCADE)

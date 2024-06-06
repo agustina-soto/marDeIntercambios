@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
     <h3>Ofertas para la Publicación "{{ publicacion.titulo }}"</h3>
     {% if ofertas %}
         <ul>
@@ -8,13 +9,25 @@
                 <li>
                     Oferta de ${{ oferta.precio_estimado }} - "{{ oferta.descripcion }}"
                     <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="button">Ver Detalle</a>
-                    {% if oferta == publicacion.oferta_aceptada %}
-                        <!-- Si la oferta esta aceptada, muestra el botón para cancelar la oferta aceptada -->
-                        <a href="{% url 'cancelar_oferta_aceptada' publicacion.id %}" class="button">Cancelar Oferta Aceptada</a>
+                    {% if oferta.estado == 'rechazada' %}
+                        <!-- Si la oferta está rechazada, muestra el texto "Oferta Rechazada" -->
+                        <span class="oferta-rechazada">Oferta Rechazada</span>
+                    {% elif oferta == publicacion.oferta_aceptada %}
+                        <!-- Si la oferta está aceptada, muestra el botón para cancelar la oferta aceptada -->
+                        <form action="{% url 'cancelar_oferta_aceptada' publicacion.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Cancelar Oferta</button>
+                        </form>
                     {% else %}
-                        <!-- Si la oferta no esta aceptada, muestra los botones para aceptar o rechazar la oferta -->
-                        <a href="{% url 'aceptar_oferta' oferta.id %}" class="button">Aceptar Oferta</a>
-                        <a href="{% url 'rechazar_oferta' oferta.id %}" class="button">Rechazar Oferta</a>
+                        <!-- Si la oferta no está aceptada ni rechazada, muestra los botones para aceptar o rechazar la oferta -->
+                        <form action="{% url 'aceptar_oferta' oferta.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Aceptar Oferta</button>
+                        </form>
+                        <form action="{% url 'rechazar_oferta' oferta.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Rechazar Oferta</button>
+                        </form>
                     {% endif %}
                 </li>
             {% endfor %}
