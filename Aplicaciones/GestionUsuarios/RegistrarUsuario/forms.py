@@ -57,7 +57,7 @@ class RegistroForm(UserCreationForm):
         fechaNacimiento = self.cleaned_data.get('fecha_nacimiento', None)
         hoy = datetime.date.today()
         edad = relativedelta(hoy, fechaNacimiento).years
-        if not fechaNacimiento and edad < 18:
+        if not fechaNacimiento or edad < 18:
             raise ValidationError("Para registrarse debe ser mayor a 18 años") #Hay que testear para casos especiales
         return fechaNacimiento
     
