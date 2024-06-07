@@ -4,6 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
+    <style>
+        /* Estilos básicos para el contenedor de publicaciones y el botón */
+        .publications-container {
+            margin: 20px;
+        }
+
+        .toggle-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .toggle-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Estilo para las publicaciones (ocultas por defecto) */
+        .publications {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .publication {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
     {% extends 'base.html' %}
@@ -16,27 +48,30 @@
                     <li><p>Dni: {{dni}} </p></li>
                 </ul>
             </div>
-        <h2>Publicaciones</h2>
-            <div>
-                <ul>
+            <div class="publications-container">
+                <button class="toggle-btn" onclick="togglePublications()">Ver Mis Publicaciones</button>
+                <div class="publications" id="publications">
                     {% for publicacion in publicaciones %}
-                        <li>
-                            <h2>{{ publicacion.titulo }}</h2>
+                        <div class="publication">
+                            <p>{{ publicacion.titulo }}</p>
                             <p>Precio minimo: {{ publicacion.precio_minimo }}</p>
                             <p>Tipo de embarcacion: {{publicacion.tipo_embarcacion}}</p>
                             <p>año: {{publicacion.anio}}</p>
-                            <h3>Fotos:</h3>
-                            <ul>
-                                {% for foto in publicacion.fotos.all %}
-                                    <li>
-                                        <img src="{{ foto.foto.url }}" width="400px" height="auto"> <!--En realidad esto se hace en styles, pero por el momento lo dejo así-->
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </li>
+                            <a href="/publicacion/ver-publicacion/ver_detalle/{{publicacion.id}}" class="text-decoration-none">Ver detalle de publicación</a>                 
+                        </div>
                     {% endfor %}
-                </ul>
+                </div>
             </div>
+            <script>
+                function togglePublications() {
+                    var publications = document.getElementById("publications");
+                    if (publications.style.display === "none" || publications.style.display === "") {
+                        publications.style.display = "block";
+                    } else {
+                        publications.style.display = "none";
+                    }
+                }
+            </script>
     {% endblock %}
 </body>
 </html>
