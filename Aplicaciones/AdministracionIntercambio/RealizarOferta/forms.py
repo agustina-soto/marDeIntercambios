@@ -64,11 +64,3 @@ class FotoOfertaForm (forms.ModelForm): #buscar la posibilidad de unificar esta 
         model = FotoOferta
         fields = ['foto']
 
-    """def clean_foto(self): #copie y pegue de agus 
-        cleaned_data = super().clean()
-        fotos = cleaned_data.get('foto')
-        if not fotos:
-            raise forms.ValidationError('Debes proporcionar al menos una foto.')
-        return cleaned_data""" #no es obligatorio que se proporcione una foto
-
-

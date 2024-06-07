@@ -35,9 +35,12 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-                {% else %}
-                <p>No photos available for this post.</p>
                 {% endif %}
+
+                {% if es_dueno %}
+                    <a href="{% url 'editar_oferta' post.id %}" class="button">Editar</a>
+                {% endif %}
+
         </body>
         
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

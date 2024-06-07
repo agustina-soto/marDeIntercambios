@@ -44,12 +44,12 @@
                     <label>Fotos:</label>
                     <label for="custom-file" class="custom-file-label">Elegir archivos</label>
                     <input type="file" id="custom-file" class="custom-file-input" name="foto" accept="image/jpeg,image/png, image/jpg" multiple onchange="updateFileList(this)">
-                    <span class="error-message">{{ foto_form.foto.errors }}</span>
+                    <!--<span class="error-message">{{ foto_form.foto.errors }}</span>--> 
                     <div id="file-preview" class="file-preview"></div> 
                 </div> 
 
                 <!-- Itera sobre las fotos ya existentes en la oferta -->
-                {% for foto in fotos_publicacion %}
+                {% for foto in fotos_oferta %}
                     <!-- Contenedor para cada foto existente -->
                     <div class="photo-container" data-id="{{ foto.id }}">
                         <!-- Muestra la imagen de la foto existente -->
@@ -84,7 +84,7 @@
                     var file = input.files[i];
                     var fileReader = new FileReader();
 
-                    fileReader.onload = (function(e) {
+                    fileReader.onload = function(e) {
                         var fileItem = document.createElement('div');
                         fileItem.classList.add('photo-container');
                         
@@ -104,7 +104,7 @@
                         fileItem.appendChild(img);
                         fileItem.appendChild(deleteButton);
                         preview.appendChild(fileItem);
-                    });
+                    }
 
                     fileReader.readAsDataURL(file);
                 }

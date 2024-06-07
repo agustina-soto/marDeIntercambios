@@ -47,6 +47,9 @@
 
             {% if es_dueno %}
                 <a href="{% url 'editar_publicacion' post.id %}" class="button">Editar</a>
+            {% else %}
+                <!--si no es el dueño puede realizar oferta, si es un visitante le pide que inicie sesion o se registre si no tiene cuenta, si es un user logeado le permite hacer la oferta-->
+                <a href="{% url 'realizar_oferta' post.id %}" class="button">Realizar oferta</a> 
             {% endif %}
         </body>
         
