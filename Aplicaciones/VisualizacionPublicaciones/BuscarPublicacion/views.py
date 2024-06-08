@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 import json
 from django.http import HttpResponse
 
-from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import Publicacion
+from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import Publicacion, Estado
 
 # Create your views here.
 def buscar_publicaciones(request):
