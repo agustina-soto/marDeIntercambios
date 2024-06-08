@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import Publicacion, FotoPublicacion #importo el modelo de otra app
+from Aplicaciones.Modelos.models import Publicacion, FotoPublicacion #importo el modelo de otra app
 from django.views.generic.detail import DetailView
 
 class ver_detalle (DetailView):
@@ -15,5 +15,5 @@ class ver_detalle (DetailView):
         # Agrega las fotos relacionadas al contexto
         context['fotos'] = FotoPublicacion.objects.filter(publicacion=publicacion)
         # Verifica si el usuario actual es el dueño de la publicación
-        context['es_dueno'] = self.request.user == publicacion.usuario
+        context['es_dueno'] = self.request.user == publicacion.autor
         return context

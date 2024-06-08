@@ -2,7 +2,10 @@
 {% block content %}
 
 <h2>Acá van la listas de publicaciones a validar</h2>
+{% if not publicaciones %}
+<div>No hay publicaciones para validar</div>
 
+{% else %}
 {% for pub in publicaciones %}
 <div class="card my-3 p-3">
     <div>
@@ -11,15 +14,60 @@
             <p>Año: {{pub.anio}}</p>
             <p>Tipo: {{pub.tipo_embarcacion}}</p>
             <p>Precio: ${{pub.precio_minimo}}</p>
-            <button>Ver publicación</button>
+            <button>Ver detalle de publicación</button>
         </a>
     </div>
-    <div class="mt-3 d-flex justify-content-between">
-        <a class="w-25 btn btn-danger" href="/publicacion/rechazar_publicacion/{{pub.id}}">Rechazar Publicación</a>
-        <a class="w-25 btn btn-success" href="/publicacion/validar_publicacion/{{pub.id}}">Validar Publicación</a>
+    <div class="mt-5 d-flex justify-content-between">
+        <div class="w-25">
+            <select onchange="cargarJustificacion('{{pub.id}}')" class="form-select mb-2" name="justificacion{{pub.id}}" id="justificacion{{pub.id}}">
+                <option value="" hidden>Elija justificación</option>
+                <option value="Fotos erróneas">Fotos erróneas</option>
+                <option value="Embarcación externa a Puerto Aventura">Embarcación externa a Puerto Aventura</option>
+                <option value="Persona no registrada en Puerto Aventura">Persona no registrada en Puerto Aventura</option>
+            </select>
+            <a onclick="confirmarRechazo('{{pub.id}}')" id="rechazar{{pub.id}}" class="btn btn-danger disabled" href="#">Rechazar Publicación</a>
+        </div>
+        <a id="" class="w-25 h-50 btn btn-success align-self-end" href="/publicacion/validar_publicacion/{{pub.id}}">Validar Publicación</a>
     </div>
 </div>
 <hr>
 {% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if publicaciones.has_previous %}
+        <!-- <a href="?buscar={{busqueda}}&page=1">&laquo; first</a> -->
+        <a href="?buscar={{busqueda}}&page={{ publicaciones.previous_page_number }}">Ver página anterior</a>
+        {% endif %}
 
+        <span class="current">
+            Page {{ publicaciones.number }} of {{ publicaciones.paginator.num_pages }}.
+        </span>
+
+        {% if publicaciones.has_next %}
+        <a href="?buscar={{busqueda}}&page={{ publicaciones.next_page_number }}">Ver más publiaciones</a>
+        <!-- <a href="?buscar={{busqueda}}&page={{ publicaciones.paginator.num_pages }}">last &raquo;</a> -->
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+<script>
+    console.log("Hey");
+    function cargarJustificacion (id){
+        console.log(id);
+        // let selectorProducto = document.getElementById("#justificacion"+id);
+
+        let rechazarProducto = document.getElementById("rechazar"+id);
+
+        rechazarProducto.classList.remove('disabled');
+    }
+
+    function confirmarRechazo(id) {
+        let selectorProducto = document.getElementById("justificacion"+id);
+        console.log(selectorProducto.value);
+        let justificacion = selectorProducto.value;
+        window.location.href = "/publicacion/rechazar_publicacion/" + id + "/" + justificacion;
+    }
+</script>
 {% endblock %}
+
+
