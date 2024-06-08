@@ -132,3 +132,11 @@ nav {
             list-style-type: none; /* Elimina el punto de listado */
             margin-left: 0; /* Elimina cualquier margen izquierdo que pueda tener el elemento */
         }
+
+
+    /*  Estilo de OFERTAS  */
+        .oferta-rechazada {
+            background-color: #d4d0d0; /* Fondo gris claro */
+            padding: 1px; /* Espacio interno para el texto */
+            border-radius: 5px; /* Bordes redondeados */
+        }

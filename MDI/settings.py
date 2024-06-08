@@ -38,14 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Aplicaciones.Modelos',
     'Aplicaciones.Autenticacion.IniciarSesion',
     'Aplicaciones.Autenticacion.CerrarSesion',
     'Aplicaciones.GestionUsuarios.RegistrarUsuario',
     'Aplicaciones.GestionUsuarios.VerPerfilUsuario',
     'Aplicaciones.AdministracionPublicaciones.RealizarPublicacion',
     'Aplicaciones.AdministracionPublicaciones.EditarPublicacion',
+    'Aplicaciones.AdministracionPublicaciones.BorrarPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.BuscarPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.VerDetallePublicacion',
+    'Aplicaciones.Ofertas',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +128,9 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'archivos-estaticos/'
+STATIC_URL = '/archivos-estaticos/'
+
+STATIC_ROOT = '/archivos-estaticos/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'archivos-estaticos'), # Los archivos static se buscan aca
@@ -138,6 +143,6 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Especifica el modelo de usuario personalizado
-AUTH_USER_MODEL = 'RegistrarUsuario.Usuario'
+AUTH_USER_MODEL = 'Modelos.Usuario'
 
 LOGIN_URL = 'login' # Esto le dice a Django que redirija a la URL llamada login cuando un usuario no autenticado intente acceder a una vista protegida

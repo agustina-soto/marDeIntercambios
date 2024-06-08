@@ -1,0 +1,1 @@
+from Aplicaciones.Modelos.models import Oferta, FotoOferta

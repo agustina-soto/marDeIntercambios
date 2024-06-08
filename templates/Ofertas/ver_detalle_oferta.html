@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h3>Detalles de la Oferta</h3>
+
+    <p>Estado: {{ oferta.estado }}</p>
+    <p>Autor: {{ oferta.autor.username }}</p>
+    <p>Descripción: {{ oferta.descripcion }}</p>
+    <p>Precio Estimado: ${{ oferta.precio_estimado }}</p>
+
+    {% if oferta.fotos.all %}
+        <h4>Fotos:</h4>
+        <div class="row">
+            {% for foto in oferta.fotos.all %}
+                <div class="col-md-3">
+                    <img src="{{ foto.foto.url }}" class="img-fluid" alt="Foto de oferta">
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <a href="{% url 'ver_ofertas' oferta.publicacion.id %}" class="btn btn-secondary">Volver a Ofertas</a>
+{% endblock %}
