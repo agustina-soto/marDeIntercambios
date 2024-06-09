@@ -151,12 +151,13 @@ class Intercambios(models.Model):
 class Room(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True) #Versión amigable para urls
-
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="rooms")
 
 class Message(models.Model):
     room = models.ForeignKey(Room, related_name="messages", on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="messages", on_delete=models.CASCADE)
     content = models.TextField()
+    foto = models.ImageField(upload_to='archivos-estaticos/fotos_chats/', null=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta: #para guardar los mensajes ordenados por fecha
