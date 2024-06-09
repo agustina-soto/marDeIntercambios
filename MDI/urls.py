@@ -11,4 +11,5 @@ urlpatterns = [
     path('publicacion/', include('Aplicaciones.AdministracionPublicaciones.urls')), #Incluye las URLs de AdministrarPublicaciones
     path('publicacion/ver-publicacion/', include('Aplicaciones.VisualizacionPublicaciones.urls')), #Incluye las URLs de VisualizacionPublicaciones
     path('ofertas/', include('Aplicaciones.Ofertas.urls')), #Incluye las URLs de Ofertas
+    path('chat/', include('Aplicaciones.ComunicacionEntreUsuarios.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

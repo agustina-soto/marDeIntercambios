@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import timedelta
+from django.conf import settings
 from django.utils import timezone
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -145,3 +146,18 @@ class Intercambios(models.Model):
     # oferta = foreign key
     # estado
 """
+# ---------- CHAT --------------------------------------------------------------------------------------
+
+class Room(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True) #Versión amigable para urls
+
+
+class Message(models.Model):
+    room = models.ForeignKey(Room, related_name="messages", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="messages", on_delete=models.CASCADE)
+    content = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta: #para guardar los mensajes ordenados por fecha
+        ordering = ("date_added",)

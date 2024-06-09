@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    "daphne", #Para el chat
     'django.contrib.staticfiles',
     'Aplicaciones.Modelos',
     'Aplicaciones.Autenticacion.IniciarSesion',
@@ -48,7 +49,10 @@ INSTALLED_APPS = [
     'Aplicaciones.AdministracionPublicaciones.BorrarPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.BuscarPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.VerDetallePublicacion',
+    'Aplicaciones.ComunicacionEntreUsuarios.SalaDeChat',
     'Aplicaciones.Ofertas',
+    'channels', #Para el chat
+    "channels_redis", #Para el chat
 ]
 
 MIDDLEWARE = [
@@ -80,6 +84,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'MDI.wsgi.application'
+
+# para el chat
+ASGI_APPLICATION = 'MDI.asgi.application'
+
+# Configuración del canal layer (puedes usar Redis para producción)
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 
 # Database
@@ -137,6 +151,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'archivos-estaticos'), # Los archivos static se buscan aca
 )
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

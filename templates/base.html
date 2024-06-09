@@ -26,28 +26,30 @@
                 {% endif %}
             </ul>
         </nav>
-
-        {% if messages %}
-            {% for message in messages %}
-                {% if message.tags == 'success' %}
-                    <div class="alert alert-success">
-                        {{ message }}
-                    </div>
-                {% else %}
-                    <div class="alert alert-danger alert-dismissible fade show">
-                        <span>{{ message }}</span>
-                        {% if forloop.first %}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
-                        {% endif %}
-                    </div>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-
+        {% block messages %}
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <span>{{ message }}</span>
+                            {% if forloop.first %}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endblock %}             
         <div class="row">
             {% block content %}
             {% endblock content %}
         </div>
+        {% block scripts %}
+        {% endblock %}
     </div>    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -1,16 +1,23 @@
-"""
-ASGI config for MDI project.
-
-It exposes the ASGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.0/howto/deployment/asgi/
-"""
-
 import os
+import Aplicaciones.ComunicacionEntreUsuarios.SalaDeChat.routing
 
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
 
+# Configuro la variable de entorno DJANGO_SETTINGS_MODULE para apuntar al archivo de configuración del proyecto
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'MDI.settings')
 
-application = get_asgi_application()
+# Define la aplicación ASGI para manejar diferentes tipos de conexiones (HTTP y WebSocket)
+application = ProtocolTypeRouter({
+    # Maneja conexiones HTTP utilizando la aplicación ASGI de Django estándar
+    "http": get_asgi_application(),
+
+    # Maneja conexiones WebSocket
+    "websocket": AuthMiddlewareStack(
+        # URLRouter se usa para enrutar las conexiones WebSocket a las vistas apropiadas basadas en la URL
+        URLRouter(
+            Aplicaciones.ComunicacionEntreUsuarios.SalaDeChat.routing.websocket_urlpatterns  # Importa las rutas WebSocket desde roomApp.routing
+        )
+    ),
+})
