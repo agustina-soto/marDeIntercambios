@@ -12,7 +12,7 @@ def room(request, slug):
         return HttpResponse("No tienes permiso para acceder a este sitio")
     
     if request.method == 'POST':
-        print("HOLA MUNDO")
+
         content = request.POST.get('content', '')
         foto = request.FILES.get('foto', None)
         
@@ -20,6 +20,10 @@ def room(request, slug):
         if content or foto:
             message = Message.objects.create(room=room, user=request.user, content=content, foto=foto)
             message.save()  # Guardar el mensaje para que la foto se almacene correctamente
+
+            # Marcar la sala como no leída
+            room.unread_messages = False
+            room.save()
 
         return redirect(request.path)  # Redirigir al usuario a la misma página después de procesar el formulario
 

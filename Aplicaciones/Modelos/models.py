@@ -152,12 +152,13 @@ class Room(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True) #Versión amigable para urls
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="rooms")
+    unread_messages = models.BooleanField(default=False)  # Campo para indicar si hay mensajes sin leer
 
 class Message(models.Model):
     room = models.ForeignKey(Room, related_name="messages", on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="messages", on_delete=models.CASCADE)
     content = models.TextField()
-    foto = models.ImageField(upload_to='archivos-estaticos/fotos_chats/', null=False)
+    foto = models.ImageField(upload_to='archivos-estaticos/fotos_chats/', null=False) #POR EL MOMENTO NO ME ESTARÍA FUNCIONANDO EL TEMA DE LAS FOTOS
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta: #para guardar los mensajes ordenados por fecha
