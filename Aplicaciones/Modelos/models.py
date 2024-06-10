@@ -150,13 +150,17 @@ class Intercambios(models.Model):
 
 class Room(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True) #Versión amigable para urls
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="rooms")
-    unread_messages = models.BooleanField(default=False)  # Campo para indicar si hay mensajes sin leer
+    slug = models.SlugField(unique=True)
+    users = models.ManyToManyField(Usuario, through='RoomUser', related_name='roomsUser')
+
+class RoomUser(models.Model):
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    unread_messages = models.BooleanField(default=False)
 
 class Message(models.Model):
     room = models.ForeignKey(Room, related_name="messages", on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="messages", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="user", on_delete=models.CASCADE)
     content = models.TextField()
     foto = models.ImageField(upload_to='archivos-estaticos/fotos_chats/', null=False) #POR EL MOMENTO NO ME ESTARÍA FUNCIONANDO EL TEMA DE LAS FOTOS
     date_added = models.DateTimeField(auto_now_add=True)

@@ -140,3 +140,25 @@ nav {
             padding: 1px; /* Espacio interno para el texto */
             border-radius: 5px; /* Bordes redondeados */
         }
+
+
+    /*  Estilo de CHAT */
+
+        .unread-messages a {
+            font-weight: bold;
+            color: red; /* o cualquier otro color que quieras usar para resaltar */
+        }
+    
+        .unread-messages {
+            color: red; /* o cualquier otro color que quieras usar para resaltar */
+        }
+
+        .unread-indicator {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            position: relative;
+        }
+    

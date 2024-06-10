@@ -79,6 +79,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                 # Añado procesador de contexto personalizado
+                'Aplicaciones.ComunicacionEntreUsuarios.BandejaDeMensajes.context_processors.unread_messages_processor',
             ],
         },
     },

@@ -1,9 +1,10 @@
-from Aplicaciones.Modelos.models import Publicacion, Oferta
+from Aplicaciones.Modelos.models import Publicacion, Oferta, Room
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, Http404
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from MDI.decorator import login_required
+from django.utils.crypto import get_random_string
 
 @login_required
 def ver_ofertas(request, publicacion_id):
@@ -30,6 +31,14 @@ def aceptar_oferta_vista(request, oferta_id):
             publicacion = oferta.publicacion
             publicacion.aceptar_oferta(oferta)
             # enviarCorreo(oferta, 'aceptada', 'Correo/oferta_aceptada.html')
+
+            # Crear una sala y asignar usuarios
+            room_name = f"Sala-{publicacion.titulo}"
+            slug = f"{room_name}-{get_random_string(length=6)}"
+            room = Room.objects.create(name=room_name, slug=slug)
+            room.users.add(publicacion.autor, oferta.autor)
+            room.save()
+            # Redirigir a la página de ver ofertas
             return redirect('ver_ofertas', publicacion_id=publicacion.id)
         except Exception as e:
             return HttpResponse(str(e))

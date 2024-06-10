@@ -19,88 +19,99 @@
                             <p class="message-user font-weight-bold"> <b>{{ message.user.username }}:</b> </p>
                             <p class="message-body">{{ message.content }}</p>
                             {% if message.foto %}
-                                <img src="{{ message.foto.url }}" alt="Foto adjunta" width="40%" height="40%">
+                                <img src="{{ message.foto }}" alt="Foto adjunta" width="40%" height="40%"> <!--SI USO CHAT ESTATICO TENGO QUE USAR message.foto.url PARA QUE BUSQUE LA FOTO A LA RUTA ESTATICA-->
                             {% endif %}
                         </div>
                     {% endfor %}
                 </div>
 
                 <div class="send-container">
-                    <form action="." method="post" enctype="multipart/form-data" class="justify-content-start"> <!-- Agregando enctype="multipart/form-data" para admitir la carga de archivos -->
+                    <form id="chat-form" action="." method="post" enctype="multipart/form-data" class="justify-content-start">
                         {% csrf_token %}
-                        <input type="text" name="content" class="form-control mr-2 p-2"  placeholder="Your message..." id="chat-message-input">
-                        <input type="file" name="foto" class="mr-2"> <!-- Campo de entrada de archivos -->
-                        <button class="btn btn-success p-2" id="chat-message-submit">Send</button>
+                        <input type="text" name="content" class="form-control mr-2 p-2" placeholder="Your message..." id="chat-message-input">
+                        <input type="file" name="foto" class="mr-2" id="chat-foto-input">
+                        <button class="btn btn-success p-2" id="chat-message-submit" >Send</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
 {% endblock %}
 
 {% block scripts %}
-    {{ room.slug|json_script:"json-roomname" }}
-    {{ request.user.username|json_script:"json-username" }}
     <script>
-        scrollToBottom();
-        const roomName = JSON.parse(document.getElementById("json-roomname").textContent);
-        const userName = JSON.parse(document.getElementById("json-username").textContent);
-        const chatSocket = new WebSocket(`ws://${window.location.host}/ws/${roomName}/`);
-    
-        chatSocket.onmessage = function (e) {
-            const data = JSON.parse(e.data);
-    
-            if (data.message) {
-                const html = `<div class="message">
-                                <p class="message-user">${data.username}: </p>
-                                <p class="message-body">${data.message}</p>
-                              </div>`;
-                document.querySelector("#chat-messages").innerHTML += html;
-                scrollToBottom();
-            }
-        };
-    
-        chatSocket.onclose = function (e) {
-            console.log("Chat socket closed unexpectedly");
-        };
-    
-        const messageInputDom = document.querySelector("#chat-message-input");
-        const messageSubmitButton = document.querySelector("#chat-message-submit");
-    
-        function toggleSubmitButton() {
-            if (messageInputDom.value.trim() === "") {
-                messageSubmitButton.disabled = true;
-            } else {
-                messageSubmitButton.disabled = false;
-            }
-        }
-    
-        toggleSubmitButton();
-    
-        messageInputDom.addEventListener("input", toggleSubmitButton);
-    
-        messageSubmitButton.onclick = function (e) {
-            e.preventDefault();
-    
-            const message = messageInputDom.value;
-    
-            chatSocket.send(JSON.stringify({
-                "message": message,
-                "username": userName,
-                "room": roomName,
-            }));
-    
-            messageInputDom.value = "";
-            toggleSubmitButton();
-            return false;
-        };
-    
-        function scrollToBottom() {
-            const objDiv = document.querySelector("#chat-messages");
-            objDiv.scrollTop = objDiv.scrollHeight;
-        }
-    </script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const roomName = "{{ room.name }}";
+            const chatSocket = new WebSocket(
+                'ws://' + window.location.host +
+                '/ws/chat/' + roomName + '/');
+            
+            //Recibo datos del cosumeers y lo muestro en chat a tiempo real al chat
+            chatSocket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+                const _message = data['message'];
+                const foto = data['foto'];
+                const _user = data['username']
+                
+                const chatMessages = document.querySelector('#chat-messages');
+                const messageElement = document.createElement('div');
+                
+                //lo que muestro al chat
+                messageElement.innerHTML = `
+                    <div class="message">
+                        <p class="message-user font-weight-bold"> <b>${_user}:</b> </p>
+                        <p class="message-body">${_message}</p>
+                        ${foto ? `<img src="${foto}" alt="Foto adjunta" width="40%" height="40%">` : ''}
+                    </div>`;
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            };
+
+            
+            const chatForm = document.querySelector('#chat-form');
+            const messageInput = document.querySelector('#chat-message-input');
+            const photoInput = document.querySelector('#chat-foto-input');
+
+            //Envio mensajes del form al consumers 
+            chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const message = messageInput.value;
+                const foto = photoInput.files[0];
+                const username = '{{ request.user.username }}';
+                const roomName = '{{ room.slug }}';
+
+                if (foto) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) { //Para manejar imagenes
+                        const fotoData = event.target.result;
+                        chatSocket.send(JSON.stringify({
+                            'message': message,
+                            'username': username,
+                            'room': roomName,
+                            'foto': fotoData
+                        }));
+                    };
+                    reader.readAsDataURL(foto);
+                } else {
+                    chatSocket.send(JSON.stringify({
+                        'message': message,
+                        'username': username,
+                        'room': roomName,
+                        'foto': null
+                    }));
+                }
+                
+                messageInput.value = '';
+                photoInput.value = '';
+            });
+
+            //scrollear a lo ultimo
+            scrollToBottom()
+            function scrollToBottom() {
+                const chatMessages = document.getElementById("chat-messages");
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            };
+        });
+</script>
 {% endblock %}

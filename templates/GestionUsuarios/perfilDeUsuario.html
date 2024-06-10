@@ -59,6 +59,10 @@
                             <p>año: {{publicacion.anio}}</p>
                             <a href="/publicacion/ver-publicacion/ver_detalle/{{publicacion.id}}" class="text-decoration-none">Ver detalle de publicación</a>                 
                         </div>
+                    {% empty %}
+                        <div>
+                            <p>No hay publicaciones disponibles</p>
+                        </div>
                     {% endfor %}
                 </div>
             </div>

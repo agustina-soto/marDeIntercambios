@@ -13,7 +13,8 @@
         {% if rooms %}
             <ul>
                 {% for room in rooms %}
-                    <li {% if room.unread_messages %}style="background-color: yellow;"{% endif %}>
+                <li {% if room in rooms_with_unread_messages %} style="background-color: yellow;"{% endif %}>
+
                         <a href="{% url 'room' room.slug %}">{{ room.name }}</a><br>
                         {% if room.messages.all %}
                             {% with last_message=room.messages.last %}
