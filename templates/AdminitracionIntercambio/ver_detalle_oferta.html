@@ -39,6 +39,7 @@
 
                 {% if es_dueno %}
                     <a href="{% url 'editar_oferta' post.id %}" class="button">Editar</a>
+                    <a href="{% url 'eliminar_oferta' post.id %}" class="button">Eliminar</a>
                 {% endif %}
 
         </body>

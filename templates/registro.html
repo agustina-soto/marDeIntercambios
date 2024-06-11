@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Usuario</title>
+  <style>
+    .error-message {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+    {% extends 'base.html' %}
+    {% block content %}
+        <form id="registro-form" method="post">
+            {% csrf_token %} <!--Token que genera Django por seguridad-->
+            <h1>Registro de Usuario</h1>
+            <div class="form-group">
+                <label>{{form.username.label}}</label>
+                {{ form.username }}
+                <span class="error-message">{{ form.username.errors }}</span>
+            </div>
+
+            <div class="form-group">
+                <label>{{form.dni.label}} </label>
+                {{ form.dni }}
+                <span class="error-message">{{ form.dni.errors }}</span>
+            </div>
+
+            <div class="form-group">
+                <label> {{form.password1.label}} </label>
+                {{ form.password1 }}
+                <span class="error-message">{{ form.password1.errors }}</span>
+            </div>
+
+            <div class="form-group">
+                <label> {{form.password2.label}} </label>
+                {{ form.password2 }}
+                <span class="error-message">{{ form.password2.errors }}</span>
+            </div>
+
+            <div class="form-group">
+                <label> {{form.fecha_nacimiento.label}} </label>
+                {{ form.fecha_nacimiento }}
+                <span class="error-message">{{ form.fecha_nacimiento.errors }}</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+        </form>
+    {% endblock %}
+</body>
+</html>

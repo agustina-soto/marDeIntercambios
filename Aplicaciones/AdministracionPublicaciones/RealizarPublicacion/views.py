@@ -36,7 +36,7 @@ def realizar_publicacion(request):
             
             # Muestra un mensaje de éxito y redireccionar a algún lugar apropiado
             messages.success(request, '¡La publicación se realizó con éxito!')
-            return redirect('ver_detalle', pk=publicacion.pk)
+            return redirect('VisualizacionPublicaciones:ver_detalle', pk=publicacion.pk)
         
         else:
             # Muestra un mensaje de error si los formularios no son válidos

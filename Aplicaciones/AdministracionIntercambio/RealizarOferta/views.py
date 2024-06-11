@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views.generic.detail import DetailView
 from .models import Oferta, FotoOferta
 from .forms import OfertaForm, FotoOfertaForm
@@ -56,3 +57,17 @@ class ver_detalle_oferta (DetailView):
         return context
 
         
+@login_required
+def eliminar_oferta(request, oferta_id):
+    oferta = get_object_or_404(Oferta, id=oferta_id)
+
+    if oferta.estado == 'aceptada':
+        messages.error(request, "No se puede eliminar la ofetra porque ya fue aceptada")
+        return redirect(reverse('VisualizacionPublicaciones:ver_detalle', kwargs={'pk': oferta.publicacion.id}))#"reverse" genera URLs a partir de nombres de vistas y parámetros para redireccionar a una vista especifica
+    
+    #si la oferta no fue aceptada se puede eliminar y se cambia el estado de la oferta a eliminada 
+    oferta.estado = 'eliminada'
+    oferta.save()
+    messages.success(request, "La oferta ha sido eliminada exitosamente.")
+    return redirect(reverse('VisualizacionPublicaciones:ver_detalle', kwargs={'pk': oferta.publicacion.id}))
+    
