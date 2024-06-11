@@ -9,3 +9,9 @@ ESTADO_OFERTA = [
         ('aceptada', 'Aceptada'),
         ('rechazada', 'Rechazada'),
     ]
+
+ESTADO_INTERCAMBIO = [
+        ('pendiente', 'Pendiente'),
+        ('aceptado', 'Aceptado'),
+        ('rechazado', 'Rechazado'),
+    ]
