@@ -18,13 +18,17 @@
                 <li><a href="/publicacion/ver-publicacion/buscar_publicaciones/">Buscar Publicaciones</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="/usuarios/perfilDeUsuario/">Perfil</a></li>
-                    <li><a href="/publicacion/realizar_publicacion/">Realizar Publicacion</a></li>   
+                    <li><a href="/publicacion/realizar_publicacion/">Realizar Publicacion</a></li>
                     <li>
                         <a href="/chats/">Ver Mensajería</a>
                         {% if unread_count > 0 %}
                             <span class="unread-indicator">{{ unread_count }}</span>
                         {% endif %}
                     </li>
+                    {% if user.is_superuser %}
+                    <li><a href="/publicacion/ver_publicaciones_para_validar/">Publicaciones a Validar</a></li>
+                    <li><a href="/intercambios/ver_historial_intercambios">Historial de Intercambios</a></li>
+                    {% endif %}
                     <li><a href="/autenticacion/logout/">Cerrar Sesión</a></li>
                 {% else %}
                     <li><a href="/autenticacion/login/">Iniciar Sesión</a></li>
