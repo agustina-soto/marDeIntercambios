@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'Aplicaciones.ComunicacionEntreUsuarios.SalaDeChat',
     'Aplicaciones.ComunicacionEntreUsuarios.BandejaDeMensajes',
     'Aplicaciones.Ofertas',
-    'channels' #Para el chat
+    'channels', #Para el chat
     "channels_redis" #Para el chat
 ]
 
