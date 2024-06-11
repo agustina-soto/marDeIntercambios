@@ -167,3 +167,14 @@ class Message(models.Model):
 
     class Meta: #para guardar los mensajes ordenados por fecha
         ordering = ("date_added",)
+
+
+   # ---------- NOTIFICACIONES --------------------------------------------------------------------------------------     
+
+class Notificacion(models.Model):
+    user = models.ForeignKey(Usuario,related_name="userN", on_delete=models.CASCADE)
+    descripcion = models.CharField(max_length=150, null=True, blank=True)
+    fecha = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ("-fecha",)

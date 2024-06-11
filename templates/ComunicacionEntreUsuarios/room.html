@@ -19,7 +19,7 @@
                             <p class="message-user font-weight-bold"> <b>{{ message.user.username }}:</b> </p>
                             <p class="message-body">{{ message.content }}</p>
                             {% if message.foto %}
-                                <img src="{{ message.foto }}" alt="Foto adjunta" width="40%" height="40%"> <!--SI USO CHAT ESTATICO TENGO QUE USAR message.foto.url PARA QUE BUSQUE LA FOTO A LA RUTA ESTATICA-->
+                                <img src="{{ message.foto.url }}" alt="Foto adjunta" width="60%" height="60%"> <!--SI USO CHAT ESTATICO TENGO QUE USAR message.foto.url PARA QUE BUSQUE LA FOTO A LA RUTA ESTATICA-->
                             {% endif %}
                         </div>
                     {% endfor %}
@@ -39,7 +39,7 @@
 </div>
 {% endblock %}
 
-{% block scripts %}
+{% block scriptssd %}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const roomName = "{{ room.name }}";
@@ -93,7 +93,7 @@
                         }));
                     };
                     reader.readAsDataURL(foto);
-                } else {
+                } else if (message != '') {
                     chatSocket.send(JSON.stringify({
                         'message': message,
                         'username': username,

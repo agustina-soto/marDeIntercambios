@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'Aplicaciones.ComunicacionEntreUsuarios.BandejaDeMensajes',
     'Aplicaciones.Ofertas',
     'channels', #Para el chat
-    "channels_redis" #Para el chat
+    "channels_redis", #Para el chat
+    'Aplicaciones.Notificaciones.Notificacion'
 ]
 
 MIDDLEWARE = [
