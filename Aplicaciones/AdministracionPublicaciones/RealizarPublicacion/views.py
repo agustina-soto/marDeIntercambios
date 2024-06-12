@@ -25,6 +25,7 @@ def realizar_publicacion(request):
             publicacion = publicacion_form.save(commit=False) #creo instancia pero no guardo aun en la base de datos para crear relación con usuario logueado
            
             publicacion.usuario = request.user
+            publicacion.estado = 'pendiente' #cuando se sea una publi su estado esta pendiente a validar 
             publicacion.save()
 
             fotos = request.FILES.getlist('foto')
@@ -35,7 +36,7 @@ def realizar_publicacion(request):
             
             # Muestra un mensaje de éxito y redireccionar a algún lugar apropiado
             messages.success(request, '¡La publicación se realizó con éxito!')
-            return redirect('ver_detalle', pk=publicacion.pk)
+            return redirect('VisualizacionPublicaciones:ver_detalle', pk=publicacion.pk)
         
         else:
             # Muestra un mensaje de error si los formularios no son válidos

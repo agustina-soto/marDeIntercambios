@@ -11,7 +11,8 @@ def editar_publicacion(request, publicacion_id):
     if Oferta.objects.filter(publicacion=publicacion).exists():
         # Si tiene ofertas, mostramos un mensaje de error y redirigimos a la vista de detalle de la publicación
         messages.error(request, '¡No puedes editar una publicación que ya tiene ofertas recibidas!')
-        return redirect('ver_detalle', pk=publicacion.pk)
+        ruta = "/publicacion/ver-publicacion/ver_detalle/" + str(publicacion.id) 
+        return redirect(ruta, pk=publicacion.pk) #NO CUENTO CON VER DETALLE
 
     # Obtenemos todas las fotos asociadas a esta publicación
     fotos_publicacion = FotoPublicacion.objects.filter(publicacion=publicacion)
@@ -49,7 +50,8 @@ def editar_publicacion(request, publicacion_id):
 
                 # Mostrar un mensaje de éxito y redirigir a la vista de detalle de la publicación
                 messages.success(request, '¡Se editó la publicación!')
-                return redirect('ver_detalle', pk=publicacion.pk)
+                ruta = "/publicacion/ver-publicacion/ver_detalle/" + str(publicacion.id)
+                return redirect(ruta, pk=publicacion.pk) #NO CUENTO CON VER_DETALLE
         else:
             # Si el formulario no es válido, mostramos un mensaje de error
             messages.error(request, '¡No se pudo editar la publicación! Por favor, corrija los errores indicados.')

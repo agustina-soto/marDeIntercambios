@@ -126,8 +126,8 @@ class FotoPublicacion(models.Model):
 # ---------- OFERTAS -----------------------------------------------------------------------------
 
 class Oferta(models.Model):
-    autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ofertas')
-    publicacion = models.ForeignKey(Publicacion, related_name='ofertas', on_delete=models.CASCADE)
+    autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ofertas_autor')
+    publicacion = models.ForeignKey(Publicacion, related_name='ofertas_publicacion', on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=150)
     precio_estimado = models.DecimalField(max_digits=10, decimal_places=1)
     # no me acuerdo como lo hizo gio, por ahora lo dejo asi el Estado
@@ -178,3 +178,7 @@ class Notificacion(models.Model):
 
     class Meta:
         ordering = ("-fecha",)
+
+
+
+

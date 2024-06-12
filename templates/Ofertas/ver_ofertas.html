@@ -33,9 +33,8 @@
                     {% endif %}
                 </li>
             {% endfor %}
-        </ul>
-    {% else %}
-        <p>Aún no hay ofertas disponibles.</p>
     {% endif %}
-    <a href="{% url 'ver_detalle' publicacion.id %}" class="btn btn-secondary">Volver a la publicación</a>
+    <a href="/publicacion/ver-publicacion/ver_detalle/{{publicacion.id}}" class="btn btn-secondary">Volver a la publicación</a> 
 {% endblock %}
+
+<!--Cambie el link porque href="{% url 'ver_detalle' publicacion.id %}" no me andaba, no sé que pasó al hacer el merge, hay que arreglarlo-->
