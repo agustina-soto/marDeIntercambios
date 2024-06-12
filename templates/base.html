@@ -21,8 +21,16 @@
                     <li><a href="/publicacion/realizar_publicacion/">Realizar Publicacion</a></li>
                     <li><a href="/autenticacion/logout/">Cerrar Serión</a></li>
                     {% if user.is_superuser %}
-                    <li><a href="/publicacion/ver_publicaciones_para_validar/">Publicaciones a Validar</a></li>
-                    <li><a href="/intercambios/ver_intercambios_activos">Historial de Intercambios</a></li>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Adminstración
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <li><a class="dropdown-item" href="/publicacion/ver_publicaciones_para_validar/">Publicaciones a Validar</a></li>
+                          <li><a class="dropdown-item" href="/intercambios/ver_intercambios_activos">Ver Intercambios Activos</a></li>
+                          <li><a class="dropdown-item" href="/intercambios/historial_intercambios">Historial Intercambios</a></li>
+                        </ul>
+                      </div>
                     {% endif %}
                 {% else %}
                     <li><a href="/autenticacion/login/">Iniciar Sesión</a></li>

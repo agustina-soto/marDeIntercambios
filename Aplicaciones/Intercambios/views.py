@@ -24,6 +24,24 @@ def ver_intercambios_activos(request):
 
     return render(request, 'Intercambios/ver_intercambios_activos.html', { "publicaciones": page_obj});
 
+def historial_intercambios(request):
+
+    dataIntercambios = Intercambios.objects.filter(estado="aceptado");
+
+    for dataI in dataIntercambios:
+        print(dataI.publicacion.autor.dni);
+
+    resultados_paginados = Paginator(dataIntercambios, 10)
+
+    if (request.GET.get("page")):
+        page_number = request.GET.get("page")
+        page_obj = resultados_paginados.get_page(page_number)
+    else:
+        page_obj = resultados_paginados.get_page(1)
+
+
+    return render(request, 'Intercambios/historial_intercambios.html', { "intercambios": page_obj});
+
 def finalizar_intercambio (request, publicacion_id):
 
     pub_instance = Publicacion.objects.get(id=publicacion_id)
