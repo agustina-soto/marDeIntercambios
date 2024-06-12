@@ -143,7 +143,7 @@ class FotoOferta(models.Model):
 class Intercambios(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='intercambios', on_delete=models.CASCADE)
     estado = models.CharField(max_length=10, choices=ESTADO_INTERCAMBIO, default='aceptado')
-    fecha_aceptacion = models.DateTimeField(default=now)
+    fecha_aceptacion = models.DateTimeField(default=now, null=True)
 # ---------- CHAT --------------------------------------------------------------------------------------
 
 class Room(models.Model):

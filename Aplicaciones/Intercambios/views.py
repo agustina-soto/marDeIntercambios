@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.utils import timezone
-from Aplicaciones.Modelos.models import Publicacion, Intercambios
+from Aplicaciones.Modelos.models import Publicacion, Intercambios, Notificacion
 
 from django.http import HttpResponse
 
@@ -60,7 +60,8 @@ def finalizar_intercambio (request, publicacion_id):
         intercambio.estado = "aceptado"
         intercambio.fecha_aceptacion = timezone.now()
         intercambio.save()
-       
+    
+    Notificacion.objects.create(fecha=timezone.now(), user=pub_instance.autor, descripcion="El intercambio" + str(intercambio.id) + " ha sido marcado como FINALIZADO")
     messages.success(request, 'El intercambio fue aceptado correctametente!')
     return redirect("/intercambios/ver_intercambios_activos")
     
@@ -92,4 +93,5 @@ def anular_finalizacion_intercambio (request, publicacion_id):
             intercambio.fecha_aceptacion = None;
             intercambio.save()
             messages.success(request, 'El intercambio fue anulado correctametente!')
+            Notificacion.objects.create(fecha=timezone.now(), user=intercambio.publicacion.autor, descripcion="El intercambio " + str(intercambio.id) + " ha sido marcado ANULADO")
         return redirect("/intercambios/ver_intercambios_activos")

@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpResponse
+from django.utils import timezone
 
 from django.contrib.auth.decorators import login_required
 from MDI.decorator import login_required #Luck: creé el decorator en MDI para reutilizarlo
 from django.contrib.auth.decorators import user_passes_test
 from MDI.decorator import user_passes_test_superuser #Gio: creé el decorator en MDI para reutilizarlo
-from Aplicaciones.Modelos.models import Publicacion
+from Aplicaciones.Modelos.models import Publicacion, Notificacion
 
 @login_required 
 @user_passes_test_superuser
@@ -33,12 +34,16 @@ def validar_publicacion(request , publicacion_id):
 
     infoPublicacion.save();
 
-    ## FALTA NOTIFICAR AL USUARIO
+    ## NOTIFICAR AL USUARIO
+    Notificacion.objects.create(fecha=timezone.now(), user=infoPublicacion.autor, descripcion="La publicación " + str(infoPublicacion.id) + " ha sido ACEPTADA")
 
+    messages.success(request, 'Publicación aceptada correctamente')
     return redirect("/publicacion/ver_publicaciones_para_validar/");
 
 def rechazar_publicacion(request, publicacion_id, justificacion):
+    infoPublicacion = Publicacion.objects.get(id=publicacion_id);
     
     ## FALTA NOTIFICAR AL USUARIO
-
-    return HttpResponse("ID: " + str(publicacion_id) + " Justificacion: " + justificacion)
+    Notificacion.objects.create(fecha=timezone.now(), user=infoPublicacion.autor, descripcion="La publicación fue rechazada por el siguiente motivo: " + justificacion)
+    messages.success(request, 'Publicación cancelada correctamente')
+    return redirect("/publicacion/ver_publicaciones_para_validar/");
