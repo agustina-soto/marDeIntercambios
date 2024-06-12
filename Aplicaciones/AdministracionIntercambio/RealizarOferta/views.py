@@ -8,6 +8,7 @@ from .forms import OfertaForm, FotoOfertaForm
 from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import Publicacion
 from django.utils.crypto import get_random_string #Agregado
 from Aplicaciones.ComunicacionEntreUsuarios.Correo.views import * #Agregado(PARA EL EMAIL)
+from django.utils import timezone
 
 @login_required
 def realizar_oferta(request, publicacion_id):
@@ -41,6 +42,8 @@ def realizar_oferta(request, publicacion_id):
             # Muestra un mensaje de éxito y redireccionar a algún lugar apropiado
             messages.success(request, '¡La oferta se realizó con éxito!')
              #Se crea notificacion
+            Notificacion.objects.create(fecha=timezone.now(), user=oferta.publicacion.autor, descripcion="Se ha recibido una oferta por la publicacion: " + oferta.publicacion.titulo)
+
             if not request.user.is_authenticated:
                 #enviar_correo(request, oferta, 'correo/oferta_creada_visitante.html', unPassword)
                 pass
@@ -54,6 +57,7 @@ def realizar_oferta(request, publicacion_id):
         # Si la solicitud no es POST, crea instancias de formularios vacíos
         oferta_form = OfertaForm(publicacion=publicacion)
         foto_form = FotoOfertaForm()
+
 
     # Renderiza la plantilla con los formularios
     return render(request, 'AdminitracionIntercambio/realizar_oferta.html', {'oferta_form': oferta_form, 'foto_form': foto_form})
@@ -84,6 +88,7 @@ def eliminar_oferta(request, oferta_id):
     #si la oferta no fue aceptada se puede eliminar y se cambia el estado de la oferta a eliminada 
     oferta.estado = 'eliminada'
     oferta.save()
+
     messages.success(request, "La oferta ha sido eliminada exitosamente.")
     return redirect(reverse('VisualizacionPublicaciones:ver_detalle', kwargs={'pk': oferta.publicacion.id}))
 

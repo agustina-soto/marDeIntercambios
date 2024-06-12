@@ -44,6 +44,6 @@ def rechazar_publicacion(request, publicacion_id, justificacion):
     infoPublicacion = Publicacion.objects.get(id=publicacion_id);
     
     ## FALTA NOTIFICAR AL USUARIO
-    Notificacion.objects.create(fecha=timezone.now(), user=infoPublicacion.autor, descripcion="La publicación fue rechazada por el siguiente motivo: " + justificacion)
+    Notificacion.objects.create(fecha=timezone.now(), user=infoPublicacion.autor, descripcion="La publicación fue rechazada por el siguiente motivo: " + justificacion + ". Corrija la publicación para ser aceptada en la plataforma")
     messages.success(request, 'Publicación cancelada correctamente')
     return redirect("/publicacion/ver_publicaciones_para_validar/");
