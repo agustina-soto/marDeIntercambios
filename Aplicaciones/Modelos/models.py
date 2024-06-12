@@ -2,11 +2,11 @@ from django.db import models
 from datetime import timedelta
 from django.conf import settings
 from django.utils import timezone
+from django.utils.timezone import now
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import models as auth_models
-from Aplicaciones.Modelos.estados import ESTADO_PUBLICACION, ESTADO_OFERTA
-
+from Aplicaciones.Modelos.estados import ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO
 
 # ---------- USUARIOS ---------------------------------------------------------------------------
 
@@ -140,12 +140,10 @@ class FotoOferta(models.Model):
 
 
 # ---------- INTERCAMBIOS -----------------------------------------------------------------------------
-"""
 class Intercambios(models.Model):
-    # publicacion = foreign key
-    # oferta = foreign key
-    # estado
-"""
+    publicacion = models.ForeignKey(Publicacion, related_name='intercambios', on_delete=models.CASCADE)
+    estado = models.CharField(max_length=10, choices=ESTADO_INTERCAMBIO, default='aceptado')
+    fecha_aceptacion = models.DateTimeField(default=now)
 # ---------- CHAT --------------------------------------------------------------------------------------
 
 class Room(models.Model):
