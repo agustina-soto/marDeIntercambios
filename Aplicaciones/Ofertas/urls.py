@@ -12,5 +12,5 @@ urlpatterns = [
     path('aceptar-oferta/<int:oferta_id>/', aceptar_oferta_vista, name='aceptar_oferta'),
     path('rechazar-oferta/<int:oferta_id>/', rechazar_oferta_vista, name='rechazar_oferta'),
     path('cancelar-oferta-aceptada/<int:publicacion_id>/', cancelar_oferta_aceptada_vista, name='cancelar_oferta_aceptada'),
-    
+    # falta la vista para que un usuario pueda ver sus propias ofertas
 ]

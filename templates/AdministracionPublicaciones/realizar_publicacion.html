@@ -1,101 +1,63 @@
- {% extends "base.html" %}
-    {% block content %}
-        <!-- Encabezado -->
-        <h1>Realizar Publicación</h1>
+{% extends "base.html" %}
 
-        <!-- Muestra mensajes de éxito o error -->
-        {% if messages %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h1 class="mb-4">Realizar Publicación</h1>
+
+            {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
-                    <li>{{ message }}</li>
+                <li>{{ message }}</li>
                 {% endfor %}
             </ul>
-        {% endif %}
+            {% endif %}
 
-        <!-- Formulario de publicación -->
-        <form method="post" enctype="multipart/form-data" novalidate>
-            {% csrf_token %}
-            
-            <!-- Campo Título -->
-            <div>
-                {{ publicacion_form.titulo.label_tag }}
-                {{ publicacion_form.titulo }}
-                <span class="error-message">{{ publicacion_form.titulo.errors }}</span>
-            </div>
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                
+                <!-- Campo Título -->
+                <div class="mb-3">
+                    {{ publicacion_form.titulo.label_tag }}
+                    {{ publicacion_form.titulo }}
+                    <div class="error-message">{{ publicacion_form.titulo.errors }}</div>
+                </div>
 
-            <!-- Campo Precio Mínimo -->
-            <div>
-                {{ publicacion_form.precio_minimo.label_tag }}
-                {{ publicacion_form.precio_minimo }}
-                <span class="error-message">{{ publicacion_form.precio_minimo.errors }}</span>
-            </div>
+                <!-- Campo Precio Mínimo -->
+                <div class="mb-3">
+                    {{ publicacion_form.precio_minimo.label_tag }}
+                    {{ publicacion_form.precio_minimo }}
+                    <div class="error-message">{{ publicacion_form.precio_minimo.errors }}</div>
+                </div>
 
-            <!-- Campo tipo_embarcacion -->
-            <div>
-                {{ publicacion_form.tipo_embarcacion.label_tag }}
-                {{ publicacion_form.tipo_embarcacion }}
-                <span class="error-message">{{ publicacion_form.tipo_embarcacion.errors }}</span>
-            </div>
+                <!-- Campo tipo_embarcacion -->
+                <div class="mb-3">
+                    {{ publicacion_form.tipo_embarcacion.label_tag }}
+                    {{ publicacion_form.tipo_embarcacion }}
+                    <div class="error-message">{{ publicacion_form.tipo_embarcacion.errors }}</div>
+                </div>
 
-            <!-- Campo año -->
-            <div>
-                {{ publicacion_form.anio.label_tag }}
-                {{ publicacion_form.anio }}
-                <span class="error-message">{{ publicacion_form.anio.errors }}</span>
-            </div>
+                <!-- Campo año -->
+                <div class="mb-3">
+                    {{ publicacion_form.anio.label_tag }}
+                    {{ publicacion_form.anio }}
+                    <div class="error-message">{{ publicacion_form.anio.errors }}</div>
+                </div>
 
-            <!-- Campo para Subir Fotos -->
-            <div>
-                <label>Fotos:</label>
-                <!-- Utiliza un campo de archivo personalizado -->
-                <label for="custom-file" class="custom-file-label">Elegir archivos</label>
-                <input type="file" id="custom-file" class="custom-file-input" name="foto"  accept="image/jpeg,image/png, image/jpg" multiple onchange="updateFileList(this)">
-                <span class="error-message">{{ foto_form.foto.errors }}</span>
-                <div id="file-preview" class="file-preview"></div> <!-- Aca se muestra la lista de archivos seleccionados -->
-            </div>
+                <!-- Campo para Subir Fotos -->
+                <div class="mb-3">
+                    <label for="custom-file" class="form-label">Fotos:</label>
+                    <input type="file" id="custom-file" class="form-control" name="foto" accept="image/jpeg,image/png,image/jpg" multiple onchange="updateFileList(this)">
+                    <div class="error-message">{{ foto_form.foto.errors }}</div>
+                    <div id="file-preview" class="file-preview mt-2"></div> <!-- Aca se muestra la lista de archivos seleccionados -->
+                </div>
 
-            
-            <!-- Botón para publicar -->
-            <button type="submit">Publicar</button>
+                <!-- Botón para publicar -->
+                <button type="submit" class="btn btn-primary">Publicar</button>
+            </form>
+        </div>
+    </div>
+</div>
 
-        </form>
-
-        <!-- Script JavaScript -->
-        <script>
-            // Función para actualizar la lista de archivos seleccionados
-            function updateFileList(input) {
-                var preview = document.getElementById('file-preview');
-                preview.innerHTML = ''; // Limpiar la lista de archivos previa
-
-                // Itera sobre los archivos seleccionados y agregarlos a la lista
-                for (var i = 0; i < input.files.length; i++) {
-                    var file = input.files[i];
-                    var fileReader = new FileReader();
-
-                    fileReader.onload = (function(e) {
-                        var fileItem = document.createElement('div');
-                        fileItem.classList.add('photo-container');
-                        
-                        var img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.alt = file.name;
-
-                        var deleteButton = document.createElement('span');
-                        deleteButton.textContent = 'x';
-                        deleteButton.className = 'eliminar-foto';
-                        deleteButton.onclick = function() {
-                            // Encuentra y elimina el contenedor de la foto al hacer clic en el botón
-                            var container = this.parentNode;
-                            container.parentNode.removeChild(container);
-                        };
-
-                        fileItem.appendChild(img);
-                        fileItem.appendChild(deleteButton);
-                        preview.appendChild(fileItem);
-                    });
-
-                    fileReader.readAsDataURL(file);
-                }
-            }
-        </script>
 {% endblock %}
