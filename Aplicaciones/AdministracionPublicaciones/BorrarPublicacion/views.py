@@ -19,6 +19,7 @@ def borrar_publicacion(request, publicacion_id):
                 oferta.save()
 
             messages.success(request, '¡La publicación ha sido eliminada correctamente!')
-            return redirect('ver_detalle', pk=publicacion_id)
+            ruta = "/publicacion/ver-publicacion/ver_detalle/" + str(publicacion.id)
+            return redirect(ruta, pk=publicacion.pk)
     messages.error(request, '¡Ha ocurrido un error al intentar eliminar la publicación!')
     return redirect('inicio')

@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/perfil.css' %}">
-{% endblock %}
-
 {% block content %}
-    <h1>Información Personal</h1>
+    <br>
+    <h2><u>Información Personal</u></h2>
+    <br><br>
     <div class="perfil-info">
         <ul>
             <li><p>Correo Electrónico: {{ username }}</p></li>
@@ -15,25 +13,96 @@
         </ul>
     </div>
 
-    <h2>Publicaciones</h2>
+    <br><br>
+
+    <h3><u>Tus Publicaciones</u></h3>
+    
     <div class="publicaciones">
-        <ul>
-            {% for publicacion in publicaciones %}
-                <li>
-                    <p>Título: {{ publicacion.titulo }}</p>
-                    <p>Precio Mínimo: {{ publicacion.precio_minimo }}</p>
-                    <p>Tipo de Embarcación: {{ publicacion.tipo_embarcacion }}</p>
-                    <p>Año: {{ publicacion.anio }}</p>
-                    <h4>Fotos:</h4>
-                    <ul class="fotos-lista">
-                        {% for foto in publicacion.fotos.all %}
-                            <li>
-                                <img src="{{ foto.foto.url }}" alt="{{ foto.descripcion }}">
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
+        {% for publicacion in publicaciones %}
+            <div class="item">
+                <p>Título: {{ publicacion.titulo }}</p>
+                <p>Precio Mínimo: {{ publicacion.precio_minimo }}</p>
+                <p>Tipo de Embarcación: {{ publicacion.tipo_embarcacion }}</p>
+                <p>Año: {{ publicacion.anio }}</p>
+                
+                {% if publicacion.fotos.all %}
+                    <p>Fotos:</p>
+                    <div id="photoCarousel-{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for photo in publicacion.fotos.all %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <a href="{{ photo.foto.url }}" data-lightbox="post-{{ publicacion.id }}">
+                                        <img class="d-block w-100" src="{{ photo.foto.url }}" style="width: auto; max-height: 250px;">
+                                    </a>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <p>{{ photo.title }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#photoCarousel-{{ forloop.counter }}" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#photoCarousel-{{ forloop.counter }}" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                {% else %}
+                    <p>No hay fotos disponibles para esta publicación.</p>
+                {% endif %}
+
+                <div class="publicacion-buttons">
+                    <button class="btn btn-info">Ver Ofertas</button>
+                    <button class="btn btn-info">Editar Publicación</button>
+                    <button class="btn btn-danger">Borrar Publicación</button>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+
+    <br><br>
+
+    <h3><u>Tus Ofertas</u></h3>
+    <div class="ofertas">
+        {% for oferta in ofertas %}
+            <div class="item">
+                <p>Estado: {{ oferta.estado }}</p>
+                <p>Descripción: {{ oferta.descripcion }}</p>
+                <p>Precio Estimado: ${{ oferta.precio_estimado }}</p>
+                
+                {% if oferta.fotos.all %}
+                    <p>Fotos:</p>
+                    <div id="photoCarousel-oferta-{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for foto in oferta.fotos.all %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <a href="{{ foto.foto.url }}" data-lightbox="offer-{{ oferta.id }}">
+                                        <img class="d-block w-100" src="{{ foto.foto.url }}" style="width: auto; max-height: 250px;">
+                                    </a>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <p>{{ foto.descripcion }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                {% else %}
+                    <p>No hay fotos disponibles para esta oferta.</p>
+                {% endif %}
+
+                <div class="oferta-buttons">
+                    <button class="btn btn-info">Editar Oferta</button>
+                    <button class="btn btn-danger">Borrar Oferta</button>
+                </div>
+
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

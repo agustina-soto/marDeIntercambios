@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Intercambios Activos</h2>
+{% for pub in publicaciones %}
+<div class="card my-3 p-3">
+    <div class="d-flex justify-content-around">
+        <div>
+            <div>
+                <h3>Datos de la publicación</h3>
+                <p>Estado: {{pub.estado}}</p>
+                <hr>
+                <p>Titulo: {{pub.titulo}}</p>
+                <p>Tipo: {{pub.tipo_embarcacion}}</p>
+                <p>Año: {{pub.anio}}</p>
+                <p>Precio Mínimo: ${{pub.precio_minimo}}</p>
+                <hr>
+            </div>
+            <div>
+                <h3>Datos del propietario</h3>
+                <p>Usuario: {{pub.autor.username}}</p>
+                <p>DNI: {{pub.autor.dni}}</p>
+                <hr>
+            </div>
+        </div>
+        <div>
+            <h3>Datos de la Oferta</h3>
+            <p>Descripción de la oferta: {{pub.oferta_aceptada.descripcion}}</p>
+            <p>Precio estimado de la oferta: {{pub.oferta_aceptada.precio_estimado}}</p>
+            <hr>
+            <h3>Datos del ofertante</h3>
+            <p>Usuario: {{pub.oferta_aceptada.autor.username}}</p>
+            <p>DNI: {{pub.oferta_aceptada.autor.dni}}</p>
+        </div>
+    </div>
+    <div class="mt-5 d-flex justify-content-around">
+        <a id="" class="w-25 btn btn-danger" href="/intercambios/anular_finalizacion_intercambio/{{pub.id}}">Anular
+            Finalizar Intercambio</a>
+            <a id="" class="w-25 btn btn-success" href="/intercambios/finalizar_intercambio/{{pub.id}}">Finalizar
+                Intercambio</a>
+
+    </div>
+</div>
+<hr>
+
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if publicaciones.has_previous %}
+        <!-- <a href="?buscar={{busqueda}}&page=1">&laquo; first</a> -->
+        <a href="?buscar={{busqueda}}&page={{ publicaciones.previous_page_number }}">Ver página anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ publicaciones.number }} of {{ publicaciones.paginator.num_pages }}.
+        </span>
+
+        {% if publicaciones.has_next %}
+        <a href="?buscar={{busqueda}}&page={{ publicaciones.next_page_number }}">Ver más publicaciones</a>
+        <!-- <a href="?buscar={{busqueda}}&page={{ publicaciones.paginator.num_pages }}">last &raquo;</a> -->
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}

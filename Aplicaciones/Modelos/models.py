@@ -1,11 +1,12 @@
 from django.db import models
 from datetime import timedelta
+from django.conf import settings
 from django.utils import timezone
+from django.utils.timezone import now
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import models as auth_models
-from Aplicaciones.Modelos.estados import ESTADO_PUBLICACION, ESTADO_OFERTA
-
+from Aplicaciones.Modelos.estados import ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO
 
 # ---------- USUARIOS ---------------------------------------------------------------------------
 
@@ -125,8 +126,8 @@ class FotoPublicacion(models.Model):
 # ---------- OFERTAS -----------------------------------------------------------------------------
 
 class Oferta(models.Model):
-    autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ofertas')
-    publicacion = models.ForeignKey(Publicacion, related_name='ofertas', on_delete=models.CASCADE)
+    autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ofertas_autor')
+    publicacion = models.ForeignKey(Publicacion, related_name='ofertas_publicacion', on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=150)
     precio_estimado = models.DecimalField(max_digits=10, decimal_places=1)
     # no me acuerdo como lo hizo gio, por ahora lo dejo asi el Estado
@@ -139,9 +140,43 @@ class FotoOferta(models.Model):
 
 
 # ---------- INTERCAMBIOS -----------------------------------------------------------------------------
-"""
 class Intercambios(models.Model):
-    # publicacion = foreign key
-    # oferta = foreign key
-    # estado
-"""
+    publicacion = models.ForeignKey(Publicacion, related_name='intercambios', on_delete=models.CASCADE)
+    estado = models.CharField(max_length=10, choices=ESTADO_INTERCAMBIO, default='aceptado')
+    fecha_aceptacion = models.DateTimeField(default=now, null=True)
+# ---------- CHAT --------------------------------------------------------------------------------------
+
+class Room(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True)
+    users = models.ManyToManyField(Usuario, through='RoomUser', related_name='roomsUser')
+
+class RoomUser(models.Model):
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    unread_messages = models.BooleanField(default=False)
+
+class Message(models.Model):
+    room = models.ForeignKey(Room, related_name="messages", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="user", on_delete=models.CASCADE)
+    content = models.TextField()
+    foto = models.ImageField(upload_to='archivos-estaticos/fotos_chats/', null=False) #POR EL MOMENTO NO ME ESTARÍA FUNCIONANDO EL TEMA DE LAS FOTOS
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta: #para guardar los mensajes ordenados por fecha
+        ordering = ("date_added",)
+
+
+   # ---------- NOTIFICACIONES --------------------------------------------------------------------------------------     
+
+class Notificacion(models.Model):
+    user = models.ForeignKey(Usuario,related_name="userN", on_delete=models.CASCADE)
+    descripcion = models.CharField(max_length=150, null=True, blank=True)
+    fecha = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ("-fecha",)
+
+
+
+

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Estilos básicos para el contenedor de publicaciones y el botón */
+        .notificacion-container {
+            margin: 20px;
+        }
+
+        .notificacion {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .fecha {
+            font-size: 10px
+        }
+    </style>
+</head>
+<body>
+{% extends "base.html" %}
+{% block content %}
+    <div class="notificacion-container">
+        <h1>Lista de notificaciones</h1>
+        <div>
+            {% for notificacion in notificaciones %}
+                <div class="notificacion">
+                   <P> {{ notificacion.descripcion }}</P>
+                   <p class="fecha">Fecha de recibido: {{ notificacion.fecha }}</p>
+                </div>
+            {% empty %}
+                <div>
+                    <p>No hay notificaciones disponibles</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+        
+{% endblock %}
