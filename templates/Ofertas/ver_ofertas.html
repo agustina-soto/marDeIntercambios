@@ -33,7 +33,11 @@
                     {% endif %}
                 </li>
             {% endfor %}
+    {% else %}
+        <br>
+        <h5> No hay ofertas para esta publicación.</h5>
     {% endif %}
+    <br>
     <a href="/publicacion/ver-publicacion/ver_detalle/{{publicacion.id}}" class="btn btn-secondary">Volver a la publicación</a> 
 {% endblock %}
 
