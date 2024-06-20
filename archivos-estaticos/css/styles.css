@@ -60,7 +60,7 @@ h1 {
 }
 
 img {
-    width: 50%; /* Ajusta según necesidad */
+    width: 50%;
     max-height: 350px;
     border-radius: 8px; /* Bordes redondeados */
 }
@@ -79,16 +79,16 @@ img {
 }
 
 .footer-heading {
-    color: #333; /* Color del título */
-    font-size: 1.2rem; /* Tamaño del título */
-    margin-bottom: 20px; /* Espaciado inferior del título */
+    color: #333; /* Color del titulo */
+    font-size: 1.2rem; /* Tamaño del titulo */
+    margin-bottom: 20px;
     margin-top: 15px;
 }
 
 .footer .logo {
-    width: 120px; /* Tamaño del logo */
-    height: auto; /* Altura automática para mantener la proporción */
-    margin-bottom: 10px; /* Espaciado inferior del logo */
+    width: 120px; /* tamaño del logo */
+    height: auto; /* para mantener la proporción */
+    margin-bottom: 10px;
 }
 
 .footer ul {
@@ -167,7 +167,7 @@ form div {
 
 /* Estilos para el botón "Publicar" */
 button {
-    padding: 10px;
+    padding: 8px;
     background-color: #4CAF50; /* Color de fondo del botón */
     color: white; /* Color del texto del botón */
     border: none;
@@ -365,4 +365,34 @@ button:hover {
 
 .publicaciones li {
     list-style-type: none; /* Elimina los puntos de lista de las publicaciones */
+}
+
+
+/*  ESTILO PARA BARRA DE BUSQUEDA   */
+.barra-busqueda {
+    width: 400px; /* largo de la barra, no se como hacer para que sea proporcional al espacio entre los botones de a iqz y la der :( */
+    text-align: center; /* centrado del placeholder */
+    /*padding: 8px;*/
+    margin: 0;
+}
+
+.search-form {
+    display: flex; /* se supone que alinea los elementos hijos en una fila horizontal (para que el boton buscar quede al lado de la barra y no abajo) pero no me estqaria funcionando eso :( */ 
+    align-items: center;
+}
+
+/* Estilo específico para el botón de búsqueda */
+.search-button {
+    background-color: #28a745; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: 1px solid #28a745; /* Borde */
+    border-radius: 0 5px 5px 0; /* Bordes redondeados solo a la derecha */
+    padding: 8px 12px; /* Espaciado interno */
+    cursor: pointer; /* Cursor de puntero */
+    margin: 0;
+}
+
+/* Cambios en el estilo del botón al pasar el ratón */
+.search-button:hover {
+    background-color: #218838; /* Color de fondo al pasar el ratón */
 }
