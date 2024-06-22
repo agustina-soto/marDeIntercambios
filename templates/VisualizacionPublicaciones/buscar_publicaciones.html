@@ -4,11 +4,6 @@
 {% block content %}
 <div class="container">
     <h1>Buscar Publicaciones</h1>
-    <form action="/publicacion/ver-publicacion/buscar_publicaciones/" method="GET" enctype="multipart/form-data">
-        <input type="text" name="buscar" id="buscar">
-        <button type="submit" class="btn btn-primary">Buscar</button>
-    </form>
-
     <section>
         {% if not publicaciones %}
             <div>No se encontraron resultados para: {{ busqueda }}</div>
@@ -20,7 +15,7 @@
                         <p>Año: {{ pub.anio }}</p>
                         <p>Tipo: {{ pub.tipo_embarcacion }}</p>
                         <p>Precio: ${{ pub.precio_minimo }}</p>
-                        <button class="btn btn-primary">Ver publicación</button>
+                        <button class="button">Ver publicación</button>
                     </a>
                 </div>
                 <hr>
