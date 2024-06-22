@@ -17,11 +17,13 @@ class Usuario(auth_models.AbstractUser):
             MaxValueValidator(99999999)
         ], unique=True)
     fecha_nacimiento = models.DateField()
+    favoritos = models.ManyToManyField('Publicacion', related_name='favoritos')
 
     #campos para el bloqueo de cuenta
     bloqueado = models.BooleanField(default=False)
     contador_ingresos_fallidos = models.IntegerField(default=0)
     fecha_bloqueo = models.DateTimeField(null=True)
+
 
     #Especifico nombres y Permisos Unicos para no entrar en conflicto con el modelo auth.User integrado de Django
     groups = models.ManyToManyField(

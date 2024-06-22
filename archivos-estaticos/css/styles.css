@@ -404,3 +404,25 @@ button:hover {
 .search-button:hover {
     background-color: #218838; /* Color de fondo al pasar el ratón */
 }
+
+
+/* BOTON DISCRETO PARA QUE USEMOS COMO AUX SI NOS DUELEN LOS OJOS CON EL AZUL/VERDE :) */
+/* Para botones y enlaces con clase .boton-discreto */
+.boton-discreto,
+.boton-discreto:hover {
+    background-color: #d6d6d6; /* Color de fondo */
+    color: rgb(255, 255, 255); /* Color del texto */
+    border: none;
+    border-radius: 0 5px 5px 0; /* Bordes redondeados solo a la derecha */
+    padding: 8px 12px; /* Espaciado interno */
+    cursor: pointer; /* Cursor de puntero */
+    margin: 0;
+    text-decoration: none; /* Quitar subrayado de enlaces */
+    display: inline-block; /* Para que los enlaces se comporten como botones */
+}
+
+/* Cambios en el estilo del botón/enlace al pasar el ratón */
+.boton-discreto:hover {
+    background-color: #b5b4b4; /* Color de fondo al pasar el ratón */
+}
+

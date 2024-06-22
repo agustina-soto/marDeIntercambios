@@ -3,6 +3,12 @@
 
 {% block content %}
     <br>
+    <a href="{% url 'VisualizacionPublicaciones:ver_favoritos' %}" class="boton-discreto">Ver Publicaciones Favoritas</a>
+    <a href="{% url 'editar_perfil_usuario' %}" class="boton-discreto">Editar Información Personal</a>
+    <a href="{% url 'actualizar_contraseña' %}" class="boton-discreto">Actualizar Contraseña</a>
+
+    <br><br>
+
     <h2><u>Información Personal</u></h2>
     <br><br>
     <div class="perfil-info">
@@ -10,8 +16,6 @@
             <li><p>Correo Electrónico: {{ username }}</p></li>
             <li><p>Fecha de Nacimiento: {{ fechaNacimiento }}</p></li>
             <li><p>DNI: {{ dni }}</p></li>
-            <a href="{% url 'editar_perfil_usuario' %}" class="btn btn-primary">Editar Información Personal</a>
-            <a href="{% url 'actualizar_contraseña' %}" class="btn btn-primary">Actualizar Contraseña</a>
         </ul>
     </div>
 
@@ -32,7 +36,7 @@
                     
                     {% if publicacion.fotos.all %}
                         <p>Fotos:</p>
-                        <div id="photoCarousel-{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
+                        <div id="photoCarousel-{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 {% for photo in publicacion.fotos.all %}
                                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
@@ -45,15 +49,15 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                            <a class="carousel-control-prev" href="#photoCarousel-{{ forloop.counter }}" role="button" data-slide="prev">
+                            <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel-{{ forloop.counter }}" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            </a>
-                            <a class="carousel-control-next" href="#photoCarousel-{{ forloop.counter }}" role="button" data-slide="next">
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel-{{ forloop.counter }}" data-bs-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            </a>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
-                    {% else %}
-                        <p>No hay fotos disponibles para esta publicación.</p>
                     {% endif %}
 
                     <a href="{% url 'VisualizacionPublicaciones:ver_detalle' publicacion.id %}" class="btn btn-secondary">Ver Detalle</a>
