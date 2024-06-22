@@ -10,10 +10,6 @@ from Aplicaciones.Modelos.estados import ESTADO_PUBLICACION, ESTADO_OFERTA, ESTA
 
 # ---------- USUARIOS ---------------------------------------------------------------------------
 
-class Persona(models.Model):
-    nombre=models.CharField(max_length=50)
-    apellido=models.CharField(max_length=50)
-
 class Usuario(auth_models.AbstractUser):
     #Se usa campo password de la clase AbstractUser
     dni = models.IntegerField( validators=[
@@ -77,6 +73,10 @@ class Usuario(auth_models.AbstractUser):
         verbose_name_plural = "Mis modelos de usuario"
 
 
+class Persona(models.Model):
+    nombre=models.CharField(max_length=50)
+    apellido=models.CharField(max_length=50)
+    
 # ---------- PUBLICACIONES ----------------------------------------------------------------------
 
 class Publicacion(models.Model):
@@ -130,7 +130,6 @@ class Oferta(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='ofertas_publicacion', on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=150)
     precio_estimado = models.DecimalField(max_digits=10, decimal_places=1)
-    # no me acuerdo como lo hizo gio, por ahora lo dejo asi el Estado
     estado = models.CharField(max_length=10, choices=ESTADO_OFERTA, default='pendiente')
 
 
@@ -142,10 +141,11 @@ class FotoOferta(models.Model):
 # ---------- INTERCAMBIOS -----------------------------------------------------------------------------
 class Intercambios(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='intercambios', on_delete=models.CASCADE)
-    estado = models.CharField(max_length=10, choices=ESTADO_INTERCAMBIO, default='aceptado')
+    estado = models.CharField(max_length=10, choices=ESTADO_INTERCAMBIO, default='aceptado') # por que un intercambio esta aceptado x defecto??
     fecha_aceptacion = models.DateTimeField(default=now, null=True)
-# ---------- CHAT --------------------------------------------------------------------------------------
 
+
+# ---------- CHAT --------------------------------------------------------------------------------------
 class Room(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)

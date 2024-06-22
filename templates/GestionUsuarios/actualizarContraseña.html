@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <div style="display:none">
+            <input type="hidden" value="{{ csrf_token }}" name="csrfmiddlewaretoken">
+        </div>
+        <table>
+            <tr>
+                <td>{{ form.new_password1.errors }}
+                    <label for="id_new_password1">Nueva contraseña:</label></td>
+                <td>{{ form.new_password1 }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.new_password2.errors }}
+                    <label for="id_new_password2">Confirmar contraseña:</label></td>
+                <td>{{ form.new_password2 }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Actualizar mi contraseña" /></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

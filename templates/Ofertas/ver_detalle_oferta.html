@@ -9,8 +9,8 @@
     <p>Descripción: {{ oferta.descripcion }}</p>
     <p>Precio Estimado: ${{ oferta.precio_estimado }}</p>
 
-    {% if oferta.fotos.all %}
-        <h4>Fotos:</h4>
+    {% if oferta.fotos.all %} <!-- habria que hacerlo con carousel asi queda igual al resto de la muestra de fotos, pero respeten la division de columnas, no se puede hacer un copy paste asi nomas!!!!! :) -->
+        <p>Fotos:</p>
         <div class="row">
             {% for foto in oferta.fotos.all %}
                 <div class="col-md-3">
@@ -20,5 +20,13 @@
         </div>
     {% endif %}
 
-    <a href="{% url 'ver_ofertas' oferta.publicacion.id %}" class="btn btn-secondary">Volver a Ofertas</a>
+    {% if es_dueno %}
+        <a href="{% url 'ver_ofertas' oferta.publicacion.id %}" class="btn btn-secondary">Volver a Ofertas</a>
+    {% else %}
+        <a href="{% url 'editar_oferta' oferta.id %}" class="button">Editar</a> <!-- hay que cambiar el editar y el agregar para que lleven a esta vista, deberia hacerlo la persona que hizo el codigo-->
+        <a href="{% url 'eliminar_oferta' oferta.id %}" class="button">Eliminar</a> 
+    {% endif %}
+
+
 {% endblock %}
+

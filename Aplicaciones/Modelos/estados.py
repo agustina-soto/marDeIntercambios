@@ -13,5 +13,5 @@ ESTADO_OFERTA = [
 ESTADO_INTERCAMBIO = [
         ('pendiente', 'Pendiente'),
         ('aceptado', 'Aceptado'),
-        ('rechazado', 'Rechazado'),
+        ('rechazado', 'Rechazado'), # deberia ser finalizado
     ]
