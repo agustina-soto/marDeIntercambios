@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', function() {
         // Obtiene la posición del footer
         let footer = document.getElementById('footer');
-        let footerHeight = footer.offsetHeight;
+        // let footerHeight = footer.offsetHeight;
         let scrollPosition = window.scrollY + window.innerHeight;
 
         // Muestra el footer cuando se hace scroll hasta abajo del contenido

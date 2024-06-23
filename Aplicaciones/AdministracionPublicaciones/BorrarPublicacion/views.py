@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from MDI.decorator import login_required
-from Aplicaciones.Modelos.models import Publicacion, Oferta
+from Aplicaciones.Modelos.models import Intercambios, Publicacion, Oferta
 from MDI.decorator import login_required
 
 @login_required
@@ -9,6 +9,19 @@ def borrar_publicacion(request, publicacion_id):
     if request.method == 'GET':
         if publicacion_id:
             publicacion = get_object_or_404(Publicacion, id=publicacion_id)
+
+    ## VERIFICAR SI FUNCIONA ESTO DE LOS INTERCAMBIOS!!!!
+            # Verifica si hay intercambios aceptados asociados a la publicación, si los hay no te deja borrar
+            intercambios_aceptados = Intercambios.objects.filter(
+                publicacion=publicacion,
+                estado='aceptado'
+            ).exists()
+
+            if intercambios_aceptados:
+                messages.error(request, 'No puedes eliminar esta publicación porque tiene intercambios aceptados.')
+                return redirect('inicio')
+
+            # Si no hay intercambios aceptados, proceder con la eliminación de la publicación
             publicacion.estado = 'eliminada'
             publicacion.save()
 
@@ -18,8 +31,15 @@ def borrar_publicacion(request, publicacion_id):
                 oferta.estado = 'rechazada'
                 oferta.save()
 
+            # Rechaza todas las ofertas asociadas a esta publicación
+            intercambios = Intercambios.objects.filter(publicacion=publicacion)
+            for intercambio in intercambios:
+                intercambio.estado = 'rechazada'
+                intercambio.save()
+
             messages.success(request, '¡La publicación ha sido eliminada correctamente!')
             ruta = "/publicacion/ver-publicacion/ver_detalle/" + str(publicacion.id)
             return redirect(ruta, pk=publicacion.pk)
+
     messages.error(request, '¡Ha ocurrido un error al intentar eliminar la publicación!')
     return redirect('inicio')

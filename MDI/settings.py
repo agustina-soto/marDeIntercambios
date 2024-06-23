@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'Aplicaciones.AdministracionPublicaciones.BorrarPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.BuscarPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.VerDetallePublicacion',
+    'Aplicaciones.VisualizacionPublicaciones.Favoritos',
     'Aplicaciones.AdministracionIntercambio.RealizarOferta',
     'Aplicaciones.AdministracionIntercambio.EditarOferta',
     'Aplicaciones.ComunicacionEntreUsuarios.SalaDeChat',

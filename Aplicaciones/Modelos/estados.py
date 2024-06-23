@@ -15,3 +15,10 @@ ESTADO_INTERCAMBIO = [
         ('aceptado', 'Aceptado'),
         ('rechazado', 'Rechazado'),
     ]
+
+ESTADO_CUENTA = [
+        ('activo', 'Activo'),
+        ('baneado', 'Baneado'),
+        ('suspendido', 'Suspendido'),
+        ('deshabilitado', 'Deshabilitado'),
+    ]

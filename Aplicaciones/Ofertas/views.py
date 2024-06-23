@@ -103,7 +103,8 @@ def crear_sala(publicacion, oferta):
     existe_room = Room.objects.filter(users__in=[publicacion.autor, oferta.autor], name=f"Sala-{publicacion.titulo}").first()
     if not existe_room:
         room_name = f"Sala-{publicacion.titulo}"
-        slug = f"{room_name}-{get_random_string(length=6)}"
+        slug = f"{publicacion.autor.id}-{oferta.autor.id}{get_random_string(length=8)}"
         room = Room.objects.create(name=room_name, slug=slug)
         room.users.add(publicacion.autor, oferta.autor)
         room.save()
+    

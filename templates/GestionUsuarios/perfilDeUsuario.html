@@ -3,6 +3,11 @@
 
 {% block content %}
     <br>
+    <a href="{% url 'VisualizacionPublicaciones:ver_favoritos' %}" class="boton-discreto">Ver Publicaciones Favoritas</a>
+    <a href="{% url 'editar_perfil_usuario' %}" class="boton-discreto">Editar Información Personal</a>
+
+    <br><br>
+
     <h2><u>Información Personal</u></h2>
     <br><br>
     <div class="perfil-info">
@@ -18,91 +23,91 @@
     <h3><u>Tus Publicaciones</u></h3>
     
     <div class="publicaciones">
-        {% for publicacion in publicaciones %}
-            <div class="item">
-                <p>Título: {{ publicacion.titulo }}</p>
-                <p>Precio Mínimo: {{ publicacion.precio_minimo }}</p>
-                <p>Tipo de Embarcación: {{ publicacion.tipo_embarcacion }}</p>
-                <p>Año: {{ publicacion.anio }}</p>
-                
-                {% if publicacion.fotos.all %}
-                    <p>Fotos:</p>
-                    <div id="photoCarousel-{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            {% for photo in publicacion.fotos.all %}
-                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                    <a href="{{ photo.foto.url }}" data-lightbox="post-{{ publicacion.id }}">
-                                        <img class="d-block w-100" src="{{ photo.foto.url }}" style="width: auto; max-height: 250px;">
-                                    </a>
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <p>{{ photo.title }}</p>
+        {% if not publicaciones %}
+            <p>No tiene publicaciones</p> <!-- falta centrar esto y el mensaje de oferta tmb-->
+        {% else %}
+            {% for publicacion in publicaciones %}
+                <div class="item">
+                    <p>Título: {{ publicacion.titulo }}</p>
+                    <p>Precio Mínimo: {{ publicacion.precio_minimo }}</p>
+                    <p>Tipo de Embarcación: {{ publicacion.tipo_embarcacion }}</p>
+                    <p>Año: {{ publicacion.anio }}</p>
+                    
+                    {% if publicacion.fotos.all %}
+                        <p>Fotos:</p>
+                        <div id="photoCarousel-{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for photo in publicacion.fotos.all %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <a href="{{ photo.foto.url }}" data-lightbox="post-{{ publicacion.id }}">
+                                            <img class="d-block w-100" src="{{ photo.foto.url }}" style="width: auto; max-height: 250px;">
+                                        </a>
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <p>{{ photo.title }}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel-{{ forloop.counter }}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel-{{ forloop.counter }}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
-                        <a class="carousel-control-prev" href="#photoCarousel-{{ forloop.counter }}" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        </a>
-                        <a class="carousel-control-next" href="#photoCarousel-{{ forloop.counter }}" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        </a>
-                    </div>
-                {% else %}
-                    <p>No hay fotos disponibles para esta publicación.</p>
-                {% endif %}
+                    {% endif %}
 
-                <div class="publicacion-buttons">
-                    <button class="btn btn-info">Ver Ofertas</button>
-                    <button class="btn btn-info">Editar Publicación</button>
-                    <button class="btn btn-danger">Borrar Publicación</button>
+                    <a href="{% url 'VisualizacionPublicaciones:ver_detalle' publicacion.id %}" class="btn btn-secondary">Ver Detalle</a>
                 </div>
-
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
     </div>
 
     <br><br>
 
     <h3><u>Tus Ofertas</u></h3>
     <div class="ofertas">
-        {% for oferta in ofertas %}
-            <div class="item">
-                <p>Estado: {{ oferta.estado }}</p>
-                <p>Descripción: {{ oferta.descripcion }}</p>
-                <p>Precio Estimado: ${{ oferta.precio_estimado }}</p>
-                
-                {% if oferta.fotos.all %}
-                    <p>Fotos:</p>
-                    <div id="photoCarousel-oferta-{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            {% for foto in oferta.fotos.all %}
-                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                    <a href="{{ foto.foto.url }}" data-lightbox="offer-{{ oferta.id }}">
-                                        <img class="d-block w-100" src="{{ foto.foto.url }}" style="width: auto; max-height: 250px;">
-                                    </a>
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <p>{{ foto.descripcion }}</p>
+        {% if not ofertas %}
+            <p>No tiene ofertas a su nombre</p>
+        {% else %}
+            {% for oferta in ofertas %}
+                <div class="item">
+                    <p>Estado: {{ oferta.estado }}</p>
+                    <p>Descripción: {{ oferta.descripcion }}</p>
+                    <p>Precio Estimado: ${{ oferta.precio_estimado }}</p>
+                    
+                    {% if oferta.fotos.all %}
+                        <p>Fotos:</p>
+                        <div id="photoCarousel-oferta-{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for foto in oferta.fotos.all %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <a href="{{ foto.foto.url }}" data-lightbox="offer-{{ oferta.id }}">
+                                            <img class="d-block w-100" src="{{ foto.foto.url }}" style="width: auto; max-height: 250px;">
+                                        </a>
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <p>{{ foto.descripcion }}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
+                            <a class="carousel-control-prev" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            </a>
+                            <a class="carousel-control-next" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            </a>
                         </div>
-                        <a class="carousel-control-prev" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        </a>
-                        <a class="carousel-control-next" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        </a>
-                    </div>
-                {% else %}
-                    <p>No hay fotos disponibles para esta oferta.</p>
-                {% endif %}
+                    {% else %}
+                        <p>No hay fotos disponibles para esta oferta.</p>
+                    {% endif %}
 
-                <div class="oferta-buttons">
-                    <button class="btn btn-info">Editar Oferta</button>
-                    <button class="btn btn-danger">Borrar Oferta</button>
+                    <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="btn btn-secondary">Ver Detalle</a>
+
                 </div>
-
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}
