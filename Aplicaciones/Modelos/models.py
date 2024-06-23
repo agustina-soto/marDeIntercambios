@@ -6,7 +6,7 @@ from django.utils.timezone import now
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import models as auth_models
-from Aplicaciones.Modelos.estados import ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO
+from Aplicaciones.Modelos.estados import ESTADO_CUENTA, ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO
 
 # ---------- USUARIOS ---------------------------------------------------------------------------
 
@@ -18,6 +18,8 @@ class Usuario(auth_models.AbstractUser):
         ], unique=True)
     fecha_nacimiento = models.DateField()
     favoritos = models.ManyToManyField('Publicacion', related_name='favoritos')
+    
+    estado_cuenta = models.CharField(max_length=15, choices=ESTADO_CUENTA, default='activo')
 
     #campos para el bloqueo de cuenta
     bloqueado = models.BooleanField(default=False)
@@ -74,11 +76,6 @@ class Usuario(auth_models.AbstractUser):
         verbose_name = "Mi modelo de usuario"
         verbose_name_plural = "Mis modelos de usuario"
 
-
-class Persona(models.Model):
-    nombre=models.CharField(max_length=50)
-    apellido=models.CharField(max_length=50)
-    
 # ---------- PUBLICACIONES ----------------------------------------------------------------------
 
 class Publicacion(models.Model):
@@ -143,7 +140,7 @@ class FotoOferta(models.Model):
 # ---------- INTERCAMBIOS -----------------------------------------------------------------------------
 class Intercambios(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='intercambios', on_delete=models.CASCADE)
-    estado = models.CharField(max_length=10, choices=ESTADO_INTERCAMBIO, default='aceptado') # por que un intercambio esta aceptado x defecto??
+    estado = models.CharField(max_length=10, choices=ESTADO_INTERCAMBIO, default='aceptado')
     fecha_aceptacion = models.DateTimeField(default=now, null=True)
 
 

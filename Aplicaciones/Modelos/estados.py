@@ -13,5 +13,12 @@ ESTADO_OFERTA = [
 ESTADO_INTERCAMBIO = [
         ('pendiente', 'Pendiente'),
         ('aceptado', 'Aceptado'),
-        ('rechazado', 'Rechazado'), # deberia ser finalizado
+        ('rechazado', 'Rechazado'),
+    ]
+
+ESTADO_CUENTA = [
+        ('activo', 'Activo'),
+        ('baneado', 'Baneado'),
+        ('suspendido', 'Suspendido'),
+        ('deshabilitado', 'Deshabilitado'),
     ]
