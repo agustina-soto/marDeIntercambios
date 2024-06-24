@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from MDI.decorator import login_required #Luck: creé el decorator en MDI para reutilizarlo
 from django.contrib.auth.decorators import user_passes_test
 from MDI.decorator import user_passes_test_superuser #Gio: creé el decorator en MDI para reutilizarlo
-from Aplicaciones.Modelos.models import Publicacion, Notificacion
+from Aplicaciones.Modelos.models import Publicacion
+from utils.Notificacion import NotificationManager
 
 @login_required 
 @user_passes_test_superuser
@@ -35,7 +36,8 @@ def validar_publicacion(request , publicacion_id):
     infoPublicacion.save();
 
     ## NOTIFICAR AL USUARIO
-    Notificacion.objects.create(fecha=timezone.now(), user=infoPublicacion.autor, descripcion="La publicación " + str(infoPublicacion.id) + " ha sido ACEPTADA")
+    gestorNotis = NotificationManager()
+    gestorNotis.crear_notificacion(user=infoPublicacion.autor.id, message="La publicación " + str(infoPublicacion.id) + " ha sido ACEPTADA", tipo="success")
 
     messages.success(request, 'Publicación aceptada correctamente')
     return redirect("/publicacion/ver_publicaciones_para_validar/");
@@ -44,6 +46,7 @@ def rechazar_publicacion(request, publicacion_id, justificacion):
     infoPublicacion = Publicacion.objects.get(id=publicacion_id);
     
     ## FALTA NOTIFICAR AL USUARIO
-    Notificacion.objects.create(fecha=timezone.now(), user=infoPublicacion.autor, descripcion="La publicación fue rechazada por el siguiente motivo: " + justificacion + ". Corrija la publicación para ser aceptada en la plataforma")
+    gestorNotis = NotificationManager()
+    gestorNotis.crear_notificacion(user=infoPublicacion.autor.id, message="La publicación fue rechazada por el siguiente motivo: " + justificacion + ". Corrija la publicación para ser aceptada en la plataforma", tipo="error")
     messages.success(request, 'Publicación cancelada correctamente')
     return redirect("/publicacion/ver_publicaciones_para_validar/");

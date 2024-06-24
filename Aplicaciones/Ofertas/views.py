@@ -1,4 +1,4 @@
-from Aplicaciones.Modelos.models import Publicacion, Oferta, Room, Notificacion
+from Aplicaciones.Modelos.models import Publicacion, Oferta, Room
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, Http404
 from django.core.mail import send_mail
@@ -7,6 +7,7 @@ from MDI.decorator import login_required
 from django.utils.crypto import get_random_string
 from Aplicaciones.ComunicacionEntreUsuarios.Correo.views import *
 from django.utils import timezone
+from utils.Notificacion import NotificationManager
 
 @login_required
 def ver_ofertas(request, publicacion_id):
@@ -33,7 +34,9 @@ def aceptar_oferta_vista(request, oferta_id):
             publicacion = oferta.publicacion
             publicacion.aceptar_oferta(oferta)
             #Se crea notificacion
-            Notificacion.objects.create(fecha=timezone.now(), user=oferta.autor, descripcion="Su oferta por la publicación: " + oferta.publicacion.titulo + " ha sido ACEPTADA")
+            gestorNotis = NotificationManager()
+            gestorNotis.crear_notificacion(user=oferta.autor.id, message="Su oferta por la publicación: " + oferta.publicacion.titulo + " ha sido ACEPTADA", tipo="success")
+
             #enviar_correo(request, oferta, 'correo/oferta_aceptada.html')
             #Se crea sala si no existe
             crear_sala(publicacion, oferta)
@@ -51,7 +54,9 @@ def rechazar_oferta_vista(request, oferta_id):
             publicacion = oferta.publicacion
             publicacion.rechazar_oferta(oferta)
             # SE CREA NOTIFICACION
-            Notificacion.objects.create(fecha=timezone.now(), user=oferta.autor, descripcion="Su oferta por la publicación: " + oferta.publicacion.titulo + " ha sido RECHAZADA")
+            gestorNotis = NotificationManager()
+            gestorNotis.crear_notificacion(user=oferta.autor.id, message="Su oferta por la publicación: " + oferta.publicacion.titulo + " ha sido RECHAZADA", tipo="error")
+            
             #enviar_correo(request, oferta, 'correo/oferta_rechazada.html')
             return redirect('ver_ofertas', publicacion_id=publicacion.id)
         except Exception as e:
@@ -68,7 +73,9 @@ def cancelar_oferta_aceptada_vista(request, publicacion_id):
             try:
                 publicacion.cancelar_oferta_aceptada()
                 #SE CREA NOTIFICACION
-                Notificacion.objects.create(fecha=timezone.now(), user=oferta_aceptada.autor, descripcion="Su oferta por la publicación: " + oferta_aceptada.publicacion.titulo + " ha sido CANCELADA")
+                gestorNotis = NotificationManager()
+                gestorNotis.crear_notificacion(user=oferta_aceptada.autor.id, message="Su oferta por la publicación: " + oferta_aceptada.publicacion.titulo + " ha sido CANCELADA", tipo="warning")
+
                 #enviar_correo(request, oferta_aceptada, 'correo/oferta_cancelada.html')
                 return redirect('ver_ofertas', publicacion_id=publicacion_id)
             except Exception as e:
