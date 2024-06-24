@@ -1,6 +1,6 @@
 ESTADO_PUBLICACION = [
         ('pendiente', 'Pendiente'),
-        ('validada', 'Validada'),
+        ('aceptada', 'Aceptada'),
         ('eliminada', 'Eliminada'),
     ]
 

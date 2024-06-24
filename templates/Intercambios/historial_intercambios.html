@@ -2,6 +2,9 @@
 {% block content %}
 
 <h2>Historial de Intercambios</h2>
+{% if not intercambios %}
+<div>No se encontraron intercambios realizados</div>
+{% else %}
 {% for int in intercambios %}
 <div class="card my-3 p-3">
     <div>
@@ -58,5 +61,7 @@
         {% endif %}
     </span>
 </div>
+
+{% endif %}
 
 {% endblock %}
