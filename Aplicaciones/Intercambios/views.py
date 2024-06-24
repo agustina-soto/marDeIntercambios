@@ -51,7 +51,7 @@ def finalizar_intercambio (request, publicacion_id):
 
     
     if(not interc_instance):
-        Intercambios.objects.create(publicacion=pub_instance)
+        intercambio = Intercambios.objects.create(publicacion=pub_instance)
     else:
         intercambio = interc_instance[0]
         if (intercambio.estado == "aceptado"):

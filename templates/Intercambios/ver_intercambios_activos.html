@@ -32,6 +32,15 @@
             <p>Usuario: {{pub.oferta_aceptada.autor.username}}</p>
             <p>DNI: {{pub.oferta_aceptada.autor.dni}}</p>
         </div>
+        <div>
+            <h3>Datos del Intercambio</h3>
+            {% if pub.oferta_aceptada %}
+                <p>Estado del intercambio: {{ pub.oferta_aceptada.estado }}</p>
+                <hr>
+            {% else %}
+                <p>No hay intercambio activo para esta publicación.</p>
+            {% endif %}
+        </div>
     </div>
     <div class="mt-5 d-flex justify-content-around">
         <a id="" class="w-25 btn btn-danger" href="/intercambios/anular_finalizacion_intercambio/{{pub.id}}">Anular

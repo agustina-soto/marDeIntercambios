@@ -93,10 +93,14 @@
                         </div>
                 {% endfor %}
             {% endif %}
-        {% endblock %}             
+        {% endblock %}
         <div class="container-fluid">
-            {% block content %}
-            {% endblock content %}
+            <div class="row">
+                <div class="main-content">
+                    {% block content %}
+                    {% endblock content %}
+                </div>
+            </div>
         </div>
 
         <!-- Footer -->
