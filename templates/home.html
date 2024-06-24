@@ -3,9 +3,17 @@
 {% load static %}
 
 {% block content %}
-    <div class="col">
-        <h3>Mar de Intercambios</h3>
 
+    {% block publicidad-banner %}
+    {% endblock publicidad-banner %}
+
+
+<div class="row">
+
+    {% block left-publi %}
+    {% endblock left-publi %}
+    
+    <div class="col">
         <div class="container">
             <h3>Publicaciones</h3>
             <section>
@@ -62,4 +70,10 @@
             </div>
         </div>
     </div>
-{% endblock content %}
+    
+    {% block right-publi %}
+    {% endblock right-publi %}
+    
+    
+</div>
+    {% endblock content %}
