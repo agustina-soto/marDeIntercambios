@@ -3,10 +3,25 @@
 {% load static %}
 
 {% block content %}
+
+    {% block publicidad-banner %}
+    {% endblock publicidad-banner %}
+
+
+<div class="row">
+
+    {% block left-publi %}
+    {% endblock left-publi %}
+    
     <div class="col">
         <h3>Mar de Intercambios</h3>
         <h1>probando</h1>
         <h5>probando</h5>
     </div>
-
-{% endblock content %}
+    
+    {% block right-publi %}
+    {% endblock right-publi %}
+    
+    
+</div>
+    {% endblock content %}

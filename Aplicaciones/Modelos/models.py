@@ -170,8 +170,16 @@ class Message(models.Model):
    # ---------- NOTIFICACIONES --------------------------------------------------------------------------------------     
 
 class Notificacion(models.Model):
+    NOTIFICATION_TYPES = (
+        ('success', 'Success'),
+        ('warning', 'Warning'),
+        ('error', 'Error'),
+    )
+
+
     user = models.ForeignKey(Usuario,related_name="userN", on_delete=models.CASCADE)
-    descripcion = models.CharField(max_length=150, null=True, blank=True)
+    descripcion = models.TextField()
+    tipo = models.CharField(max_length=10, choices=NOTIFICATION_TYPES)
     fecha = models.DateTimeField(default=timezone.now)
 
     class Meta:
