@@ -17,8 +17,7 @@ class Usuario(auth_models.AbstractUser):
             MaxValueValidator(99999999)
         ], unique=True)
     fecha_nacimiento = models.DateField()
-    favoritos = models.ManyToManyField('Publicacion', related_name='favoritos')
-    
+    favoritos = models.ManyToManyField('Publicacion', related_name='favoritos')    
     estado_cuenta = models.CharField(max_length=15, choices=ESTADO_CUENTA, default='activo')
 
     #campos para el bloqueo de cuenta
@@ -185,5 +184,12 @@ class Notificacion(models.Model):
         ordering = ("-fecha",)
 
 
+# ---------- HISTORIAL DE PUBLICACIONES -----------------------------------------------------------------------------
+class Historial(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='historial_publicaciones')
+    publicacion = models.ForeignKey(Publicacion, on_delete=models.CASCADE)
+    fecha_visita = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.usuario.username} - {self.publicacion.titulo} - {self.fecha_visita}"
 

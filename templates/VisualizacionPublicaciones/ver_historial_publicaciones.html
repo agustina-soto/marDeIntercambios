@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="my-4">Historial de Publicaciones Vistas</h1>
+        
+        {% if user.is_authenticated %}
+            {% if historial_publicaciones %}
+                <ul class="list-group">
+                    {% for item in historial_publicaciones %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="{% url 'VisualizacionPublicaciones:ver_detalle' item.publicacion.id %}">
+                                    {{ item.publicacion.titulo }}
+                                </a>
+                                <br>
+                                <small class="text-muted">Visto el: {{ item.fecha_visita|date:"d M Y, H:i" }}</small>
+                            </div>
+                            <a href="{% url 'VisualizacionPublicaciones:quitar_de_historial' item.publicacion.id %}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas quitar esta publicación del historial?');">
+                                <i class="fa fa-trash"></i> Quitar del Historial
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="alert alert" role="alert">
+                    Parece que aún no has visitado ninguna publicación.
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="alert alert" role="alert"> <!-- no debería entrar nunca acá pero x las dudas-->
+                Debes iniciar sesión para ver tu historial de publicaciones visitadas.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
