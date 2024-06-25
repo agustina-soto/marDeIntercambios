@@ -15,6 +15,7 @@
             <li><p>Correo Electrónico: {{ username }}</p></li>
             <li><p>Fecha de Nacimiento: {{ fechaNacimiento }}</p></li>
             <li><p>DNI: {{ dni }}</p></li>
+            <a href="{% url 'actualizar_password' %}" class="boton-discreto">Actualizar contraseña</a><br>
         </ul>
     </div>
 
@@ -32,7 +33,7 @@
                     <p>Precio Mínimo: {{ publicacion.precio_minimo }}</p>
                     <p>Tipo de Embarcación: {{ publicacion.tipo_embarcacion }}</p>
                     <p>Año: {{ publicacion.anio }}</p>
-                    
+
                     {% if publicacion.fotos.all %}
                         <p>Fotos:</p>
                         <div id="photoCarousel-{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">

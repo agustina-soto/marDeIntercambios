@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Aplicaciones.Autenticacion.CerrarSesion',
     'Aplicaciones.GestionUsuarios.RegistrarUsuario',
     'Aplicaciones.GestionUsuarios.VerPerfilUsuario',
+    'Aplicaciones.GestionUsuarios.ActualizarContraseña',
     'Aplicaciones.AdministracionPublicaciones.RealizarPublicacion',
     'Aplicaciones.AdministracionPublicaciones.EditarPublicacion',
     'Aplicaciones.AdministracionPublicaciones.BorrarPublicacion',
