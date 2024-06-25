@@ -65,6 +65,13 @@ img {
     border-radius: 8px; /* Bordes redondeados */
 }
 
+/* Estilos para controlar el tamaño de las imágenes en el carrusel */
+.carousel-inner img {
+    max-height: 400px; /* Ajusta esto según tus necesidades */
+    width: auto; /* Ajusta el ancho automáticamente */
+    object-fit: contain; /* Asegúrate de que la imagen mantenga su relación de aspecto */
+}
+
 /*  ESTILOS DEL FOOTER  */
 .footer {
     background-color: #f2f2f2; /* Color de fondo */
@@ -395,4 +402,42 @@ button:hover {
 /* Cambios en el estilo del botón al pasar el ratón */
 .search-button:hover {
     background-color: #218838; /* Color de fondo al pasar el ratón */
+}
+
+/* CSS para la vista maximizada */
+.image-modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Posición fija para cubrir toda la pantalla */
+    z-index: 1000; /* Coloca el modal encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9); /* Fondo negro con opacidad */
+}
+
+.image-modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
 }
