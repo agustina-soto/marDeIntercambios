@@ -192,4 +192,17 @@ class Historial(models.Model):
 
     def __str__(self):
         return f"{self.usuario.username} - {self.publicacion.titulo} - {self.fecha_visita}"
+    
 
+# --------------- PUBLICIDADES --------------------------------------------------------------------------------------
+class Publicidad(models.Model):
+    cliente = models.CharField(max_length=100)  # De quién es la publicidad
+    fecha_inicio = models.DateField()  # Fecha de inicio de la publicidad
+    fecha_fin = models.DateField()  # Fecha límite de la publicidad
+
+    def __str__(self):
+        return f"Publicidad de {self.cliente} desde {self.fecha_inicio} hasta {self.fecha_fin}"
+
+class FotoOPublicidad(models.Model):
+    publicidad = models.ForeignKey(Publicidad, related_name='fotos', on_delete=models.CASCADE)
+    foto = models.ImageField(upload_to='archivos-estaticos/publicidades/', null=True, blank=True)
