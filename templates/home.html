@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-
 {% load static %}
 
 {% block content %}
+
 <div class="row">
     <div class="col-12 mb-3">
         {% include "Publicidades/banner_central.html" %}
@@ -13,42 +13,9 @@
     </div>
     
     <div class="col-12 col-lg-8">
-        
+        <div class="container">
             <h3>Publicaciones</h3>
-            <section>
-                {% if not publicaciones %}
-                    <div>No hay publicaciones disponibles</div>
-                {% else %}
-                    <div class="row">
-                        {% for pub in publicaciones %}
-                            <div class="col-md-6 mb-4">
-                                <div class="card my-3 p-3">
-                                    <div class="card-body text-dark">
-                                        <h5 class="card-title">{{ pub.titulo }}</h5>
-                                        <p class="card-text">Año: {{ pub.anio }}</p>
-                                        <p class="card-text">Tipo: {{ pub.tipo_embarcacion }}</p>
-                                        <p class="card-text">Precio: ${{ pub.precio_minimo }}</p>
-                                        <p class="card-text">Estado: {{ pub.estado }}</p>
-                                        <p>Fotos:</p>
-                                        {% if pub.fotos.all %}
-                                            <div class="row">
-                                                {% for foto in pub.fotos.all %}
-                                                    <div class="col-6 mb-2">
-                                                        <img src="{{ foto.foto.url }}" class="img-fluid" alt="Foto de publicación">
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <a href="/publicacion/ver-publicacion/ver_detalle/{{ pub.id }}" class="btn btn-primary">Ver Detalle</a>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </section>
+            {% include 'VisualizacionPublicaciones/publicaciones.html' %} <!-- este archivo muestra las publicaciones de la plataforma (no tiene en cuenta las eliminadas)-->
             <!-- Paginación -->
             <div class="pagination">
                 <span class="step-links">
@@ -67,14 +34,13 @@
                     {% endif %}
                 </span>
             </div>
-        
+        </div>
     </div>
 
     <div class="d-none d-lg-block col-lg-2 mb-3">
         {% include "Publicidades/banner_lateral.html" %}
     </div>
-
-    
-    
 </div>
-    {% endblock content %}
+
+{% endblock content %}
+
