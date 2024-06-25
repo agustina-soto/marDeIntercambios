@@ -2,13 +2,14 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic.detail import DetailView
-from Aplicaciones.Modelos.models import Oferta, FotoOferta, Usuario, Notificacion
+from Aplicaciones.Modelos.models import Oferta, FotoOferta, Usuario
 from MDI.decorator import login_required #Agrego usuario
 from .forms import OfertaForm, FotoOfertaForm
 from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import Publicacion
 from django.utils.crypto import get_random_string #Agregado
 from Aplicaciones.ComunicacionEntreUsuarios.Correo.views import * #Agregado(PARA EL EMAIL)
 from django.utils import timezone
+from utils.Notificacion import NotificationManager
 
 @login_required
 def realizar_oferta(request, publicacion_id):
@@ -42,7 +43,8 @@ def realizar_oferta(request, publicacion_id):
             # Muestra un mensaje de éxito y redireccionar a algún lugar apropiado
             messages.success(request, '¡La oferta se realizó con éxito!')
              #Se crea notificacion
-            Notificacion.objects.create(fecha=timezone.now(), user=oferta.publicacion.autor, descripcion="Se ha recibido una oferta por la publicacion: " + oferta.publicacion.titulo)
+            gestorNotis = NotificationManager()
+            gestorNotis.crear_notificacion(user=oferta.publicacion.autor.id, message="Se ha recibido una oferta por la publicacion: " + oferta.publicacion.titulo, tipo="success")
 
             if not request.user.is_authenticated:
                 #enviar_correo(request, oferta, 'correo/oferta_creada_visitante.html', unPassword)

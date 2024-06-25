@@ -1,19 +1,55 @@
 from datetime import timedelta
+from django.db.models.functions import ExtractDay
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.utils import timezone
-from Aplicaciones.Modelos.models import Publicacion, Intercambios, Notificacion
+from Aplicaciones.Modelos.models import Publicacion, Intercambios
+from utils.Notificacion import NotificationManager
 
 from django.http import HttpResponse
 
 
 # Create your views here.
 def ver_intercambios_activos(request):
-
+    
     dataPublicaciones = Publicacion.objects.filter(oferta_aceptada_id__isnull=False);
+    arrayDatos = [];
+    for pub in dataPublicaciones:
+        dias = 0;
+        int = Intercambios.objects.filter(publicacion=pub.id);
+        # print("Pub: " + str(pub.id))
+        # int = Intercambios.objects.filter(publicacion=pub.id, estado='aceptado').exists()
+        if (int):
+            int = int[0];
+            # print("Intercambio: " + str(int.id) + " - Estado: " + int.estado)
+            estado = int.estado;
 
-    resultados_paginados = Paginator(dataPublicaciones, 10)
+            if (int.fecha_aceptacion):
+                ## Chequeo de tiempo
+                ahora = timezone.now()
+                fecha_aceptacion = int.fecha_aceptacion
+                tiempo_restante = (ahora - fecha_aceptacion)
+                dias = tiempo_restante.days
+
+        else:
+            # print("No hay Intercambio aún " + " - Estado: pendiente por default")
+            estado = "pendiente";
+            
+        
+        if ((estado == "pendiente") or (estado == "aceptado" and (dias < 3 ))):
+
+            diccionario = {
+                "estado_intercambio": estado,
+                "detalle": pub
+            }
+
+            arrayDatos.append(diccionario);
+
+
+    print(arrayDatos);
+    # resultados_paginados = Paginator(dataPublicaciones, 10)
+    resultados_paginados = Paginator(arrayDatos, 10)
 
     if (request.GET.get("page")):
         page_number = request.GET.get("page")
@@ -50,19 +86,20 @@ def finalizar_intercambio (request, publicacion_id):
 
     
     if(not interc_instance):
-        Intercambios.objects.create(publicacion=pub_instance)
+        intercambio = Intercambios.objects.create(publicacion=pub_instance)
     else:
         intercambio = interc_instance[0]
         if (intercambio.estado == "aceptado"):
-            messages.error(request, 'El intercambio ya está aceptado')
+            messages.error(request, 'El intercambio ya fue finalizado con anterioridad')
             return redirect("/intercambios/ver_intercambios_activos")
 
         intercambio.estado = "aceptado"
         intercambio.fecha_aceptacion = timezone.now()
         intercambio.save()
     
-    Notificacion.objects.create(fecha=timezone.now(), user=pub_instance.autor, descripcion="El intercambio" + str(intercambio.id) + " ha sido marcado como FINALIZADO")
-    messages.success(request, 'El intercambio fue aceptado correctametente!')
+    gestorNotis = NotificationManager()
+    gestorNotis.crear_notificacion(user=pub_instance.autor.id, message="El intercambio" + str(intercambio.id) + " ha sido marcado como FINALIZADO", tipo="success")
+    messages.success(request, 'El intercambio fue finalizado correctamente!')
     return redirect("/intercambios/ver_intercambios_activos")
     
 
@@ -92,6 +129,7 @@ def anular_finalizacion_intercambio (request, publicacion_id):
             intercambio.estado = "pendiente";
             intercambio.fecha_aceptacion = None;
             intercambio.save()
-            messages.success(request, 'El intercambio fue anulado correctametente!')
-            Notificacion.objects.create(fecha=timezone.now(), user=intercambio.publicacion.autor, descripcion="El intercambio " + str(intercambio.id) + " ha sido marcado ANULADO")
+            messages.success(request, 'El intercambio fue anulado correctamente!')
+            gestorNotis = NotificationManager()
+            gestorNotis.crear_notificacion(user=intercambio.publicacion.autor.id, message="El intercambio " + str(intercambio.id) + " ha sido marcado ANULADO", tipo="error")
         return redirect("/intercambios/ver_intercambios_activos")

@@ -1,1 +1,1 @@
-from Aplicaciones.Modelos.models import Persona
+from Aplicaciones.Modelos.models import Usuario

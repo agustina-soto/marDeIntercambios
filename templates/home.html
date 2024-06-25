@@ -1,12 +1,46 @@
 {% extends "base.html" %}
-
 {% load static %}
 
 {% block content %}
-    <div class="col">
-        <h3>Mar de Intercambios</h3>
-        <h1>probando</h1>
-        <h5>probando</h5>
+
+<div class="row">
+    <div class="col-12 mb-3">
+        {% include "Publicidades/banner_central.html" %}
+    </div>
+    
+    <div class="d-none d-lg-block col-lg-2 mb-3">
+        {% include "Publicidades/banner_lateral.html" %}
+    </div>
+    
+    <div class="col-12 col-lg-8">
+        <div class="container">
+            <h3>Publicaciones</h3>
+            {% include 'VisualizacionPublicaciones/publicaciones.html' %} <!-- este archivo muestra las publicaciones de la plataforma (no tiene en cuenta las eliminadas)-->
+            <!-- Paginación -->
+            <div class="pagination">
+                <span class="step-links">
+                    {% if publicaciones.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ publicaciones.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ publicaciones.number }} of {{ publicaciones.paginator.num_pages }}.
+                    </span>
+
+                    {% if publicaciones.has_next %}
+                        <a href="?page={{ publicaciones.next_page_number }}">next</a>
+                        <a href="?page={{ publicaciones.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
     </div>
 
+    <div class="d-none d-lg-block col-lg-2 mb-3">
+        {% include "Publicidades/banner_lateral.html" %}
+    </div>
+</div>
+
 {% endblock content %}
+

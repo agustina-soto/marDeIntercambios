@@ -6,13 +6,9 @@ from django.utils.timezone import now
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import models as auth_models
-from Aplicaciones.Modelos.estados import ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO
+from Aplicaciones.Modelos.estados import ESTADO_CUENTA, ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO
 
 # ---------- USUARIOS ---------------------------------------------------------------------------
-
-class Persona(models.Model):
-    nombre=models.CharField(max_length=50)
-    apellido=models.CharField(max_length=50)
 
 class Usuario(auth_models.AbstractUser):
     #Se usa campo password de la clase AbstractUser
@@ -21,11 +17,14 @@ class Usuario(auth_models.AbstractUser):
             MaxValueValidator(99999999)
         ], unique=True)
     fecha_nacimiento = models.DateField()
+    favoritos = models.ManyToManyField('Publicacion', related_name='favoritos')    
+    estado_cuenta = models.CharField(max_length=15, choices=ESTADO_CUENTA, default='activo')
 
     #campos para el bloqueo de cuenta
     bloqueado = models.BooleanField(default=False)
     contador_ingresos_fallidos = models.IntegerField(default=0)
     fecha_bloqueo = models.DateTimeField(null=True)
+
 
     #Especifico nombres y Permisos Unicos para no entrar en conflicto con el modelo auth.User integrado de Django
     groups = models.ManyToManyField(
@@ -75,7 +74,6 @@ class Usuario(auth_models.AbstractUser):
     class Meta:
         verbose_name = "Mi modelo de usuario"
         verbose_name_plural = "Mis modelos de usuario"
-
 
 # ---------- PUBLICACIONES ----------------------------------------------------------------------
 
@@ -130,7 +128,6 @@ class Oferta(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='ofertas_publicacion', on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=150)
     precio_estimado = models.DecimalField(max_digits=10, decimal_places=1)
-    # no me acuerdo como lo hizo gio, por ahora lo dejo asi el Estado
     estado = models.CharField(max_length=10, choices=ESTADO_OFERTA, default='pendiente')
 
 
@@ -144,8 +141,9 @@ class Intercambios(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='intercambios', on_delete=models.CASCADE)
     estado = models.CharField(max_length=10, choices=ESTADO_INTERCAMBIO, default='aceptado')
     fecha_aceptacion = models.DateTimeField(default=now, null=True)
-# ---------- CHAT --------------------------------------------------------------------------------------
 
+
+# ---------- CHAT --------------------------------------------------------------------------------------
 class Room(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
@@ -170,13 +168,28 @@ class Message(models.Model):
    # ---------- NOTIFICACIONES --------------------------------------------------------------------------------------     
 
 class Notificacion(models.Model):
+    NOTIFICATION_TYPES = (
+        ('success', 'Success'),
+        ('warning', 'Warning'),
+        ('error', 'Error'),
+    )
+
+
     user = models.ForeignKey(Usuario,related_name="userN", on_delete=models.CASCADE)
-    descripcion = models.CharField(max_length=150, null=True, blank=True)
+    descripcion = models.TextField()
+    tipo = models.CharField(max_length=10, choices=NOTIFICATION_TYPES)
     fecha = models.DateTimeField(default=timezone.now)
 
     class Meta:
         ordering = ("-fecha",)
 
 
+# ---------- HISTORIAL DE PUBLICACIONES -----------------------------------------------------------------------------
+class Historial(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='historial_publicaciones')
+    publicacion = models.ForeignKey(Publicacion, on_delete=models.CASCADE)
+    fecha_visita = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.usuario.username} - {self.publicacion.titulo} - {self.fecha_visita}"
 

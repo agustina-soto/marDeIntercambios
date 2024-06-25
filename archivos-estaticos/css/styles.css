@@ -82,7 +82,7 @@ img {
     width: 100%; /* Ancho completo */
     text-align: center; /* Alineación centrada */
     max-height: 280px;
-    margin-top: 600px;
+    /* margin-top: 600px; */
 }
 
 .footer-heading {
@@ -302,13 +302,6 @@ button:hover {
     margin-left: 0; /* Elimina cualquier margen izquierdo que pueda tener el elemento */
 }
 
-/*  Estilo de OFERTAS  */
-.oferta-rechazada {
-    background-color: #d4d0d0; /* Fondo gris claro */
-    padding: 1px; /* Espacio interno para el texto */
-    border-radius: 5px; /* Bordes redondeados */
-}
-
 /*  ESTILOS DE VER PERFIL  */
 .perfil-info ul {
     list-style-type: none; /* Elimina los puntos de la lista */
@@ -350,6 +343,20 @@ button:hover {
     display: block; /* Evita espacios en blanco debajo de las fotos */
 }
 
+/*  Estilo de OFERTAS  */
+.oferta-rechazada {
+    background-color: #d4d0d0; /* Fondo gris claro */
+    padding: 1px; /* Espacio interno para el texto */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.ofertas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Define dos columnas iguales */
+    gap: 20px; /* Espacio entre elementos */
+    margin-top: 20px;
+}
+
 /* Elimina los puntos de lista de las ofertas */
 .ofertas ul {
     list-style-type: none; /* Elimina los puntos de lista */
@@ -368,6 +375,7 @@ button:hover {
     list-style-type: none; /* Elimina los puntos de lista */
     padding: 0; /* Elimina el relleno interno de la lista */
     margin: 0; /* Elimina el margen exterior de la lista */
+    
 }
 
 .publicaciones li {
@@ -402,42 +410,4 @@ button:hover {
 /* Cambios en el estilo del botón al pasar el ratón */
 .search-button:hover {
     background-color: #218838; /* Color de fondo al pasar el ratón */
-}
-
-/* CSS para la vista maximizada */
-.image-modal {
-    display: none; /* Oculto por defecto */
-    position: fixed; /* Posición fija para cubrir toda la pantalla */
-    z-index: 1000; /* Coloca el modal encima de otros elementos */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.9); /* Fondo negro con opacidad */
-}
-
-.image-modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-}
-
-.close-modal {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #fff;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.close-modal:hover,
-.close-modal:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
 }
