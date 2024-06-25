@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h1>Publicaciones Comparadas</h1>
+
+        <!-- Hice una tabla para la comparación de publicaciones  -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    {% for publicacion in publicaciones %}
+                        <th>{{ publicacion.titulo }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Descripción</td>
+                    {% for publicacion in publicaciones %}
+                        <td>{{ publicacion.descripcion }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>Precio mínimo</td>
+                    {% for publicacion in publicaciones %}
+                        <td>{{ publicacion.precio_minimo }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>Tipo Embarcación</td>
+                    {% for publicacion in publicaciones %}
+                        <td>{{ publicacion.tipo_embarcacion }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>Año</td>
+                    {% for publicacion in publicaciones %}
+                        <td>{{ publicacion.anio }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>Autor</td>
+                    {% for publicacion in publicaciones %}
+                        <td>{{ publicacion.autor }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>Estado</td>
+                    {% for publicacion in publicaciones %}
+                        <td>{{ publicacion.estado }}</td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Botón para volver a la página anterior -->
+        <div class="text-center">
+            <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+        </div>
+    </div>
+{% endblock content %}
