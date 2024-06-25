@@ -75,7 +75,7 @@ img {
     width: 100%; /* Ancho completo */
     text-align: center; /* Alineación centrada */
     max-height: 280px;
-    margin-top: 600px;
+    /* margin-top: 600px; */
 }
 
 .footer-heading {
@@ -426,3 +426,31 @@ button:hover {
     background-color: #b5b4b4; /* Color de fondo al pasar el ratón */
 }
 
+
+/* Ads */
+
+.lateral-ad img {
+    /* background-image: url("https://www.commonmind.com/hubfs/Imported_Blog_Media/google-shopping-ad-example-3.png");
+    background-size: contain;
+    background-repeat: no-repeat; */
+    width: 15%;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+
+}
+
+
+.center-ad img {
+    /* background-image: url("https://creatives.sascdn.com/diff/4308/advertiser/489787/CopaAmerica_2024_Banner_Medium_Rectangle_b9fb1ccd-f776-4387-b776-bb564a24a457.jpeg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 200px; */
+    width: 50%;
+
+}
+
+/*     Buscar Publicaciones         */
+.buscar-contenido {
+
+}

@@ -3,18 +3,17 @@
 {% load static %}
 
 {% block content %}
-
-    {% block publicidad-banner %}
-    {% endblock publicidad-banner %}
-
-
 <div class="row">
-
-    {% block left-publi %}
-    {% endblock left-publi %}
+    <div class="col-12 mb-3">
+        {% include "Publicidades/banner_central.html" %}
+    </div>
     
-    <div class="col">
-        <div class="container">
+    <div class="d-none d-lg-block col-lg-2 mb-3">
+        {% include "Publicidades/banner_lateral.html" %}
+    </div>
+    
+    <div class="col-12 col-lg-8">
+        
             <h3>Publicaciones</h3>
             <section>
                 {% if not publicaciones %}
@@ -68,11 +67,13 @@
                     {% endif %}
                 </span>
             </div>
-        </div>
+        
     </div>
-    
-    {% block right-publi %}
-    {% endblock right-publi %}
+
+    <div class="d-none d-lg-block col-lg-2 mb-3">
+        {% include "Publicidades/banner_lateral.html" %}
+    </div>
+
     
     
 </div>
