@@ -25,6 +25,8 @@ class Usuario(auth_models.AbstractUser):
     contador_ingresos_fallidos = models.IntegerField(default=0)
     fecha_bloqueo = models.DateTimeField(null=True)
 
+    is_superuser = models.BooleanField(default=False)
+
 
     #Especifico nombres y Permisos Unicos para no entrar en conflicto con el modelo auth.User integrado de Django
     groups = models.ManyToManyField(
