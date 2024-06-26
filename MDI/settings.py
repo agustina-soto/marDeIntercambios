@@ -58,10 +58,10 @@ INSTALLED_APPS = [
     'Aplicaciones.Ofertas',
     'channels', #Para el chat pip install channels
     "channels_redis", #Para el chat pip install channels_redis
-    'Aplicaciones.Notificaciones.Notificacion'
+    'Aplicaciones.Notificaciones.Notificacion',
+    'anymail', #Correo pip install django-anymail (Lo dejo acá, lo más probable es que lo volemos luego de la demo)
 ]
 
-#'anymail', #Correo pip install django-anymail (Lo dejo acá, lo más probable es que lo volemos luego de la demo)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -173,13 +173,13 @@ AUTH_USER_MODEL = 'Modelos.Usuario'
 
 LOGIN_URL = 'login' # Esto le dice a Django que redirija a la URL llamada login cuando un usuario no autenticado intente acceder a una vista protegida
 
-#PARA EL ENVIO DE CORREO ELECTRONICO (CON CORREO APARTE, SOLO FUNCIONA PARA 10 EMAILS Y DESPUES TE SALTA ERROR DE SPAM)
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_HOST = 'smtp-mail.outlook.com'
-#EMAIL_PORT = 587
-#EMAIL_USE_TLS = True
-#EMAIL_HOST_USER = 'Glam.Tech@hotmail.com'
-#EMAIL_HOST_PASSWORD = 'GlamTech2024'
+## PARA EL ENVIO DE CORREO ELECTRONICO (CON CORREO APARTE, SOLO FUNCIONA PARA 10 EMAILS Y DESPUES TE SALTA ERROR DE SPAM)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'Glam.Tech@hotmail.com'
+EMAIL_HOST_PASSWORD = 'GlamTech2024'
 
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
 
