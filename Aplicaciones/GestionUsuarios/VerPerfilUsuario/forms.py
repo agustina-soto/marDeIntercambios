@@ -32,11 +32,16 @@ class EditarPerfilForm(forms.ModelForm):
         if not fecha_nacimiento:
             raise forms.ValidationError('Este campo es obligatorio.')
 
+        edad = date.today().year - fecha_nacimiento.year - ((date.today().month, date.today().day) < (fecha_nacimiento.month, fecha_nacimiento.day))
+
         # Validacion de edad minima (mayor o igual a 18 años)
-        edad_minima = date.today().year - fecha_nacimiento.year - ((date.today().month, date.today().day) < (fecha_nacimiento.month, fecha_nacimiento.day))
-        if edad_minima < 18:
+        if edad < 18:
             raise forms.ValidationError('Debe ser mayor de edad para registrarse.')
 
+        # Validación de edad máxima (no mayor a 90 años)
+        if edad > 90:
+            raise forms.ValidationError('El año de nacimiento ingresado no es válido.')
+    
         return fecha_nacimiento
 
     def clean_dni(self):
