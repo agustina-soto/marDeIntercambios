@@ -91,7 +91,7 @@ class Publicacion(models.Model):
     # Con el OneToOne cada publicacion puede tener como maximo una oferta aceptada, y cada oferta aceptada puede estar vinculada solo a una publicacion
 
     def aceptar_oferta(self, oferta):
-        if oferta.estado == 'rechazada':
+        if oferta.estado == 'rechazada' or oferta.estado == 'Rechazada':
             raise Exception("No se puede aceptar una oferta rechazada.")
         if self.oferta_aceptada:
             raise Exception("Ya hay una oferta aceptada para esta publicación.")
@@ -101,7 +101,7 @@ class Publicacion(models.Model):
         self.save()
 
     def rechazar_oferta(self, oferta):
-        if oferta.estado == 'aceptada':
+        if oferta.estado == 'aceptada' or oferta.estado == 'Aceptada':
             raise Exception("No se puede rechazar una oferta que ya ha sido aceptada.")
         oferta.estado = 'rechazada'
         oferta.save()
@@ -118,10 +118,6 @@ class Publicacion(models.Model):
 class FotoPublicacion(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='fotos', on_delete=models.CASCADE)
     foto = models.ImageField(upload_to='archivos-estaticos/fotos_publicaciones/')
-    """
-    El upload es necesario porque sino las fotos se almacenan directamente en la base de datos como datos binarios,
-    lo que puede hacerla más pesada y menos eficiente para recuperar y manejar
-    """
 
 # ---------- OFERTAS -----------------------------------------------------------------------------
 
