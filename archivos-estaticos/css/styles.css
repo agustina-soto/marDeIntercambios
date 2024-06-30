@@ -16,6 +16,10 @@ body {
     overflow-y: auto; /* Habilita el scroll vertical */
 }
 
+main {
+    min-height: 100vh
+}
+
 /* Aplica un fondo blanco al contenido principal par que se lea mejor el contenido con el background como foto*/
 .main-content {
     background-color: #f8f2eb; /* Fondo blanco con transparencia */
@@ -451,6 +455,3 @@ button:hover {
 }
 
 /*     Buscar Publicaciones         */
-.buscar-contenido {
-
-}

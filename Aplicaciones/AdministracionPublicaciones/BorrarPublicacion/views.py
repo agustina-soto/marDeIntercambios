@@ -14,7 +14,7 @@ def borrar_publicacion(request, publicacion_id):
 
         if intercambios_aceptados:
             messages.error(request, 'No puedes eliminar esta publicación porque tiene intercambios aceptados.')
-            return redirect('inicio')
+            return redirect('VisualizacionPublicaciones:ver_detalle', pk=publicacion.pk)
 
         # Si no hay intercambios aceptados, proceder con la eliminación de la publicación
         publicacion.estado = 'eliminada'
@@ -35,4 +35,4 @@ def borrar_publicacion(request, publicacion_id):
         return redirect('VisualizacionPublicaciones:ver_detalle', pk=publicacion.pk)
 
     messages.error(request, '¡Ha ocurrido un error al intentar eliminar la publicación!')
-    return redirect('inicio')
+    return redirect('home') # tenia 'inicio' acá, no encontré nada definido así pero recuerdo haberlo declarado asique si falla es por esto

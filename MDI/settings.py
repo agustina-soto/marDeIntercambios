@@ -62,10 +62,10 @@ INSTALLED_APPS = [
     'Aplicaciones.Ofertas',
     'channels', #Para el chat pip install channels
     "channels_redis", #Para el chat pip install channels_redis
-    'Aplicaciones.Notificaciones.Notificacion'
+    'Aplicaciones.Notificaciones.Notificacion',
+    'anymail', #Correo pip install django-anymail (Lo dejo acá, lo más probable es que lo volemos luego de la demo)
 ]
 
-#'anymail', #Correo pip install django-anymail (Lo dejo acá, lo más probable es que lo volemos luego de la demo)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
