@@ -21,6 +21,6 @@
             <span class="error-message">{{ form.newPasswordRepeat.errors }}</span>
         </div>
         <button type="submit" class="btn btn-primary m-1">Guardar Cambios</button>
-        <a href="/usuarios/perfilDeUsuario/editar/" class="btn btn-primary m-1">Volver</a>
+        <a href="{% url 'editar_perfil_usuario' %}" class="btn btn-primary m-1">Volver</a>
     </form>
 {% endblock %}
