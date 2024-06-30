@@ -34,4 +34,4 @@ def quitar_de_favoritos(request, publicacion_id):
     else:
         messages.success(request, 'No puedes quitar esta publicación porque no está en tus favoritos.')
 
-    return render(request, 'VisualizacionPublicaciones/ver_favoritos.html', {'publicaciones_favoritas': publicaciones_favoritas}) # Quita de favoritos y redirige al detalle de la publicacion
+    return redirect('VisualizacionPublicaciones:ver_detalle', pk=publicacion.id)
