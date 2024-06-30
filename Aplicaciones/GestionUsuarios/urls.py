@@ -18,5 +18,6 @@ urlpatterns = [
     path('ver_lista_usuarios_baneados/', lista_views.ver_lista_usuarios_baneados, name='ver_lista_usuarios_baneados'),
     path('registrar_usuario_administrador/', register_views.registrar_usuario_administrador, name='registrar_usuario_administrador'),
     path('banear_usuario/<int:usuario_id>/', banear_views.banear_usuario, name='banear_usuario'),
+    path('desbanear_usuario/<int:usuario_id>/', banear_views.desbanear_usuario, name='desbanear_usuario'),
 ]
 

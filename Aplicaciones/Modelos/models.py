@@ -76,6 +76,12 @@ class Usuario(auth_models.AbstractUser):
         tiempoRestante = (fechaDeDesbloqueo - ahora)
         return tiempoRestante.total_seconds()/3600
     
+    def cuanto_te_falta_x_baneo(self):
+        ahora = timezone.now()
+        fechaDeDesbloqueo = self.fecha_bloqueo + timedelta(days=7) #tremenda falopa, además de ser del mismo tipo, tenés que verificar que ambos datetime sean naive o aware
+        tiempoRestante = (fechaDeDesbloqueo - ahora)
+        return tiempoRestante.total_seconds()/3600
+    
     class Meta:
         verbose_name = "Mi modelo de usuario"
         verbose_name_plural = "Mis modelos de usuario"

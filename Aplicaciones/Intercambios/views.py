@@ -13,6 +13,8 @@ from django.http import HttpResponse
 # Create your views here.
 def ver_intercambios_activos(request):
     
+    ## Los intercambios solo son posibles con publicaciones aceptadas
+    # dataPublicaciones = Publicacion.objects.filter(oferta_aceptada_id__isnull=False, estado="aceptada");
     dataPublicaciones = Publicacion.objects.filter(oferta_aceptada_id__isnull=False);
     arrayDatos = [];
     for pub in dataPublicaciones:
