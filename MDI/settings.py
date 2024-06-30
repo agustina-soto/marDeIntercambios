@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'Aplicaciones.GestionUsuarios.VerPerfilUsuario',
     'Aplicaciones.GestionUsuarios.ActualizarContraseña',
     'Aplicaciones.GestionUsuarios.RecuperarContraseña',
+    'Aplicaciones.GestionUsuarios.DarDeBajaCuenta',
     'Aplicaciones.AdministracionPublicaciones.RealizarPublicacion',
     'Aplicaciones.AdministracionPublicaciones.EditarPublicacion',
     'Aplicaciones.AdministracionPublicaciones.BorrarPublicacion',
@@ -178,7 +179,7 @@ LOGIN_URL = 'login' # Esto le dice a Django que redirija a la URL llamada login 
 
 #PARA EL ENVIO DE CORREO ELECTRONICO (CON CORREO APARTE, OJITO CON MANDAR MUCHOS EN POCO TIEMPO)
 
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' PARA PROBAR EL CODIGO EN CONSOLA
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #PARA PROBAR EL CODIGO EN CONSOLA
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

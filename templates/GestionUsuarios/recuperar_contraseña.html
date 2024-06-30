@@ -4,8 +4,9 @@
     <p>No cebarse mandando mails a cada rato. Para pruebas, hay que ir a settings y activar el de EMAIL_BACKEND de console para probar. Hay que borrar este comentario</p>
     <form method="post" class="form-signin">
         {% csrf_token %}
-        <h4>Ingrese su correo electronico</h4>
+        <h1 class="h3 mb-3 font-weight-normal">Recupera tu contraseña</h1>
         <div class="form-group">
+            <label>Ingrese su correo electronico</label>
             <input type="text" name="correo" class="form-control">
         </div>
         <button type="submit" class="btn btn-primary m-1">Recuperar contraseña</button>
