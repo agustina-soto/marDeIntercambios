@@ -10,12 +10,12 @@ def login_view(request):
         if form.is_valid():          
             unUsername = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            #Me traigo el usuario con mismo username de la db para verificar contraseña
-            user = Usuario.objects.get(username=unUsername) 
-            if user.check_password(password):           
-                return inicio_sesion_exitoso(request, user, form)
-            else:
-                return inicio_sesion_fallido(request, user, form)         
+            user = Usuario.objects.get(username=unUsername) #Me traigo el usuario con mismo username de la db para verificar contraseña
+            if (no_esta_eliminado(request, user)):
+                if user.check_password(password):           
+                    return inicio_sesion_exitoso(request, user, form)
+                else:
+                    return inicio_sesion_fallido(request, user, form)         
         else:
             #No se encontró nombre de usuario en BD
             messages.error(request, 'Usuario o contraseña no válidos. Por favor, intenta de nuevo')
@@ -23,15 +23,20 @@ def login_view(request):
         form = LoginForm()
     return render(request, 'Autenticacion/login.html', {'form': form})
 
-#Manejo inicio de sesión fallido
+def no_esta_eliminado(request, usuario):
+    if (usuario.estado_cuenta == 'Deshabilitado'):
+        messages.error(request, 'Usuario o contraseña no válidos. Por favor, intenta de nuevo')
+        return False
+    return True
 
+#Manejo inicio de sesión fallido
 def inicio_sesion_fallido(request, user, form):
     if not user.bloqueado or fin_de_bloqueo(user):
         if user.bloqueado:
             user.desbloquear()
         fallo_iniciar_sesion(request, user)
     else:
-        messages.error(request, 'Inicio de sesión deshabilitado por 24 hs (En realidad le di 2 minutos)')
+        messages.error(request, 'Inicio de sesión deshabilitado por 24 hs')
     return render(request, 'Autenticacion/login.html', {'form': form})
 
 def fallo_iniciar_sesion(request, user):
@@ -47,7 +52,7 @@ def inicio_sesion_exitoso(request, user, form):
         iniciar_sesion(request, user)
         return redirect('home')
     else:
-        messages.error(request, 'Inicio de sesión deshabilitado por 24 hs (En realidad le di 2 minutos)')
+        messages.error(request, 'Inicio de sesión deshabilitado por 24 hs')
     return render(request, 'Autenticacion/login.html', {'form': form})
     
 def iniciar_sesion(request, user):

@@ -6,6 +6,7 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+        <a href="{% url 'actualizar_password' %}" class="boton-discreto">Actualizar contraseña</a><br>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         <a href="{% url 'editar_perfil_usuario' %}" class="btn btn-primary">Cancelar</a> <!-- habria que agregarlo en varias si les va ponerlos, este en particular no vuelve "para atras", te deja en el editar con los valores guardados -->
     </form>
