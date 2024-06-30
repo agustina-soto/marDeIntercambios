@@ -13,14 +13,14 @@ def perfil_view(request):
     fechaDN = usuario.fecha_nacimiento
     dni = usuario.dni
     #El ver perfil de la h.u estaba raro, por el momento agregé para que un usuario autenticado vea su perfil
-    pubs = Publicacion.objects.filter(autor=request.user).prefetch_related('fotos') 
-    ofertas = Oferta.objects.filter(autor=request.user).prefetch_related('fotos')
+    publicaciones = Publicacion.objects.filter(autor=request.user).prefetch_related('fotos')[:3]
+    ofertas = Oferta.objects.filter(autor=request.user).prefetch_related('fotos')[:3] # muestra solo las primeras 3
     return render(request, 'GestionUsuarios/perfilDeUsuario.html',
     {'username': correo,
      'fechaNacimiento': fechaDN,
-      'dni': dni,
-      'publicaciones': pubs,
-      'ofertas': ofertas, }
+     'dni': dni,
+     'publicaciones': publicaciones,
+     'ofertas': ofertas, }
     )
 
 @login_required
@@ -39,3 +39,17 @@ def editar_perfil_view(request):
         'form': form,
     }
     return render(request, 'GestionUsuarios/editar_perfil.html', context)
+
+def ver_todas_mis_publicaciones(request):
+    publicaciones = Publicacion.objects.filter(autor=request.user)
+    context = {
+        'publicaciones': publicaciones,
+    }
+    return render(request, 'VisualizacionPublicaciones/ver_todas_mis_publicaciones.html', context)
+
+def ver_todas_mis_ofertas(request):
+    ofertas = Oferta.objects.filter(autor=request.user)
+    context = {
+        'ofertas': ofertas,
+    }
+    return render(request, 'Ofertas/ver_todas_mis_ofertas.html', context)
