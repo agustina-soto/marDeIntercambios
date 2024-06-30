@@ -5,7 +5,7 @@
     <br>
     <a href="{% url 'VisualizacionPublicaciones:ver_favoritos' %}" class="boton-discreto">Ver Publicaciones Favoritas</a>
     <a href="{% url 'VisualizacionPublicaciones:ver_historial' %}" class="boton-discreto">Ver Historial de Publicaciones</a>
-    <a href="{% url 'editar_perfil_usuario' %}" class="boton-discreto">Editar Información Personal</a>
+    <a href="{% url 'editar_perfil_usuario' user_id %}" class="boton-discreto">Editar Información Personal</a>
 
     <br><br>
 
@@ -16,7 +16,7 @@
             <li><p>Correo Electrónico: {{ username }}</p></li>
             <li><p>Fecha de Nacimiento: {{ fechaNacimiento }}</p></li>
             <li><p>DNI: {{ dni }}</p></li>
-            <a href="{% url 'dar_de_baja_cuenta' %}" class="boton-discreto">Eliminar Cuenta</a><br>
+            <a href="{% url 'dar_de_baja_cuenta' user_id %}" class="boton-discreto">Eliminar Cuenta</a><br>
         </ul>
     </div>
 

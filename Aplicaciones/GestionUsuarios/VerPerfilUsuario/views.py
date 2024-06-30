@@ -20,7 +20,8 @@ def perfil_view(request, user_id):
     pubs = Publicacion.objects.filter(autor=request.user).prefetch_related('fotos') 
     ofertas = Oferta.objects.filter(autor=request.user).prefetch_related('fotos')
     return render(request, 'GestionUsuarios/perfilDeUsuario.html',
-    {'username': correo,
+    { 'user_id': user_id,
+      'username': correo,
      'fechaNacimiento': fechaDN,
       'dni': dni,
       'publicaciones': pubs,
@@ -29,17 +30,22 @@ def perfil_view(request, user_id):
 
 @login_required
 def editar_perfil_view(request, user_id):
-    usuario = request.user
+    
+    if request.user.id != user_id:
+        return HttpResponse('Acceso denegado', status=403)
+    
+    usuario = Usuario.objects.get(id=user_id)
     if request.method == 'POST':
         form = EditarPerfilForm(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
             messages.success(request, 'Datos personales actualizados')
-            return redirect('perfil_de_usuario/', user_id)
+            return redirect('perfil_de_usuario', user_id)
     else:
         form = EditarPerfilForm(instance=usuario)
     
     context = {
+        'user_id': user_id,
         'form': form,
     }
     return render(request, 'GestionUsuarios/editar_perfil.html', context)

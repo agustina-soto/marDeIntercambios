@@ -1,11 +1,17 @@
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from MDI.decorator import login_required
+from Aplicaciones.Modelos.models import Usuario
 
 @login_required
-def dar_de_baja(request):
+def dar_de_baja(request, user_id):
+
+    if request.user.id != user_id:
+        return HttpResponse('Acceso denegado', status=403)
+    
     if (request.method == 'POST'):
-        usuario = request.user
+        usuario = Usuario.objects.get(id=user_id)
         motivo = request.POST.get('motivo')
         ok = True;
         if (not motivo):
@@ -19,7 +25,7 @@ def dar_de_baja(request):
                 messages.error(request, " No pueden eliminarse cuentas con ofertas aceptadas. Debes cancelar la oferta aceptada para proceder con la baja de la cuenta")
                 ok = False
         if (ok):
-            eliminar_cuenta(request.user, motivo)
+            eliminar_cuenta(usuario, motivo)
             messages.success(request, "La cuenta ha sido dada de baja")
             return redirect('login')
     return render(request, "GestionUsuarios/dar_de_baja_cuenta.html")
