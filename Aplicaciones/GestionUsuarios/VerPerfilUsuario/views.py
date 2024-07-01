@@ -16,20 +16,25 @@ def perfil_view(request, user_id):
     correo = usuario.username
     fechaDN = usuario.fecha_nacimiento
     dni = usuario.dni
-    #El ver perfil de la h.u estaba raro, por el momento agregé para que un usuario autenticado vea su perfil
-    publicaciones = Publicacion.objects.filter(autor=request.user).prefetch_related('fotos')[:3]
-    ofertas = Oferta.objects.filter(autor=request.user).prefetch_related('fotos')[:3] # muestra solo las primeras 3
 
-    publicaciones = Publicacion.objects.filter(autor=request.user).prefetch_related('fotos')[:3]
-    ofertas = Oferta.objects.filter(autor=request.user).prefetch_related('fotos')[:3] # muestra solo las primeras 3
-    return render(request, 'GestionUsuarios/perfilDeUsuario.html',
-    { 'user_id': user_id,
-      'username': correo,
-     'fechaNacimiento': fechaDN,
-     'dni': dni,
-     'publicaciones': publicaciones,
-     'ofertas': ofertas, }
-    )
+    # Agarro todas las publicaciones y me quedo con las primeras 3
+    todas_publicaciones = Publicacion.objects.filter(autor=request.user).prefetch_related('fotos')
+    publicaciones = todas_publicaciones[:3]
+
+    # Agarro todas las ofertas y me quedo con las primeras 3
+    todas_ofertas = Oferta.objects.filter(autor=request.user).prefetch_related('fotos')
+    ofertas = todas_ofertas[:3]
+
+    return render(request, 'GestionUsuarios/perfilDeUsuario.html', {
+        'user_id': user_id,
+        'username': correo,
+        'fechaNacimiento': fechaDN,
+        'dni': dni,
+        'publicaciones': publicaciones,
+        'todas_publicaciones_count': todas_publicaciones.count(),  # Envia la cantidad total de publicaciones
+        'ofertas': ofertas,
+    })
+
 
 @login_required
 def editar_perfil_view(request, user_id):
@@ -53,12 +58,14 @@ def editar_perfil_view(request, user_id):
     }
     return render(request, 'GestionUsuarios/editar_perfil.html', context)
 
+
 def ver_todas_mis_publicaciones(request):
     publicaciones = Publicacion.objects.filter(autor=request.user)
     context = {
         'publicaciones': publicaciones,
     }
     return render(request, 'VisualizacionPublicaciones/ver_todas_mis_publicaciones.html', context)
+
 
 def ver_todas_mis_ofertas(request):
     ofertas = Oferta.objects.filter(autor=request.user)
