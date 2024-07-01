@@ -99,8 +99,8 @@ def editar_publicidad(request, pk):
 
     return render(request, 'Publicidad/editar_publicidad.html', {'form': form})
 
-"""
-ESTA ENTRAR EN CONFLICTO CON LA FECHA XQ SI NO LA ELIMINO DE LA BASE DE DATOS QUEDA COMO OCUPADA 
+
+#ESTA ENTRAR EN CONFLICTO CON LA FECHA XQ SI NO LA ELIMINO DE LA BASE DE DATOS QUEDA COMO OCUPADA 
 
 def eliminar_publicidad(request, pk):
     publicidad = get_object_or_404(Publicidad, pk=pk)
@@ -110,4 +110,4 @@ def eliminar_publicidad(request, pk):
         return redirect('listar_publicidades')
     
     return render(request, 'Publicidad/listar_publicidades.html', {'publicidades': Publicidad.objects.all()})
-"""
+

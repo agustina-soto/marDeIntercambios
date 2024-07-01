@@ -9,7 +9,7 @@
         // Se define un array en JavaScript para almacenar las fechas ocupadas
         var fechasOcupadas = [
             {% for fecha in fechas_ocupadas %}
-                '{{ fecha|date:"Y-m-d" }}',
+                '{{ fecha|date:"Y-m-d" }}' {%if not forloop.last%} , {% endif %}
             {% endfor %}
         ];
 
@@ -40,11 +40,11 @@
         {% csrf_token %}
         {{ publicidad_form.as_p }}
 
-        <div id="content">
-            <!-- Ejemplo de uso de Datepicker -->
+        <!--<div id="content">
+            
             <label for="fecha">Selecciona una fecha:</label>
             <input type="text" id="fecha" name="fecha" class="datepicker">
-        </div>
+        </div> -->
         
         <button type="submit" class="btn btn-primary">Programar</button>  
     </form>
