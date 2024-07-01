@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 mb-3">
+            {% include "Publicidad/banner_central.html"%}
+        </div>
+        <div class="d-none d-lg-block col-lg-2 mb-3">
+            {% include "Publicidad/banner_lateral.html" %}
+        </div>
+        <div class="col-2 col-lg-8 text-center">
+            <h1>PUBLICIDADES PREVISUALIZADAS</h1>
+            <p>Cliente: {{publicidad.cliente}}</p>
+            <p>Fecha de publicación: {{publicidad.fecha}}</p>
+            <p>Duración hasta: {{duracion}}</p>
+            <div>
+                <a href="{% url 'listar_publicidades' %}" class="btn btn-primary m-1">Volver</a>
+            </div>
+        </div>
+        <div class="d-none d-lg-block col-lg-2 mb-3">
+            {% include "Publicidad/banner_lateral.html" %}
+        </div>
+    </div>
+    
+   
+    
+
+{% endblock %}

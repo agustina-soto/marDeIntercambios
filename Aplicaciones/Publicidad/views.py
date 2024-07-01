@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .models import Publicidad
 from .forms import PublicidadForm
 from django.contrib import messages
+from datetime import timedelta
 
 """def programar_publicidad(request):
     if request.method == 'POST':
@@ -53,7 +54,7 @@ def programar_publicidad(request):
 
     else:
         publicidad_form = PublicidadForm()
-    
+
     # Obtener todas las fechas ocupadas y convertirlas a cadenas
     fechas_ocupadas = Publicidad.objects.values_list('fecha', flat=True)
 
@@ -98,6 +99,14 @@ def editar_publicidad(request, pk):
 
 def eliminar_publicidad(request, pk):
     pass
+
+def previsualizar_publicidad(request, pk):
+    hoy = timezone.now().date() + timedelta(days=1)
+    context = {
+        'duracion': hoy
+    }
+    print(hoy)
+    return render(request, 'publicidad/previsualizar_publicidad.html', context)
 
 """
 ESTA ENTRAR EN CONFLICTO CON LA FECHA XQ SI NO LA ELIMINO DE LA BASE DE DATOS QUEDA COMO OCUPADA 

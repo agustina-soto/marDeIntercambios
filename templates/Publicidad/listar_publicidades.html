@@ -14,6 +14,9 @@
             <a href="{% url 'editar_publicidad' publicidad.id %}">
                 <button type="button">Editar</button>
             </a>
+            <a href="{% url 'previsualizar_publicidad' publicidad.id %}">
+                <button type="button">Previsualizar</button>
+            </a>
         </li>
     {% empty %}
         <li>No hay publicidades creadas.</li>
