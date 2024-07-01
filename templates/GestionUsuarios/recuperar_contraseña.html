@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>No cebarse mandando mails a cada rato. Para pruebas, hay que ir a settings y activar el de EMAIL_BACKEND de console para probar. Hay que borrar este comentario</p>
+    <form method="post" class="form-signin">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal">Recupera tu contraseña</h1>
+        <div class="form-group">
+            <label>Ingrese su correo electronico</label>
+            <input type="text" name="correo" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary m-1">Recuperar contraseña</button>
+        <a href="{% url 'login' %}" class="btn btn-primary m-1">Volver</a>
+    </form>
+{% endblock %}

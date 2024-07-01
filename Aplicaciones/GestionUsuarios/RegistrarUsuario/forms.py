@@ -33,6 +33,14 @@ class RegistroForm(UserCreationForm):
         model = Usuario
         fields = ('username', 'dni', 'fecha_nacimiento', 'password1', 'password2')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': 'form-control'})
+        self.fields['dni'].widget.attrs.update({'class': 'form-control'})
+        self.fields['fecha_nacimiento'].widget.attrs.update({'class': 'form-control'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control'})
+
 #VERIFICACIONES
 
     #Username
