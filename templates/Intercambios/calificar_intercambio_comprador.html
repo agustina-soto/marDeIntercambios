@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Calificar Intercambio</h2>
+
+<div class="container py-4">
+    <h3>¿Cómo calificarias el proceso de intercambio?</h3>
+    <div>
+        
+        <form class="calification-form" action="{% url 'calificar_intercambio_comprador' context.intercambio context.comprador %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="calification-input" id="calification-input" required>
+
+            <div class="w-75 m-auto">
+                {% for n in context.range %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio{{n}}" value="{{n}}" autocomplete="off" onclick="asignarCalificacion(this.value)">
+                    <label class="form-check-label" for="inlineRadio{{n}}">{{n}}</label>
+                  </div>
+                  {% endfor %}
+                  
+                  <div class="form-floating my-4">
+                      <textarea class="form-control" placeholder="Dejanos un comentario" id="textAreaCalificacion" name="textAreaCalificacion" style="height: 100px"></textarea>
+                      <label for="textAreaCalificacion">Algún comentario que quieras brindarnos?</label>
+                    </div>
+                    
+                </div>
+
+                <input id="submit-calification-form" class="btn btn-success" type="submit" value="Valorar Experiencia de Intercambio" disabled>
+            
+        </form>
+    </div>
+</div>
+
+
+<script>
+
+    function asignarCalificacion(value) {
+
+        let inputCalificacion = document.getElementById("calification-input");
+
+        inputCalificacion.value = value;
+
+        let submitCalificacion = document.getElementById("submit-calification-form"); 
+
+        submitCalificacion.disabled = false;
+
+    }
+
+
+</script>
+
+
+{% endblock %}

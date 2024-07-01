@@ -20,7 +20,7 @@ def ver_intercambios_activos(request):
     for pub in dataPublicaciones:
         dias = 0
         int = Intercambios.objects.filter(publicacion=pub.id)
-        print("Pub: " + str(pub.id))
+        # print("Pub: " + str(pub.id))
         int = Intercambios.objects.filter(publicacion=pub.id, estado='aceptado')
         if (int):
             int = int[0]
@@ -49,7 +49,6 @@ def ver_intercambios_activos(request):
             arrayDatos.append(diccionario);
 
 
-    print(arrayDatos);
     # resultados_paginados = Paginator(dataPublicaciones, 10)
     resultados_paginados = Paginator(arrayDatos, 10)
 
@@ -66,8 +65,8 @@ def historial_intercambios(request):
 
     dataIntercambios = Intercambios.objects.filter(estado="aceptado");
 
-    for dataI in dataIntercambios:
-        print(dataI.publicacion.autor.dni);
+    # for dataI in dataIntercambios:
+    #     print(dataI.publicacion.autor.dni);
 
     resultados_paginados = Paginator(dataIntercambios, 10)
 
@@ -140,15 +139,63 @@ def anular_finalizacion_intercambio (request, publicacion_id):
         return redirect("/intercambios/ver_intercambios_activos")
     
 def calificar_intercambio_propietario(request, intercambio_id, autor_id):
+    intercambio = Intercambios.objects.filter(id=intercambio_id)[0]
     if request.method == 'POST':
         print('Entramos por POST')
-        return render(request, 'Intercambios/calificar_intercambio.html')
+
+        intercambio.calificacion_autor = request.POST.get('calification-input')
+        intercambio.descripcion_autor = request.POST.get('textAreaCalificacion') if request.POST.get('textAreaCalificacion') else None
+        intercambio.save()
+
+        return render(request, 'Intercambios/calificacion_realizada.html')
     else:
-        return render(request, 'Intercambios/calificar_intercambio.html')
+        if (intercambio.calificacion_autor):
+            messages.warning(request, 'Este intercambio ya fue calificado anteriormente')
+            return redirect('home')
+        # if (intercambio.estado == "rechazado"):
+        #     messages.error(request, '¡No se puede realizar la calificación de un intercambio rechazado!')
+        #     return redirect('home')
+        # if (intercambio.estado == "pendiente"):
+        #     messages.warning(request, '¡No se puede realizar la calificación de un intercambio no finalizado!')
+        #     return redirect('home')
+        
+        
+        
+        context = {
+            "range": range(1,11),
+            "intercambio": intercambio_id,
+            "autor": autor_id
+        }
+
+        return render(request, 'Intercambios/calificar_intercambio_propietario.html', { "context" : context })
     
 def calificar_intercambio_comprador(request, intercambio_id, comprador_id):
+    intercambio = Intercambios.objects.filter(id=intercambio_id)[0]
     if request.method == 'POST':
         print('Entramos por POST')
-        return render(request, 'Intercambios/calificar_intercambio.html')
+
+        intercambio.calificacion_comprador = request.POST.get('calification-input')
+        intercambio.descripcion_comprador = request.POST.get('textAreaCalificacion') if request.POST.get('textAreaCalificacion') else None
+        intercambio.save()
+        
+        return render(request, 'Intercambios/calificacion_realizada.html')
     else:
-        return render(request, 'Intercambios/calificar_intercambio.html')
+        if (intercambio.calificacion_comprador):
+            messages.warning(request, 'Este intercambio ya fue calificado anteriormente')
+            return redirect('home')
+        # if (intercambio.estado == "rechazado"):
+        #     messages.error(request, '¡No se puede realizar la calificación de un intercambio rechazado!')
+        #     return redirect('home')
+        # if (intercambio.estado == "pendiente"):
+        #     messages.warning(request, '¡No se puede realizar la calificación de un intercambio no finalizado!')
+        #     return redirect('home')
+        
+        
+        
+        context = {
+            "range": range(1,11),
+            "intercambio": intercambio_id,
+            "comprador": comprador_id
+        }
+
+        return render(request, 'Intercambios/calificar_intercambio_comprador.html', { "context" : context })

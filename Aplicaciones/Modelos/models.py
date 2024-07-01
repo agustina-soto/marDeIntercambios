@@ -152,7 +152,10 @@ class Intercambios(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='intercambios', on_delete=models.CASCADE)
     estado = models.CharField(max_length=10, choices=ESTADO_INTERCAMBIO, default='aceptado')
     fecha_aceptacion = models.DateTimeField(default=now, null=True)
-
+    calificacion_comprador = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    descripcion_comprador = models.TextField(blank=True)
+    calificacion_autor = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    descripcion_autor = models.TextField(blank=True)
 
 # ---------- CHAT --------------------------------------------------------------------------------------
 class Room(models.Model):
