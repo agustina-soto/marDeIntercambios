@@ -28,8 +28,10 @@
             {% endif %}
             <td>{{us.estado_cuenta}}</td>
             <td>
-                <a href="/publicacion/ver-publicacion/ver_detalle/{{us.id}}" class="text-decoration-none btn btn-primary">Ver perfil</a>
+                <!-- <a href="/publicacion/ver-publicacion/ver_detalle/{{us.id}}" class="text-decoration-none btn btn-primary">Ver perfil</a> -->
+                {% if us.estado_cuenta != "Deshabilitado" %}
                 <a href="/usuarios/banear_usuario/{{us.id}}" class="text-decoration-none btn btn-danger">Banear usuario</a>
+                {% endif %}
             </td>    
 </tr>
 

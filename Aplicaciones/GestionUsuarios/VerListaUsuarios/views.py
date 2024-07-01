@@ -13,7 +13,7 @@ from django.core.paginator import Paginator
 def ver_lista_usuarios(request):
     dataUsuarios = Usuario.objects.all();
 
-    resultados_paginados = Paginator(dataUsuarios, 3)
+    resultados_paginados = Paginator(dataUsuarios, 10)
 
     if (request.GET.get("page")):
         page_number = request.GET.get("page")
@@ -27,7 +27,7 @@ def ver_lista_usuarios(request):
 def ver_lista_usuarios_baneados(request):
     dataUsuarios = Usuario.objects.filter(bloqueado=1);
 
-    resultados_paginados = Paginator(dataUsuarios, 3)
+    resultados_paginados = Paginator(dataUsuarios, 10)
 
     if (request.GET.get("page")):
         page_number = request.GET.get("page")
