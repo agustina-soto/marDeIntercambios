@@ -6,7 +6,7 @@ from django.utils.timezone import now
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import models as auth_models
-from Aplicaciones.Modelos.estados import ESTADO_CUENTA, ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO
+from Aplicaciones.Modelos.estados import ESTADO_CUENTA, ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO, ESTADO_ROOM, ESTADO_PUBLICIDAD
 
 # ---------- USUARIOS ---------------------------------------------------------------------------
 
@@ -24,6 +24,11 @@ class Usuario(auth_models.AbstractUser):
     bloqueado = models.BooleanField(default=False)
     contador_ingresos_fallidos = models.IntegerField(default=0)
     fecha_bloqueo = models.DateTimeField(null=True)
+
+    is_superuser = models.BooleanField(default=False)
+
+     #campo de baja
+    motivo_de_baja = models.CharField(max_length=255, null=True)
 
 
     #Especifico nombres y Permisos Unicos para no entrar en conflicto con el modelo auth.User integrado de Django
@@ -89,7 +94,7 @@ class Publicacion(models.Model):
     # Con el OneToOne cada publicacion puede tener como maximo una oferta aceptada, y cada oferta aceptada puede estar vinculada solo a una publicacion
 
     def aceptar_oferta(self, oferta):
-        if oferta.estado == 'rechazada':
+        if oferta.estado == 'rechazada' or oferta.estado == 'Rechazada':
             raise Exception("No se puede aceptar una oferta rechazada.")
         if self.oferta_aceptada:
             raise Exception("Ya hay una oferta aceptada para esta publicación.")
@@ -99,7 +104,7 @@ class Publicacion(models.Model):
         self.save()
 
     def rechazar_oferta(self, oferta):
-        if oferta.estado == 'aceptada':
+        if oferta.estado == 'aceptada' or oferta.estado == 'Aceptada':
             raise Exception("No se puede rechazar una oferta que ya ha sido aceptada.")
         oferta.estado = 'rechazada'
         oferta.save()
@@ -116,10 +121,6 @@ class Publicacion(models.Model):
 class FotoPublicacion(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='fotos', on_delete=models.CASCADE)
     foto = models.ImageField(upload_to='archivos-estaticos/fotos_publicaciones/')
-    """
-    El upload es necesario porque sino las fotos se almacenan directamente en la base de datos como datos binarios,
-    lo que puede hacerla más pesada y menos eficiente para recuperar y manejar
-    """
 
 # ---------- OFERTAS -----------------------------------------------------------------------------
 
@@ -148,7 +149,7 @@ class Room(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     users = models.ManyToManyField(Usuario, through='RoomUser', related_name='roomsUser')
-
+    estado = models.CharField(max_length=10, choices=ESTADO_ROOM, default='activa')
 class RoomUser(models.Model):
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
@@ -196,8 +197,8 @@ class Historial(models.Model):
 
 # --------------- PUBLICIDADES --------------------------------------------------------------------------------------
 class Publicidad(models.Model):
-    fecha = models.DateField()
-    #estado = models.CharField(max_length=10, default='activo')
+    fecha = models.DateField(null=True)
+    estado = models.CharField(max_length=10,choices=ESTADO_PUBLICIDAD, default='activa')
     cliente = models.CharField(max_length=50, default='-')
     foto_central = models.ImageField(upload_to='archivos-estaticos/publicidades/', null=True, blank=True)
     foto_lateral = models.ImageField(upload_to='archivos-estaticos/publicidades/', null=True, blank=True)

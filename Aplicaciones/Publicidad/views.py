@@ -71,10 +71,9 @@ def listar_publicidades(request):
 
 
 def mostrar_publicidad_central(request):
-
     hoy = timezone.now().date()
     publicidad = Publicidad.objects.filter(fecha=hoy).first()
-
+    print(hoy)
     return render(request, 'Publicidad/banner_central.html', {'publicidad': publicidad, })
 
 
