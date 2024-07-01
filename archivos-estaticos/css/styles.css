@@ -455,3 +455,71 @@ button:hover {
 }
 
 /*     Buscar Publicaciones         */
+
+
+/* no se si estoy pisando otros estilos, chequear */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.card-body {
+    background: rgba(255, 255, 255, 0.364); /* Background semi-transparente para que se vea el contenido */
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-link {
+    color: #007bff;
+}
+
+.card-link:hover {
+    text-decoration: none;
+    color: #0056b3;
+}
+
+/* Estilos especificos para cada tarjeta */
+.card-politicas-privacidad {
+    background-image: url('../our_images/politicas de privacidad.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.card-preguntas-frecuentes {
+    background-image: url('../our_images/preguntas frecuentes.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.card-contacto-puerto {
+    background-image: url('../our_images/contacto.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.card-informacion-puerto-aventura {
+    background-image: url('../our_images/PuertoAventura.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.card-contacto-equipo {
+    background-image: url('../our_images/GlamTech.png');
+    background-size: cover;
+    background-position: center;
+}

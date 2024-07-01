@@ -14,8 +14,67 @@
     
     <div class="col-12 col-lg-8">
         <div class="container">
-            <h3>Publicaciones</h3>
-            {% include 'VisualizacionPublicaciones/publicaciones.html' %} <!-- este archivo muestra las publicaciones de la plataforma (no tiene en cuenta las eliminadas)-->
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 card-preguntas-frecuentes">
+                        <div class="card-body">
+                            <h5 class="card-title">Preguntas Frecuentes</h5>
+                            <ul class="list-unstyled">
+                                <p>Preguntas Frecuentes</p>
+                                <p>Política de Privacidad</p>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 card-contacto-puerto">
+                        <div class="card-body">
+                            <h5 class="card-title">Contacto Puerto Aventura</h5>
+                            <ul class="list-unstyled">
+                                <p>Teléfono: +123456789</p>
+                                <p>Correo: PuertoAventura@gmail.com</p>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 card-politicas-privacidad">
+                        <div class="card-body">
+                            <h5 class="card-title">Políticas de Privacidad</h5>
+                            <ul class="list-unstyled">
+                                <p>Política de Privacidad 1 </p>
+                                <p>Política de Privacidad 2 </p>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 card-informacion-puerto-aventura">
+                        <div class="card-body">
+                            <h5 class="card-title">Información Acerca de Puerto Aventura</h5>
+                            <ul class="list-unstyled">
+                                <p>info de puerto aventura</p>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 card-contacto-equipo">
+                        <div class="card-body">
+                            <h5 class="card-title">Contacto Equipo de Desarrollo</h5>
+                            <ul class="list-unstyled">
+                                <p>Teléfono: +123456789</p>
+                                <p>Correo: GlamTech@gmail.com</p>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Paginación -->
             <div class="pagination">
                 <span class="step-links">
@@ -43,4 +102,3 @@
 </div>
 
 {% endblock content %}
-
