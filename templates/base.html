@@ -13,6 +13,16 @@
 
     <!-- Lightbox2 CSS: es para poder manejar las imagenes-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Incluir jQuery UI Datepicker -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+
+    <!-- Scripts JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+
+    {% block scripts1 %}
+    {% endblock %}
 </head>
 
 <body>
@@ -118,8 +128,9 @@
                                 class="img-fluid logo">
                         </a>
                         <ul class="list-unstyled">
-                            <li><a href="#">Preguntas Frecuentes</a></li>
-                            <li><a href="#">Politica de Privacidad</a></li>
+                            <li><a href="{% url 'preguntas_frecuentes' %}">Preguntas Frecuentes</a></li>
+                            <li><a href="{% url 'terminos_condiciones' %}">Terminos y Condiciones</a></li>
+                            <li><a href="{% url 'politicas_privacidad' %}">Políticas de Privacidad</a></li>
                         </ul>
                     </div>
                     <div class="col-md-4">

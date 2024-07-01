@@ -1,0 +1,12 @@
+{% load static %}
+{% block banner_lateral %}
+
+<div class="lateral-ad">
+    {% if fotos %}
+        <img src="{{ fotos.url }}" alt="Ad banner">
+    {%else%}
+        <p>No hay publis</p>
+    {% endif %}
+</div>
+
+{% endblock banner_lateral %}
