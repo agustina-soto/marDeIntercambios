@@ -10,34 +10,38 @@
 <body>
     {% block content %}
         <h1>Mis Mensajes</h1>
-        {% if rooms %}
+        {% if active_rooms %}
             <ul>
-                {% for room in rooms %}
-                <li {% if room in rooms_with_unread_messages %} style="background-color: yellow;"{% endif %}>
-
-                        <a href="{% url 'room' room.slug %}">{{ room.name }}</a><br>
-                        {% if room.messages.all %}
-                            {% with last_message=room.messages.last %}
-                                {% if last_message.content %}
-                                    {% if last_message.foto %}
-                                        <div>
-                                            Último mensaje: Imagen
-                                        </div>
-                                    {% else %}
-                                        <div>
-                                            Último mensaje: {{ last_message.content }}
-                                        </div>
-                                    {% endif %}
+                {% for room in active_rooms %}
+                    {% if room.estado == 'activa' %}
+                        <li {% if room in rooms_with_unread_messages %} style="background-color: yellow;"{% endif %}>
+                                <a href="{% url 'room' room.slug %}">{{ room.name }}</a><br>
+                                {% if room.messages.all %}
+                                    {% with last_message=room.messages.last %}
+                                        {% if last_message.content %}
+                                            {% if last_message.foto %}
+                                                <div>
+                                                    Último mensaje: Imagen
+                                                </div>
+                                            {% else %}
+                                                <div>
+                                                    Último mensaje: {{ last_message.content }}
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endwith %}
+                                {% else %}
+                                    <div>
+                                        No hay mensajes en esta sala.
+                                    </div>
                                 {% endif %}
-                            {% endwith %}
-                        {% else %}
-                            <div>
-                                No hay mensajes en esta sala.
-                            </div>
-                        {% endif %}
-                    </li>
-                {% empty %}
-                    <li>No tiene chats para mostrar</li>
+                                <form method="post" action="{% url 'eliminar_chat' %}" >
+                                    {% csrf_token %}
+                                    <input type="hidden" name="room_id" value="{{ room.id }}">
+                                    <button type="submit">Eliminar Chat</button>
+                                </form>
+                            </li>            
+                    {% endif %}
                 {% endfor %}
             </ul>
         {% else %}

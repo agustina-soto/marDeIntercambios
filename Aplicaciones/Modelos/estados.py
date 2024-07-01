@@ -23,3 +23,8 @@ ESTADO_CUENTA = [
         ('suspendido', 'Suspendido'),
         ('deshabilitado', 'Deshabilitado'),
     ]
+
+ESTADO_ROOM = [
+        ('activa', 'Activa'),
+        ('eliminada', 'Eliminada'),
+    ]

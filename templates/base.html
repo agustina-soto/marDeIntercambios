@@ -54,7 +54,7 @@
                                 <a class="nav-link" href="/notificaciones/">Notificaciones</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/chats/">Ver Mensajería</a>
+                                <a class="nav-link" href="{% url 'bandeja' %}">Ver Mensajería</a>
                                 {% if unread_count > 0 %}
                                     <span class="unread-indicator">{{ unread_count }}</span>
                                 {% endif %}
