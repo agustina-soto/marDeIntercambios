@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="my-4">Mis Favoritos</h1>
+        <ul class="list-group">
+            {% for publicacion in publicaciones_favoritas %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{% url 'VisualizacionPublicaciones:ver_detalle' publicacion.id %}">{{ publicacion.titulo }}</a>
+                <a href="{% url 'VisualizacionPublicaciones:quitar_de_favoritos' publicacion.id %}" class="btn btn-sm btn-danger">Quitar de Favoritos</a>
+            </li>
+            {% empty %}
+            <li class="list-group-item">
+                <p class="mb-0">No tienes publicaciones en tus favoritos.</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

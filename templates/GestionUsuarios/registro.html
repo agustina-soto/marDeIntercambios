@@ -1,6 +1,6 @@
     {% extends 'base.html' %}
     {% block content %}
-        <form id="registro-form" method="post">
+        <form id="registro-form" method="post" novalidate>
             {% csrf_token %} <!--Token que genera Django por seguridad-->
             <h1>Registro de Usuario</h1>
             <div class="form-group">
@@ -35,4 +35,27 @@
 
             <button type="submit" class="btn btn-primary">Registrarse</button>
         </form>
+
+        <!--Script de ChatGPT que me permite colocar solo año entre 1910 y 2024-->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const fechaNacimientoInput = document.querySelector('input[type="date"]');
+                const minYear = 1910;
+                const maxYear = new Date().getFullYear();
+        
+                fechaNacimientoInput.addEventListener('blur', function() {
+                    let parts = fechaNacimientoInput.value.split('-');
+                    let year = parseInt(parts[0]);
+                    
+                    if (isNaN(year) || year < minYear) {
+                        parts[0] = minYear.toString().padStart(4, '0');
+                    } else if (year > maxYear) {
+                        parts[0] = maxYear.toString().padStart(4, '0');
+                    }
+        
+                    fechaNacimientoInput.value = parts.join('-');
+                });
+            });
+        </script>
+                         
     {% endblock %}

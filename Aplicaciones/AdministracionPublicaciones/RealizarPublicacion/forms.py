@@ -66,23 +66,3 @@ class FotoPublicacionForm(forms.ModelForm):
         if not fotos:
             raise forms.ValidationError('Debes proporcionar al menos una foto.')
         return cleaned_data
-        
-""" 
- #te cambié algo la implementación fotoPublcacion para mostrar el mensaje del caso que no hay fotos
-
-class FotoPublicacionForm(forms.ModelForm):
-    class Meta:
-        model = FotoPublicacion
-        fields = ['foto']
-        widgets = {
-            'foto': MultipleFileInput(),  # Utiliza el widget MultipleFileInput para la carga múltiple de imágenes
-        }
-    
-    def clean_foto(self):
-        cleaned_data = super().clean()
-        fotos = cleaned_data.get('foto')
-        if not fotos:
-            raise forms.ValidationError('Debes proporcionar al menos una foto.') 
-        return cleaned_data
-        return cleaned_data
-"""

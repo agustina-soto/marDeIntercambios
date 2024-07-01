@@ -1,7 +1,9 @@
 from django.db import models
 from Aplicaciones.GestionUsuarios.RegistrarUsuario.models import Usuario
 from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import Publicacion
+from Aplicaciones.Modelos.models import Oferta, FotoOferta
 
+"""
 class Oferta (models.Model):
     precio_estimado = models.DecimalField(max_digits=7, decimal_places=2)
     descripcion = models.TextField(max_length=260)
@@ -17,4 +19,4 @@ class FotoOferta (models.Model):
     oferta = models.ForeignKey(Oferta, related_name='fotos', on_delete=models.CASCADE)
     foto = models.ImageField(upload_to='archivos-estaticos/fotos_ofertas/', null=True, blank=True)#permino que tenga valor nulo o vacio en este campo
 
-
+"""

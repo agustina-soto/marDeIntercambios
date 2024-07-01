@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Intercambios Activos</h2>
+{% if not publicaciones %}
+<div>No se encontraron intercambios activos</div>
+{% else %}
+{% for pub in publicaciones %}
+<div class="card my-3 p-3">
+    <div class="d-flex justify-content-around">
+        <div>
+            <div>
+                Estado intercambio: {{pub.estado_intercambio}}
+            </div>
+            <div>
+                <h3>Datos de la publicación</h3>
+                <p>Estado: {{pub.detalle.estado}}</p>
+                <hr>
+                <p>Titulo: {{pub.detalle.titulo}}</p>
+                <p>Tipo: {{pub.detalle.tipo_embarcacion}}</p>
+                <p>Año: {{pub.detalle.anio}}</p>
+                <p>Precio Mínimo: ${{pub.detalle.precio_minimo}}</p>
+                <hr>
+            </div>
+            <div>
+                <h3>Datos del propietario</h3>
+                <p>Usuario: {{pub.detalle.autor.username}}</p>
+                <p>DNI: {{pub.detalle.autor.dni}}</p>
+                <hr>
+            </div>
+        </div>
+        <div>
+            <h3>Datos de la Oferta</h3>
+            <p>Descripción de la oferta: {{pub.detalle.oferta_aceptada.descripcion}}</p>
+            <p>Precio estimado de la oferta: {{pub.detalle.oferta_aceptada.precio_estimado}}</p>
+            <hr>
+            <h3>Datos del ofertante</h3>
+            <p>Usuario: {{pub.detalle.oferta_aceptada.autor.username}}</p>
+            <p>DNI: {{pub.detalle.oferta_aceptada.autor.dni}}</p>
+        </div>
+        <div>
+            <h3>Datos del Intercambio</h3>
+            {% if pub.oferta_aceptada %}
+                <p>Estado del intercambio: {{ pub.oferta_aceptada.estado }}</p>
+                <hr>
+            {% else %}
+                <p>No hay intercambio activo para esta publicación.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="mt-3 d-flex justify-content-end pe-5">
+        {% if pub.estado_intercambio == 'pendiente' %}
+        <a id="" class="w-25 btn btn-success" href="/intercambios/finalizar_intercambio/{{pub.detalle.id}}">Finalizar
+            Intercambio</a>
+        {% elif pub.estado_intercambio == 'aceptado' %}
+       
+            <a id="" class="w-25 btn btn-danger" href="/intercambios/anular_finalizacion_intercambio/{{pub.detalle.id}}">Anular
+                Finalizar Intercambio</a>
+        {% endif %}
+
+    </div>
+</div>
+<hr>
+
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if publicaciones.has_previous %}
+        <!-- <a href="?buscar={{busqueda}}&page=1">&laquo; first</a> -->
+        <a href="?buscar={{busqueda}}&page={{ publicaciones.previous_page_number }}">Ver página anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ publicaciones.number }} of {{ publicaciones.paginator.num_pages }}.
+        </span>
+
+        {% if publicaciones.has_next %}
+        <a href="?buscar={{busqueda}}&page={{ publicaciones.next_page_number }}">Ver más publicaciones</a>
+        <!-- <a href="?buscar={{busqueda}}&page={{ publicaciones.paginator.num_pages }}">last &raquo;</a> -->
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
+{% endblock %}

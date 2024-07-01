@@ -1,11 +1,19 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Publicacion, FotoPublicacion
+from .models import Publicacion, FotoPublicacion, Oferta
 from .forms import EditarPublicacionForm
 
 def editar_publicacion(request, publicacion_id):
     # Obtenemos la instancia de la publicación que queremos editar a partir del ID proporcionado
     publicacion = Publicacion.objects.get(pk=publicacion_id)
+
+    # Verificamos si la publicación tiene ofertas
+    if Oferta.objects.filter(publicacion=publicacion).exists():
+        # Si tiene ofertas, mostramos un mensaje de error y redirigimos a la vista de detalle de la publicación
+        messages.error(request, '¡No puedes editar una publicación que ya tiene ofertas recibidas!')
+        ruta = "/publicacion/ver-publicacion/ver_detalle/" + str(publicacion.id) 
+        return redirect(ruta, pk=publicacion.pk) #NO CUENTO CON VER DETALLE
+
     # Obtenemos todas las fotos asociadas a esta publicación
     fotos_publicacion = FotoPublicacion.objects.filter(publicacion=publicacion)
 
@@ -42,10 +50,11 @@ def editar_publicacion(request, publicacion_id):
 
                 # Mostrar un mensaje de éxito y redirigir a la vista de detalle de la publicación
                 messages.success(request, '¡Se editó la publicación!')
-                return redirect('ver_detalle', pk=publicacion.pk)
+                ruta = "/publicacion/ver-publicacion/ver_detalle/" + str(publicacion.id)
+                return redirect(ruta, pk=publicacion.pk) #NO CUENTO CON VER_DETALLE
         else:
             # Si el formulario no es válido, mostramos un mensaje de error
-            messages.error(request, '¡No se pudo realizar la publicación! Por favor, corrija los errores indicados.')
+            messages.error(request, '¡No se pudo editar la publicación! Por favor, corrija los errores indicados.')
 
     else:
         # Si la solicitud no es POST, creamos una instancia del formulario con los datos actuales de la publicación

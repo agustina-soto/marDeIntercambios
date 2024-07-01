@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h3>Ofertas para la Publicación "{{ publicacion.titulo }}"</h3>
+    {% if ofertas %}
+        <ul>
+            {% for oferta in ofertas %}
+                <li>
+                    Oferta de ${{ oferta.precio_estimado }} - "{{ oferta.descripcion }}"
+                    <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="btn btn-primary">Ver Detalle</a>
+                    {% if publicacion.estado != 'eliminada' %}
+                        {% if oferta.estado == 'rechazada' %}
+                            <!-- Si la oferta está rechazada, muestra el texto "Oferta Rechazada" -->
+                            <span class="oferta-rechazada">Oferta Rechazada</span>
+                        {% elif oferta == publicacion.oferta_aceptada %}
+                            <!-- Si la oferta está aceptada, muestra el botón para cancelar la oferta aceptada -->
+                            <form action="{% url 'cancelar_oferta_aceptada' publicacion.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="search-button">Cancelar Oferta</button>
+                            </form>
+                        {% else %}
+                            <!-- Si la oferta no está aceptada ni rechazada, muestra los botones para aceptar o rechazar la oferta -->
+                            <form action="{% url 'aceptar_oferta' oferta.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="search-button">Aceptar Oferta</button>
+                            </form>
+                            <form action="{% url 'rechazar_oferta' oferta.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="search-button">Rechazar Oferta</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </li>
+            {% endfor %}
+    {% else %}
+        <br>
+        <h5> No hay ofertas para esta publicación.</h5>
+    {% endif %}
+    <br>
+    <a href="/publicacion/ver-publicacion/ver_detalle/{{publicacion.id}}" class="btn btn-secondary">Volver a la publicación</a> 
+{% endblock %}
+
+<!--Cambie el link porque href="{% url 'ver_detalle' publicacion.id %}" no me andaba, no sé que pasó al hacer el merge, hay que arreglarlo-->

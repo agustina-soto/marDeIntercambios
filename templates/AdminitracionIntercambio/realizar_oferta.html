@@ -27,7 +27,27 @@
             {% endif %}
 
             <!--Pone prioridad a los mensajes de error, si la publicacion no esta validada no muestra el siguiente bloque-->
-            {% if not oferta_form.non_field_errors %}
+            {% if not oferta_form.non_field_errors %}        
+
+            {% if not user.is_authenticated %}
+                <div>
+                    {{ oferta_form.visitante.label_tag }}
+                    {{ oferta_form.visitante }}
+                    <span class="error-message">{{ oferta_form.visitante.errors }}</span>
+                </div>
+
+                <div>
+                    {{ oferta_form.dni.label_tag }}
+                    {{ oferta_form.dni }}
+                    <span class="error-message">{{ oferta_form.dni.errors }}</span>
+                </div>
+
+                <div>
+                    {{ oferta_form.fecha_nacimiento.label_tag }}
+                    {{ oferta_form.fecha_nacimiento }}
+                    <span class="error-message">{{ oferta_form.fecha_nacimiento.errors }}</span>
+                </div>
+            {% endif %}
                 <div>
                     {{ oferta_form.descripcion.label_tag }}
                     {{ oferta_form.descripcion }}
@@ -90,5 +110,24 @@
                     fileReader.readAsDataURL(file);
                 }
             }
+            //funcion de ChatGPT que me permite colocar solo año entre 1910 y 2024
+            document.addEventListener('DOMContentLoaded', function() {
+                const fechaNacimientoInput = document.querySelector('input[type="date"]');
+                const minYear = 1910;
+                const maxYear = new Date().getFullYear();
+        
+                fechaNacimientoInput.addEventListener('blur', function() {
+                    let parts = fechaNacimientoInput.value.split('-');
+                    let year = parseInt(parts[0]);
+                    
+                    if (isNaN(year) || year < minYear) {
+                        parts[0] = minYear.toString().padStart(4, '0');
+                    } else if (year > maxYear) {
+                        parts[0] = maxYear.toString().padStart(4, '0');
+                    }
+        
+                    fechaNacimientoInput.value = parts.join('-');
+                });
+            });
         </script>
 {% endblock %}

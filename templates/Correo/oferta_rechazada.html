@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oferta Cancelada</title>
+</head>
+<body>
+    <h2>¡Tu oferta ha sido cancelada!</h2>
+    <p>Hola {{ oferta.autor.username }},</p>
+    <p>Te informamos que tu oferta para la publicación "{{ oferta.publicacion.titulo }}" ha sido cancelada.</p>
+    <p>Detalles de la oferta:</p>
+    <ul>
+        <li>Precio Estimado: ${{ oferta.precio_estimado }}</li>
+        <li>Descripción: "{{ oferta.descripcion }}"</li>
+    </ul>
+    <p>Lamentamos la cancelación.</p>
+    <p>Gracias por tu interés y participación.</p>
+    <p>Saludos,</p>
+    <p>GlamTech</p>
+</body>
+</html>

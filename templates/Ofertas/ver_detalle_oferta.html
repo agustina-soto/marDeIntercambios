@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h3>Detalles de la Oferta</h3>
+
+    <p>Estado: {{ oferta.estado }}</p>
+    <p>Autor: {{ oferta.autor.username }}</p>
+    <p>Descripción: {{ oferta.descripcion }}</p>
+    <p>Precio Estimado: ${{ oferta.precio_estimado }}</p>
+
+    {% if oferta.fotos.all %} <!-- habria que hacerlo con carousel asi queda igual al resto de la muestra de fotos, pero respeten la division de columnas, no se puede hacer un copy paste asi nomas!!!!! :) -->
+        <p>Fotos:</p>
+        <div class="row">
+            {% for foto in oferta.fotos.all %}
+                <div class="col-md-3">
+                    <img src="{{ foto.foto.url }}" class="img-fluid" alt="Foto de oferta">
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if es_dueno %}
+        <a href="{% url 'ver_ofertas' oferta.publicacion.id %}" class="btn btn-secondary">Volver a Ofertas</a>
+    {% else %}
+        <a href="{% url 'editar_oferta' oferta.id %}" class="button">Editar</a> <!-- hay que cambiar el editar y el agregar para que lleven a esta vista, deberia hacerlo la persona que hizo el codigo-->
+        <a href="{% url 'eliminar_oferta' oferta.id %}" class="button">Eliminar</a> 
+    {% endif %}
+
+
+{% endblock %}
+

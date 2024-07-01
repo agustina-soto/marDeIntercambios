@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Historial de Intercambios</h2>
+{% if not intercambios %}
+<div>No se encontraron intercambios realizados</div>
+{% else %}
+{% for int in intercambios %}
+<div class="card my-3 p-3">
+    <div>
+        <h3>Datos del Intercambio {{int.id}}</h3>
+        <p>Fecha de aceptación: {{int.fecha_aceptacion}}</p>
+        <hr>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h4 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#detalleIntercambio{{int.id}}" aria-expanded="false" aria-controls="detalleIntercambio{{int.id}}">
+                        Ver Detalle Intercambio
+                    </button>
+                  </h4>
+                <div id="detalleIntercambio{{int.id}}" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <p>Titulo: {{int.publicacion.titulo}}</p>
+                        <p>Tipo: {{int.publicacion.tipo_embarcacion}}</p>
+                        <p>Año: {{int.publicacion.anio}}</p>
+                        <p>Precio Mínimo: ${{int.publicacion.precio_minimo}}</p>
+                        <hr>
+                        <h4>Datos de la Oferta</h4>
+                        <p>Descripción de la oferta: {{int.publicacion.oferta_aceptada.descripcion}}</p>
+                        <p>Precio estimado de la oferta: {{int.publicacion.oferta_aceptada.precio_estimado}}</p>
+                        <hr>
+                        <h4>Datos del ofertante</h4>
+                        <p>Usuario: {{int.publicacion.oferta_aceptada.autor.username}}</p>
+                        <p>DNI: {{int.publicacion.oferta_aceptada.autor.dni}}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<hr>
+
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if publicaciones.has_previous %}
+        <!-- <a href="?buscar={{busqueda}}&page=1">&laquo; first</a> -->
+        <a href="?buscar={{busqueda}}&page={{ publicaciones.previous_page_number }}">Ver página anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ publicaciones.number }} of {{ publicaciones.paginator.num_pages }}.
+        </span>
+
+        {% if publicaciones.has_next %}
+        <a href="?buscar={{busqueda}}&page={{ publicaciones.next_page_number }}">Ver más publicaciones</a>
+        <!-- <a href="?buscar={{busqueda}}&page={{ publicaciones.paginator.num_pages }}">last &raquo;</a> -->
+        {% endif %}
+    </span>
+</div>
+
+{% endif %}
+
+{% endblock %}

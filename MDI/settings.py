@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,18 +38,32 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    "daphne", #Para el chat pip install daphne
     'django.contrib.staticfiles',
+    'Aplicaciones.Modelos',
     'Aplicaciones.Autenticacion.IniciarSesion',
     'Aplicaciones.Autenticacion.CerrarSesion',
     'Aplicaciones.GestionUsuarios.RegistrarUsuario',
     'Aplicaciones.GestionUsuarios.VerPerfilUsuario',
     'Aplicaciones.AdministracionPublicaciones.RealizarPublicacion',
     'Aplicaciones.AdministracionPublicaciones.EditarPublicacion',
+    'Aplicaciones.AdministracionPublicaciones.BorrarPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.BuscarPublicacion',
     'Aplicaciones.VisualizacionPublicaciones.VerDetallePublicacion',
+    'Aplicaciones.VisualizacionPublicaciones.Comparacion',
+    'Aplicaciones.VisualizacionPublicaciones.Favoritos',
     'Aplicaciones.AdministracionIntercambio.RealizarOferta',
     'Aplicaciones.AdministracionIntercambio.EditarOferta',
+    'Aplicaciones.ComunicacionEntreUsuarios.SalaDeChat',
+    'Aplicaciones.ComunicacionEntreUsuarios.BandejaDeMensajes',
+    'Aplicaciones.Ofertas',
+    'channels', #Para el chat pip install channels
+    "channels_redis", #Para el chat pip install channels_redis
+    'Aplicaciones.Notificaciones.Notificacion',
+    'Aplicaciones.Publicidad',
 ]
+
+#'anymail', #Correo pip install django-anymail (Lo dejo acá, lo más probable es que lo volemos luego de la demo)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,12 +88,24 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                 # Añado procesador de contexto personalizado
+                'Aplicaciones.ComunicacionEntreUsuarios.BandejaDeMensajes.context_processors.unread_messages_processor',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'MDI.wsgi.application'
+
+# para el chat
+ASGI_APPLICATION = 'MDI.asgi.application'
+
+# Configuración del canal layer (puedes usar Redis para producción)
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 
 # Database
@@ -96,13 +123,14 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    #Quito algunas validaciones
+    #Luck: Quito algunas validaciones
+    #{
+    #    'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    #},
+    #{
+    #    'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    #},
+  
     #{
     #    'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     #},
@@ -127,12 +155,15 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'archivos-estaticos/'
+STATIC_URL = '/archivos-estaticos/'
+
+STATIC_ROOT = '/archivos-estaticos/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'archivos-estaticos'), # Los archivos static se buscan aca
 )
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -140,6 +171,27 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Especifica el modelo de usuario personalizado
-AUTH_USER_MODEL = 'RegistrarUsuario.Usuario'
+AUTH_USER_MODEL = 'Modelos.Usuario'
 
 LOGIN_URL = 'login' # Esto le dice a Django que redirija a la URL llamada login cuando un usuario no autenticado intente acceder a una vista protegida
+
+#PARA EL ENVIO DE CORREO ELECTRONICO (CON CORREO APARTE, SOLO FUNCIONA PARA 10 EMAILS Y DESPUES TE SALTA ERROR DE SPAM)
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'smtp-mail.outlook.com'
+#EMAIL_PORT = 587
+#EMAIL_USE_TLS = True
+#EMAIL_HOST_USER = 'Glam.Tech@hotmail.com'
+#EMAIL_HOST_PASSWORD = 'GlamTech2024'
+
+EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": "84fa9a60811232f31aa3f09350ff7e7a-51356527-8336bd6b",
+    "MAILGUN_SENDER_DOMAIN": "sandboxbd2e9d473ef2468aa3aa326aa72d36fd.mailgun.org",  # Debes verificar y usar tu propio dominio
+}
+
+DEFAULT_FROM_EMAIL = "Glam.Tech@sandboxbd2e9d473ef2468aa3aa326aa72d36fd.mailgun.org"  # Asegúrate de usar el mismo dominio
+
+MESSAGE_TAGS = {
+        messages.ERROR: 'danger',
+}

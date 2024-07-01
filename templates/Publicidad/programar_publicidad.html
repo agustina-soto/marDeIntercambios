@@ -1,0 +1,53 @@
+
+{% extends "base.html" %}  
+{% load static %}
+
+{% block scripts %}
+
+<script>
+    $(document).ready(function() {
+        // Se define un array en JavaScript para almacenar las fechas ocupadas
+        var fechasOcupadas = [
+            {% for fecha in fechas_ocupadas %}
+                '{{ fecha|date:"Y-m-d" }}',
+            {% endfor %}
+        ];
+
+        // Configuración del Datepicker de jQuery UI
+        $(".datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',  // Formato de fecha adecuado para Django
+            changeMonth: true,
+            changeYear: true,
+            beforeShowDay: function(date) {
+                // Función que se ejecuta antes de mostrar cada día en el calendario
+                var string = jQuery.datepicker.formatDate('yy-mm-dd', date); // Formatea la fecha actual
+                return [fechasOcupadas.indexOf(string) == -1]; // Devuelve true para mostrar el día si no está ocupado, false para ocultarlo si está ocupado(no lo deja seleccionar)
+            }
+        });
+    });
+</script>
+
+
+{% endblock %}
+
+
+
+{% block content %}  
+
+<div class="container">  
+    <h2>Programar Publicidad</h2>  
+    <form method="post" enctype="multipart/form-data">  
+        {% csrf_token %}
+        {{ publicidad_form.as_p }}
+
+        <div id="content">
+            <!-- Ejemplo de uso de Datepicker -->
+            <label for="fecha">Selecciona una fecha:</label>
+            <input type="text" id="fecha" name="fecha" class="datepicker">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Programar</button>  
+    </form>
+
+</div>
+{% endblock %}  

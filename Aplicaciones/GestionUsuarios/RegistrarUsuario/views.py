@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from .forms import RegistroForm
 from .models import *
 
@@ -10,12 +11,9 @@ def registro(request):
                 form.save()
                 #usuario = form.save() 
                 #login(request, usuario) #No sé si hace falta loguear al usuario que se registre, la h.u no lo especifica
-                return redirect('exito_registro')
+                messages.success(request, "Usuario Registrado con éxito!")
             except Exception as e:
                 form.add_error(None, str(e))
     else:
         form = RegistroForm()
     return render(request, 'GestionUsuarios/registro.html', {'form': form})
-
-def exito_registro(request):
-    return render(request, 'GestionUsuarios/exitoRegistro.html')
