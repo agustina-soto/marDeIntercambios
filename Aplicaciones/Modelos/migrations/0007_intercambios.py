@@ -10,3 +10,14 @@ class Migration(migrations.Migration):
         ('Modelos', '0006_alter_oferta_estado_alter_oferta_precio_estimado_and_more'),
     ]
 
+    operations = [
+        migrations.CreateModel(
+            name='Intercambios',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('estado', models.CharField(choices=[('pendiente', 'Pendiente'), ('aceptado', 'Aceptado'), ('rechazado', 'Rechazado')], default='aceptado', max_length=10)),
+                ('fecha_aceptacion', models.DateTimeField(null=True)),
+                ('publicacion', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='intercambios', to='Modelos.publicacion')),
+            ],
+        ),
+    ]

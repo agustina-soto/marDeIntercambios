@@ -7,7 +7,13 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        <a href="{% url 'editar_perfil_usuario' %}" class="btn btn-primary">Cancelar</a> <!-- habria que agregarlo en varias si les va ponerlos, este en particular no vuelve "para atras", te deja en el editar con los valores guardados -->
+        <!-- <a href="{% url 'editar_perfil_usuario' %}" class="btn btn-primary">No Guardar Cambios</a> -->
     </form>
+
+    <!-- Botón para volver a la página anterior -->
+    <div class="text-center">
+        <a href="javascript:history.back()" class="btn btn-primary">Atrás (no guardar cambios)</a>
+    </div>
+
 {% endblock %}
 
