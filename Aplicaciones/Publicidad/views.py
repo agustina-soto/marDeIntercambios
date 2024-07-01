@@ -1,4 +1,5 @@
 import json
+import base64
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Publicidad
@@ -42,13 +43,37 @@ from datetime import timedelta
 
 def programar_publicidad(request):
     if request.method == 'POST':
+        action = request.POST.get('action')
         publicidad_form = PublicidadForm(request.POST, request.FILES)
-
         if publicidad_form.is_valid():
-            nueva_publicidad = publicidad_form.save()  # Guarda la instancia de Publicidad con la fecha seleccionada
-            
-            messages.success(request, '¡Se programó la publicidad con éxito!')
-            return redirect('listar_publicidades')  # Redirige a la lista de publicidades programadas
+            if action == 'programar':
+                nueva_publicidad = publicidad_form.save()  # Guarda la instancia de Publicidad con la fecha seleccionada
+                messages.success(request, '¡Se programó la publicidad con éxito!')
+                return redirect('listar_publicidades')  # Redirige a la lista de publicidades programadas
+            elif action == 'previsualizar':
+                # Obtén los archivos de imagen del formulario
+                foto_central = request.FILES.get('foto_central')
+                foto_lateral = request.FILES.get('foto_lateral')
+                
+                 # Convierte la imagen a base64
+                def convert_image_to_base64(image):
+                    if image:
+                        return base64.b64encode(image.read()).decode('utf-8')
+                    return None
+                
+                foto_central_base64 = convert_image_to_base64(foto_central)
+                foto_lateral_base64 = convert_image_to_base64(foto_lateral)
+
+                publicidad = publicidad_form.save(commit=False)  # No guarda en la base de datos
+                hoy = timezone.now().date() + timedelta(days=1)
+                context = {
+                    'duracion': hoy,
+                    'foto_centralP': foto_central_base64,
+                    'foto_lateralP': foto_lateral_base64,
+                    'publicidadP': publicidad, 
+                }
+                print(hoy)
+                return render(request, 'publicidad/previsualizar_publicidad.html', context)
         else:
             messages.error(request, '¡No se pudo programar la publicidad! Verifique los datos ingresados.')
 

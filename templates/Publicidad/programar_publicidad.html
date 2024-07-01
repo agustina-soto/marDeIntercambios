@@ -32,7 +32,10 @@
             {{ publicidad_form.foto_lateral }}
             <span class="error-message">{{ publicidad_form.foto_lateral.errors }}</span>
         </div>
-        <button type="submit" class="btn btn-primary" onclick="setFormAction('programar')">Programar</button>  
+        <input type="hidden" name="action" id="form-action" value="">
+
+    <button type="button" class="btn btn-primary" onclick="setFormAction('previsualizar')">Previsualizar</button>
+    <button type="submit" class="btn btn-primary" onclick="setFormAction('programar')">Programar</button>  
     </form>
 
 </div>
@@ -40,6 +43,10 @@
 
 {% block scripts %}
 <script>
+    function setFormAction(action) {
+    document.getElementById('form-action').value = action;
+    document.getElementById('programar-publicidad-form').submit();
+    }
     $(document).ready(function() {
         // Se define un array en JavaScript para almacenar las fechas ocupadas
         var fechasOcupadas = [
