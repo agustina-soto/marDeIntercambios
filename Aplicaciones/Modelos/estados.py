@@ -28,3 +28,8 @@ ESTADO_ROOM = [
         ('activa', 'Activa'),
         ('eliminada', 'Eliminada'),
     ]
+
+ESTADO_PUBLICIDAD = [
+        ('activa', 'Activa'),
+        ('eliminada', 'Eliminada'),
+    ]

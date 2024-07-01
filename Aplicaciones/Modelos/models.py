@@ -6,7 +6,7 @@ from django.utils.timezone import now
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import models as auth_models
-from Aplicaciones.Modelos.estados import ESTADO_CUENTA, ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO, ESTADO_ROOM
+from Aplicaciones.Modelos.estados import ESTADO_CUENTA, ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO, ESTADO_ROOM, ESTADO_PUBLICIDAD
 
 # ---------- USUARIOS ---------------------------------------------------------------------------
 
@@ -197,8 +197,8 @@ class Historial(models.Model):
 
 # --------------- PUBLICIDADES --------------------------------------------------------------------------------------
 class Publicidad(models.Model):
-    fecha = models.DateField()
-    #estado = models.CharField(max_length=10, default='activo')
+    fecha = models.DateField(null=True)
+    estado = models.CharField(max_length=10,choices=ESTADO_PUBLICIDAD, default='activa')
     cliente = models.CharField(max_length=50, default='-')
     foto_central = models.ImageField(upload_to='archivos-estaticos/publicidades/', null=True, blank=True)
     foto_lateral = models.ImageField(upload_to='archivos-estaticos/publicidades/', null=True, blank=True)
