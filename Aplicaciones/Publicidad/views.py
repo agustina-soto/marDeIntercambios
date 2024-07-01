@@ -57,7 +57,7 @@ def programar_publicidad(request):
     # Obtener todas las fechas ocupadas y convertirlas a cadenas
     fechas_ocupadas = Publicidad.objects.values_list('fecha', flat=True)
 
-    return render(request, 'Publicidad/programar_publicidad.html', {
+    return render(request, 'publicidad/programar_publicidad.html', {
         'publicidad_form': publicidad_form,
         'fechas_ocupadas': fechas_ocupadas  
     })
@@ -67,22 +67,20 @@ def listar_publicidades(request):
     publicidades = Publicidad.objects.all()
     context = {'publicidades': publicidades}
 
-    return render(request, 'Publicidad/listar_publicidades.html', context)
+    return render(request, 'publicidad/listar_publicidades.html', context)
 
 
 def mostrar_publicidad_central(request):
     hoy = timezone.now().date()
     publicidad = Publicidad.objects.filter(fecha=hoy).first()
-    print(hoy)
-    return render(request, 'Publicidad/banner_central.html', {'publicidad': publicidad, })
+    return render(request, 'publicidad/banner_central.html', {'publicidad': publicidad})
 
 
 def mostrar_publicidad_lateral(request):
 
     hoy = timezone.now().date()
     publicidad = Publicidad.objects.filter(fecha=hoy).first()
-
-    return render(request, 'Publicidad/banner_lateral.html', {'publicidad': publicidad,})
+    return render(request, 'publicidad/banner_lateral.html', {'publicidad': publicidad,})
 
 
 def editar_publicidad(request, pk):
@@ -96,7 +94,7 @@ def editar_publicidad(request, pk):
     else:
         form = PublicidadForm(instance=publicidad)
 
-    return render(request, 'Publicidad/editar_publicidad.html', {'form': form})
+    return render(request, 'publicidad/editar_publicidad.html', {'form': form})
 
 def eliminar_publicidad(request, pk):
     pass

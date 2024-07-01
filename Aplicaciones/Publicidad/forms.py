@@ -32,8 +32,9 @@ class PublicidadForm(forms.ModelForm):
         fecha_aux = self.cleaned_data.get('fecha')
         if not fecha_aux:
             self.add_error('fecha', "Por favor, ingrese una fecha")
-        if Publicidad.objects.filter(fecha=fecha_aux).exists():
-            self.add_error('fecha', "La fecha ingresada ya está ocupada")
+        else:
+            if Publicidad.objects.filter(fecha=fecha_aux).exists():
+                self.add_error('fecha', "La fecha ingresada ya está ocupada")
             #raise ValidationError("La fecha ingresada ya esta ocupada")
         return fecha_aux
     
