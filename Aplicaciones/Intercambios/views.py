@@ -15,17 +15,17 @@ def ver_intercambios_activos(request):
     
     ## Los intercambios solo son posibles con publicaciones aceptadas
     # dataPublicaciones = Publicacion.objects.filter(oferta_aceptada_id__isnull=False, estado="aceptada");
-    dataPublicaciones = Publicacion.objects.filter(oferta_aceptada_id__isnull=False);
-    arrayDatos = [];
+    dataPublicaciones = Publicacion.objects.filter(oferta_aceptada_id__isnull=False)
+    arrayDatos = []
     for pub in dataPublicaciones:
-        dias = 0;
-        int = Intercambios.objects.filter(publicacion=pub.id);
-        # print("Pub: " + str(pub.id))
-        # int = Intercambios.objects.filter(publicacion=pub.id, estado='aceptado').exists()
+        dias = 0
+        int = Intercambios.objects.filter(publicacion=pub.id)
+        print("Pub: " + str(pub.id))
+        int = Intercambios.objects.filter(publicacion=pub.id, estado='aceptado')
         if (int):
-            int = int[0];
+            int = int[0]
             # print("Intercambio: " + str(int.id) + " - Estado: " + int.estado)
-            estado = int.estado;
+            estado = int.estado
 
             if (int.fecha_aceptacion):
                 ## Chequeo de tiempo
@@ -78,7 +78,7 @@ def historial_intercambios(request):
         page_obj = resultados_paginados.get_page(1)
 
 
-    return render(request, 'Intercambios/historial_intercambios.html', { "intercambios": page_obj});
+    return render(request, 'Intercambios/historial_intercambios.html', { "intercambios": page_obj})
 
 def finalizar_intercambio (request, publicacion_id):
 
@@ -98,9 +98,12 @@ def finalizar_intercambio (request, publicacion_id):
         intercambio.estado = "aceptado"
         intercambio.fecha_aceptacion = timezone.now()
         intercambio.save()
-    
+
+    mensajeNotiAutor = f"El intercambio de la publicación '{pub_instance.titulo}' ha sido marcado como Finalizado, haga <a href='/intercambios/calificar/{intercambio.id}/prop/{pub_instance.autor.id}'>click aquí para calificar su experiencia</a>"
+    mensajeNotiCompr = f"El intercambio de la publicación '{pub_instance.titulo}' ha sido marcado como Finalizado, haga <a href='/intercambios/calificar/{intercambio.id}/compr/{pub_instance.oferta_aceptada.autor.id}'>click aquí para calificar su experiencia</a>"
     gestorNotis = NotificationManager()
-    gestorNotis.crear_notificacion(user=pub_instance.autor.id, message="El intercambio" + str(intercambio.id) + " ha sido marcado como FINALIZADO", tipo="success")
+    gestorNotis.crear_notificacion(user=pub_instance.autor.id, message=mensajeNotiAutor, tipo="success")
+    gestorNotis.crear_notificacion(user=pub_instance.oferta_aceptada.autor.id, message=mensajeNotiCompr, tipo="success")
     messages.success(request, 'El intercambio fue finalizado correctamente!')
     return redirect("/intercambios/ver_intercambios_activos")
     
@@ -135,3 +138,17 @@ def anular_finalizacion_intercambio (request, publicacion_id):
             gestorNotis = NotificationManager()
             gestorNotis.crear_notificacion(user=intercambio.publicacion.autor.id, message="El intercambio " + str(intercambio.id) + " ha sido marcado ANULADO", tipo="error")
         return redirect("/intercambios/ver_intercambios_activos")
+    
+def calificar_intercambio_propietario(request, intercambio_id, autor_id):
+    if request.method == 'POST':
+        print('Entramos por POST')
+        return render(request, 'Intercambios/calificar_intercambio.html')
+    else:
+        return render(request, 'Intercambios/calificar_intercambio.html')
+    
+def calificar_intercambio_comprador(request, intercambio_id, comprador_id):
+    if request.method == 'POST':
+        print('Entramos por POST')
+        return render(request, 'Intercambios/calificar_intercambio.html')
+    else:
+        return render(request, 'Intercambios/calificar_intercambio.html')
