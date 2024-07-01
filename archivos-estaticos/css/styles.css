@@ -16,6 +16,10 @@ body {
     overflow-y: auto; /* Habilita el scroll vertical */
 }
 
+main {
+    min-height: 100vh
+}
+
 /* Aplica un fondo blanco al contenido principal par que se lea mejor el contenido con el background como foto*/
 .main-content {
     background-color: #f8f2eb; /* Fondo blanco con transparencia */
@@ -411,6 +415,26 @@ button:hover {
 .search-button:hover {
     background-color: #218838; /* Color de fondo al pasar el ratón */
 }
+
+/* BOTON DISCRETO PARA QUE USEMOS COMO AUX SI NOS DUELEN LOS OJOS CON EL AZUL/VERDE :) */
+/* Para botones y enlaces con clase .boton-discreto */
+.boton-discreto,
+.boton-discreto:hover {
+    background-color: #d6d6d6; /* Color de fondo */
+    color: rgb(255, 255, 255); /* Color del texto */
+    border: none;
+    border-radius: 0 5px 5px 0; /* Bordes redondeados solo a la derecha */
+    padding: 8px 12px; /* Espaciado interno */
+    cursor: pointer; /* Cursor de puntero */
+    margin: 0;
+    text-decoration: none; /* Quitar subrayado de enlaces */
+    display: inline-block; /* Para que los enlaces se comporten como botones */
+}
+
+/* Cambios en el estilo del botón/enlace al pasar el ratón */
+.boton-discreto:hover {
+    background-color: #b5b4b4; /* Color de fondo al pasar el ratón */
+}
 /* CSS para la vista maximizada */
 .image-modal {
     display: none; /* Oculto por defecto */
@@ -424,26 +448,31 @@ button:hover {
     background-color: rgba(0, 0, 0, 0.9); /* Fondo negro con opacidad */
 }
 
-.image-modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
+
+/* Ads g*/
+
+.lateral-ad img {
+    /* background-image: url("https://www.commonmind.com/hubfs/Imported_Blog_Media/google-shopping-ad-example-3.png");
+    background-size: contain;
+    background-repeat: no-repeat; */
+    width: 15%;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+
 }
 
-.close-modal {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #fff;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-    cursor: pointer;
+
+.center-ad img {
+    /* background-image: url("https://creatives.sascdn.com/diff/4308/advertiser/489787/CopaAmerica_2024_Banner_Medium_Rectangle_b9fb1ccd-f776-4387-b776-bb564a24a457.jpeg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 200px; */
+    width: 50%;
+
 }
 
-.close-modal:hover,
-.close-modal:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;}
+/*     Buscar Publicaciones         */
+.buscar-contenido {
+
+}

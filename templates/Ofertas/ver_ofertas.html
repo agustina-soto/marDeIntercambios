@@ -9,8 +9,8 @@
                 <li>
                     Oferta de ${{ oferta.precio_estimado }} - "{{ oferta.descripcion }}"
                     <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="btn btn-primary">Ver Detalle</a>
-                    {% if publicacion.estado != 'eliminada' %}
-                        {% if oferta.estado == 'rechazada' %}
+                    {% if publicacion.estado != 'eliminada' and publicacion.estado != 'Eliminada' %}
+                        {% if oferta.estado == 'rechazada' and oferta.estado == 'Rechazada' %}
                             <!-- Si la oferta está rechazada, muestra el texto "Oferta Rechazada" -->
                             <span class="oferta-rechazada">Oferta Rechazada</span>
                         {% elif oferta == publicacion.oferta_aceptada %}

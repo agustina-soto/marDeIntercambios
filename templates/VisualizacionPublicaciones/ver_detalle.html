@@ -11,34 +11,38 @@
     <div class="col-12 col-lg-8">
         <h1>{{ post.titulo }}</h1>
         <p><strong>Tipo de embarcación:</strong> {{ post.tipo_embarcacion }}</p>
-        <p><strong>Precio mínimo:</strong> {{ post.precio_minimo }}</p>
+        <p><strong>Precio mínimo:</strong> ${{ post.precio_minimo }}</p>
         <p><strong>Estado:</strong> {{ post.estado }}</p>
         <p><strong>Año:</strong> {{ post.anio }}</p>
 
-        {% if post.estado == 'eliminada' %}
-            <div class="alert alert-warning" role="alert">
-                Esta publicación ha sido eliminada y no está disponible.
-            </div>
+        {% if post.estado == 'eliminada' or pub.estado == 'Eliminada' %}
+        <div class="alert alert-warning" role="alert">
+            Esta publicación ha sido eliminada y no está disponible.
+        </div>
         {% endif %}
 
         {% if es_dueno %}
-            <div class="action-buttons">
-                <a href="{% url 'ver_ofertas' post.id %}" class="btn btn-info">Ver Ofertas</a>
-                {% if post.estado != 'eliminada' %}
-                    <a href="{% url 'editar_publicacion' post.id %}" class="btn btn-info">Editar Publicación</a>
-                    <a href="#" class="btn btn-danger" data-borrar-url="{% url 'borrar_publicacion' post.id %}" onclick="confirmarBorrado(this)">Borrar Publicación</a>
-                {% endif %}
+        <div class="action-buttons">
+            <a href="{% url 'ver_ofertas' post.id %}" class="btn btn-primary">Ver Ofertas</a>
+            {% if post.estado != 'eliminada' and post.estado != 'Eliminada' %}
+            <a href="{% url 'editar_publicacion' post.id %}" class="btn btn-info">Editar Publicación</a>
+            <a href="#" class="btn btn-danger" data-borrar-url="{% url 'borrar_publicacion' post.id %}"
+                onclick="confirmarBorrado(this)">Borrar Publicación</a>
+            {% endif %}
+            <!-- Botón para volver a la página anterior -->
+            <div class="text-center">
+                <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
             </div>
+        </div>
         {% else %}
-            <!--si no es el dueño puede realizar oferta, si es un visitante le pide que inicie sesion o se registre si no tiene cuenta, si es un user logeado le permite hacer la oferta-->
             <a href="{% url 'realizar_oferta' post.id %}" class="button">Realizar oferta</a>
-        {% endif %}
-        {% if user.is_authenticated %}
-            <!-- Si no es duenio de la publicacion y esta autenticado, puede agregarla/quitarla a/de favoritos-->
-            {% if post in user.favoritos.all %}
-                <a href="{% url 'VisualizacionPublicaciones:quitar_de_favoritos' post.id %}" class="btn btn-danger">Quitar de Favoritos</a>
-            {% else %}
-                <a href="{% url 'VisualizacionPublicaciones:agregar_a_favoritos' post.id %}" class="btn btn-success">Agregar a Favoritos</a>
+            {% if user.is_authenticated %}
+                <!-- Si no es dueño de la publicación y está autenticado, puede agregarla/quitarla a/de favoritos-->
+                {% if post in user.favoritos.all %}
+                    <a href="{% url 'VisualizacionPublicaciones:quitar_de_favoritos' post.id %}" class="btn btn-danger">Quitar de Favoritos</a>
+                {% else %}
+                    <a href="{% url 'VisualizacionPublicaciones:agregar_a_favoritos' post.id %}" class="btn btn-success">Agregar a Favoritos</a>
+                {% endif %}
             {% endif %}
         {% endif %}
 

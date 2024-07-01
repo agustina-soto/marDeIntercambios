@@ -11,7 +11,7 @@
         </div>
         <div class="row">
             {% for pub in publicaciones %}
-                {% if pub.estado != 'eliminada' %}
+                {% if pub.estado != 'eliminada' and pub.estado != 'Eliminada' %}
                     <div class="col-md-6 mb-4">
                         <div class="card my-3 p-3">
                             <div class="card-body text-dark">

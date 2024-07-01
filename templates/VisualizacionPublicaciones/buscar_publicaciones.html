@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="row buscar-contenido" style="">
+<div class="row buscar-contenido">
     <div class="col-12 mb-3">
         {% include "Publicidades/banner_central.html" %}
     </div>
@@ -10,39 +10,90 @@
         {% include "Publicidades/banner_lateral.html" %}
     </div>
     <div class="center-content col-12 col-lg-8">
-        <h1>Buscar Publicaciones</h1>
+        <h1>Lista de Publicaciones</h1>
+        {% if publicaciones %}
+        <div class="row d-flex justify-content-end">
+            <p class="col-12">Filtro de publicaciones</p>
+            <div>
+
+                <a class="col-2 btn btn-danger" href="?buscar=">Limpiar filtros</a>
+            </div>
+            <div class="col-12 col-lg-3">
+                <p>Tipo de embarcación</p>
+                <ul class="list-unstyled">
+                    {% for t in tipos_de_embarcacion %}
+                        <li><a class="text-decoration-none" href="?buscar={{ busqueda }}&tipo={{ t }}">{{ t|capfirst }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-12 col-lg-3">
+                <p>Filtro por valor</p>
+                <form  class="gap-2" method="get">
+                    <div>
+
+                        <label for="valor_min">Valor mínimo:</label>
+                        <input type="number" name="valor_min" id="valor_min" value="{{ valor_min }}">
+                    </div>
+                    <div>
+
+                        <label for="valor_max">Valor máximo:</label>
+                        <input type="number" name="valor_max" id="valor_max" value="{{ valor_max }}">
+                    </div>
+                    <div>
+                        <button type="submit">Aplicar filtro</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12 col-lg-3">
+                <p>Filtro por año</p>
+                <form  class="gap-2" method="get">
+                    <div>
+                    <label for="anio_min">Año mínimo:</label>
+                    <input type="number" name="anio_min" id="anio_min" value="{{ anio_min }}">
+                    </div>
+                    <div>
+                        <label for="anio_max">Año máximo:</label>
+                        <input type="number" name="anio_max" id="anio_max" value="{{ anio_max }}">
+                    </div>
+                    <div>
+
+                        <button type="submit">Aplicar filtro</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
         <section>
             {% if not publicaciones %}
-            <div>No se encontraron resultados para: {{ busqueda }}</div>
+                <div>No se encontraron resultados para: {{ busqueda }}</div>
             {% else %}
-            {% for pub in publicaciones %}
-            <div class="card my-3 p-3">
-                <a href="/publicacion/ver-publicacion/ver_detalle/{{ pub.id }}" class="text-decoration-none">
-                    <p>Título: {{ pub.titulo }}</p>
-                    <p>Año: {{ pub.anio }}</p>
-                    <p>Tipo: {{ pub.tipo_embarcacion }}</p>
-                    <p>Precio: ${{ pub.precio_minimo }}</p>
-                    <button class="button">Ver Detalle</button>
-                </a>
-            </div>
-            <hr>
-            {% endfor %}
-            <div class="pagination">
-                <span class="step-links">
-                    {% if publicaciones.has_previous %}
-                    <a href="?buscar={{ busqueda }}&page={{ publicaciones.previous_page_number }}">Ver página
-                        anterior</a>
-                    {% endif %}
-
-                    <span class="current">
-                        Página {{ publicaciones.number }} de {{ publicaciones.paginator.num_pages }}.
+                {% for pub in publicaciones %}
+                    <div class="card my-3 p-3">
+                        <a href="/publicacion/ver-publicacion/ver_detalle/{{ pub.id }}" class="text-decoration-none">
+                            <p>Título: {{ pub.titulo }}</p>
+                            <p>Año: {{ pub.anio }}</p>
+                            <p>Tipo: {{ pub.tipo_embarcacion }}</p>
+                            <p>Precio: ${{ pub.precio_minimo }}</p>
+                            <button class="button">Ver Detalle</button>
+                        </a>
+                    </div>
+                    <hr>
+                {% endfor %}
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if publicaciones.has_previous %}
+                            <a href="?buscar={{ busqueda }}&tipo={{ tipo }}&valor_min={{ valor_min }}&valor_max={{ valor_max }}&anio_min={{ anio_min }}&anio_max={{ anio_max }}&page={{ publicaciones.previous_page_number }}">Ver página anterior</a>
+                        {% endif %}
+    
+                        <span class="current">
+                            Página {{ publicaciones.number }} de {{ publicaciones.paginator.num_pages }}.
+                        </span>
+    
+                        {% if publicaciones.has_next %}
+                            <a href="?buscar={{ busqueda }}&tipo={{ tipo }}&valor_min={{ valor_min }}&valor_max={{ valor_max }}&anio_min={{ anio_min }}&anio_max={{ anio_max }}&page={{ publicaciones.next_page_number }}">Ver más publicaciones</a>
+                        {% endif %}
                     </span>
-
-                    {% if publicaciones.has_next %}
-                    <a href="?buscar={{ busqueda }}&page={{ publicaciones.next_page_number }}">Ver más publicaciones</a>
-                    {% endif %}
-                </span>
-            </div>
+                </div>
             {% endif %}
         </section>
     </div>

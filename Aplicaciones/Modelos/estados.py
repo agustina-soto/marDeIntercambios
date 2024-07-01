@@ -8,6 +8,7 @@ ESTADO_OFERTA = [
         ('pendiente', 'Pendiente'),
         ('aceptada', 'Aceptada'),
         ('rechazada', 'Rechazada'),
+        ('eliminada', 'Eliminada'),
     ]
 
 ESTADO_INTERCAMBIO = [
@@ -21,4 +22,9 @@ ESTADO_CUENTA = [
         ('baneado', 'Baneado'),
         ('suspendido', 'Suspendido'),
         ('deshabilitado', 'Deshabilitado'),
+    ]
+
+ESTADO_ROOM = [
+        ('activa', 'Activa'),
+        ('eliminada', 'Eliminada'),
     ]

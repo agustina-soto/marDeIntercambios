@@ -6,7 +6,7 @@ from django.utils.timezone import now
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import models as auth_models
-from Aplicaciones.Modelos.estados import ESTADO_CUENTA, ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO
+from Aplicaciones.Modelos.estados import ESTADO_CUENTA, ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO, ESTADO_ROOM
 
 # ---------- USUARIOS ---------------------------------------------------------------------------
 
@@ -24,6 +24,11 @@ class Usuario(auth_models.AbstractUser):
     bloqueado = models.BooleanField(default=False)
     contador_ingresos_fallidos = models.IntegerField(default=0)
     fecha_bloqueo = models.DateTimeField(null=True)
+
+    is_superuser = models.BooleanField(default=False)
+
+     #campo de baja
+    motivo_de_baja = models.CharField(max_length=255, null=True)
 
 
     #Especifico nombres y Permisos Unicos para no entrar en conflicto con el modelo auth.User integrado de Django
@@ -148,7 +153,7 @@ class Room(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     users = models.ManyToManyField(Usuario, through='RoomUser', related_name='roomsUser')
-
+    estado = models.CharField(max_length=10, choices=ESTADO_ROOM, default='activa')
 class RoomUser(models.Model):
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)

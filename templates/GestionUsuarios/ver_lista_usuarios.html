@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Lista de usuarios registrados activos</h2>
+{% if not usuarios %}
+<div>No hay usuarios para mostrar</div>
+
+{% else %}
+<table class="table table-striped table-hover">
+    <tbody>
+        <thead>
+            <td>Nombre de Usuario</td>
+            <td>DNI</td>
+            <td>Fecha de Nacimiento</td>
+            <td>Tipo de usuario</td>
+            <td>Estado</td>
+            <td rowspan="3"></td>
+        </thead>
+{% for us in usuarios %}
+<tr>
+    <td>{{us.username}}</td>
+            <td>{{us.dni}}</td>
+            <td>{{us.fecha_nacimiento}}</td>
+            {% if us.is_superuser %}
+            <td>Administrador</td>
+            {% else %}
+            <td>Usuario</td>
+            {% endif %}
+            <td>{{us.estado_cuenta}}</td>
+            <td>
+                <a href="/publicacion/ver-publicacion/ver_detalle/{{us.id}}" class="text-decoration-none btn btn-primary">Ver perfil</a>
+                <a href="/usuarios/banear_usuario/{{us.id}}" class="text-decoration-none btn btn-danger">Banear usuario</a>
+            </td>    
+</tr>
+
+{% endfor %}
+    </tbody>
+</table>
+<div class="pagination">
+    <span class="step-links">
+        {% if usuarios.has_previous %}
+        <!-- <a href="?buscar={{busqueda}}&page=1">&laquo; first</a> -->
+        <a href="?buscar={{busqueda}}&page={{ usuarios.previous_page_number }}">Ver página anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ usuarios.number }} of {{ usuarios.paginator.num_pages }}.
+        </span>
+
+        {% if usuarios.has_next %}
+        <a href="?buscar={{busqueda}}&page={{ usuarios.next_page_number }}">Ver página siguiente</a>
+        <!-- <a href="?buscar={{busqueda}}&page={{ usuarios.paginator.num_pages }}">last &raquo;</a> -->
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
+{% endblock %}
+
+
