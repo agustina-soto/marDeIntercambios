@@ -99,6 +99,9 @@ def editar_publicidad(request, pk):
 
     return render(request, 'Publicidad/editar_publicidad.html', {'form': form})
 
+def eliminar_publicidad(request, pk):
+    pass
+
 """
 ESTA ENTRAR EN CONFLICTO CON LA FECHA XQ SI NO LA ELIMINO DE LA BASE DE DATOS QUEDA COMO OCUPADA 
 
