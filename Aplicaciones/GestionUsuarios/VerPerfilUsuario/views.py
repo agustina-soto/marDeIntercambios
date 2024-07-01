@@ -33,6 +33,7 @@ def perfil_view(request, user_id):
         'publicaciones': publicaciones,
         'todas_publicaciones_count': todas_publicaciones.count(),  # Envia la cantidad total de publicaciones
         'ofertas': ofertas,
+        'todas_ofertas_count': todas_ofertas.count(),  # Envia la cantidad total de ofertas
     })
 
 
