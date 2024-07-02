@@ -14,8 +14,8 @@
 
 <body>
     <main class="d-flex flex-column justify-content-between">
-        <div class="upper-section">
-
+        <div class="upper-section">            
+            <!-- Navbar con todas las opciones -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -86,7 +86,7 @@
                                     <a class="nav-link" href="/autenticacion/login/">Iniciar Sesión</a>
                                 </li>
                             {% endif %}
-                            {% if user.is_authenticated and not user.is_superuser %}
+                            {% if not user.is_authenticated and not user.is_superuser %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'registrar_usuario' %}">Registrarse</a>
                                 </li>
@@ -96,14 +96,12 @@
                 </div>
             </nav>
 
-            <!-- Sub-Navbar para barra de búsqueda -->
-            <nav class="navbar navbar-light bg-light">
+            <!-- Sub-Navbar con la barra de busqueda -->
+            <nav class="sub-navbar sub-navbar-light bg-light">
                 <div class="container">
-                    <form class="d-flex" action="/publicacion/ver-publicacion/buscar_publicaciones/" method="GET"
-                        enctype="multipart/form-data">
-                        <input class="form-control me-2" type="search" placeholder="Buscar Publicacion" name="buscar"
-                            id="buscar" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    <form class="d-flex search-form" action="/publicacion/ver-publicacion/buscar_publicaciones/" method="GET" enctype="multipart/form-data">
+                        <button type="submit" class="search-button">&#128269;</button>
+                        <input class="form-control me-2 search-input" type="search" placeholder="Buscar Publicacion" name="buscar" id="buscar" aria-label="Search">
                     </form>
                 </div>
             </nav>
@@ -134,15 +132,7 @@
         <footer class="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4">
-                        <h5 class="footer-heading"> Qué</h5>
-                    </div>
-                    <div class="col-md-4">
-                        <h5 class="footer-heading">Ponemos</h5>
-                    </div>
-                    <div class="col-md-4">
-                        <h5> Acá</h5>
-                    </div>
+                    <p>© 2024 Mar de Intercambios. Todos los derechos reservados.</p>
                 </div>
             </div>
         </footer>
