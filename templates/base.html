@@ -88,11 +88,11 @@
                                     <li><a class="dropdown-item"
                                             href="/usuarios/registrar_usuario_administrador">Crear Usuario
                                             Administrador</a></li>
+                                    <li><a class="dropdown-item" href="/publicidad/programar_publicidad/">Programar Publicidad</a></li>
+                                    <li><a class="dropdown-item" href="/publicidad/listar_publicidades/">Lista de Publicidades</a></li>
+                                    <li><a class="dropdown-item" href="/intercambios/ver_calificaciones">Ver lista de calificaciones</a></li>
                                 </ul>
-                                <li><a class="dropdown-item" href="/publicidad/programar_publicidad/">Programar Publicidad</a></li>
-                                <li><a class="dropdown-item" href="/publicidad/listar_publicidades/">Lista de Publicidades</a></li>
-                                <li><a class="dropdown-item"
-                                    href="/intercambios/ver_calificaciones">Ver lista de calificaciones</a></li>
+                               
                             </div>
                             {% endif %}
 
@@ -118,15 +118,10 @@
                 </div>
             </nav>
 
-            <!-- Sub-Navbar con la barra de busqueda -->
-            <nav class="sub-navbar sub-navbar-light bg-light">
-                <div class="container">
-                    <form class="d-flex search-form" action="/publicacion/ver-publicacion/buscar_publicaciones/" method="GET" enctype="multipart/form-data">
-                        <button type="submit" class="search-button">&#128269;</button>
-                        <input class="form-control me-2 search-input" type="search" placeholder="Buscar Publicacion" name="buscar" id="buscar" aria-label="Search">
-                    </form>
-                </div>
-            </nav>
+            {% block Buscar %}
+            {% endblock %}
+
+           
 
             <!-- Mensajes -->
             {% block messages %}

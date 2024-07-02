@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 
+{% block Buscar %}
+ <!-- Sub-Navbar con la barra de busqueda -->
+ <nav class="sub-navbar sub-navbar-light bg-light">
+    <div class="container">
+        <form class="d-flex search-form" action="/publicacion/ver-publicacion/buscar_publicaciones/" method="GET" enctype="multipart/form-data">
+            <button type="submit" class="search-button">&#128269;</button>
+            <input class="form-control me-2 search-input" type="search" placeholder="Buscar Publicacion" name="buscar" id="buscar" aria-label="Search">
+        </form>
+    </div>
+</nav>
+{% endblock %}
+
 {% block content %}
     <section>
         <div class="text-center">
