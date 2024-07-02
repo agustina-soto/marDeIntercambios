@@ -1,8 +1,11 @@
     {% extends 'base.html' %}
     {% block content %}
+    <h1 class="text-center">Registro de Usuario Administrador</h1>
+    <div class="d-flex justify-content-center">
+
+
         <form id="registro-form" method="post" novalidate>
             {% csrf_token %} <!--Token que genera Django por seguridad-->
-            <h1 class="text-center">Registro de Usuario Administrador</h1>
             <div class="form-group">
                 <label>{{form.username.label}}</label>
                 {{ form.username }}
@@ -23,7 +26,7 @@
 
             <button type="submit" class="btn btn-primary">Registrarse</button>
         </form>
-
+    </div>
         <!--Script de ChatGPT que me permite colocar solo año entre 1910 y 2024-->
         <script>
             document.addEventListener('DOMContentLoaded', function() {

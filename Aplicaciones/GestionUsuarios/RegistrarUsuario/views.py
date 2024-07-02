@@ -41,19 +41,7 @@ def registrar_usuario_administrador(request):
                 usuario.is_superuser = True
                 usuario.save()
 
-                # try:
-                #     send_mail(
-                #         'Tu cuenta de administrador ha sido creada',
-                #         f'Tu cuenta de administrador ha sido creada exitosamente. Aquí están tus credenciales:\n\n'
-                #         f'Usuario: {usuario.username}\n'
-                #         f'Contraseña: {contraseña_aleatoria}\n\n'
-                #         f'Por favor, cambia tu contraseña después de iniciar sesión.',
-                #         settings.DEFAULT_FROM_EMAIL,
-                #         [usuario.username],
-                #         fail_silently=False,
-                #     )
-                # except Exception as e:
-                #     print(e)
+                enviar_correo_usuario_admin(usuario.username, contraseña_aleatoria)
 
                 messages.success(request, "Usuario Administrador Registrado con éxito!")
             except Exception as e:
@@ -70,3 +58,23 @@ def generar_contraseña_aleatoria(length=8):
     # Genera una contraseña aleatoria de la longitud especificada
     caracteres = string.ascii_letters + string.digits
     return ''.join(random.choice(caracteres) for i in range(length))
+
+def enviar_correo_usuario_admin(correo, password):
+
+    subject = 'Se te ha proporcionado una contraseña'
+    from_email = 'somos.glam.tech@gmail.com'
+    to = correo
+    
+    text_content = f'''
+    Hola {correo},
+
+    Se te ha generado un usuario administrador para que puedas ingresar a la plataforma.
+
+    Tu nueva contraseña es: {password}
+
+    Para cambiar la contraseña debes iniciar sesión, ir a tu perfil y dar click en "Actualizar contraseña".
+
+    Saludos,
+    GlamTech
+    '''
+    send_mail(subject, text_content, from_email, [to], fail_silently=False,)
