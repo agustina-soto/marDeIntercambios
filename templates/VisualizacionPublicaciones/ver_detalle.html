@@ -38,7 +38,7 @@
             </div>
         </div>
         {% else %}
-            <a href="{% url 'realizar_oferta' post.id %}" class="button">Realizar oferta</a>
+            <a href="{% url 'realizar_oferta' post.id %}" class="boton-discreto">Realizar oferta</a>
             {% if user.is_authenticated %}
                 <!-- Si no es dueño de la publicación y está autenticado, puede agregarla/quitarla a/de favoritos-->
                 {% if post in user.favoritos.all %}

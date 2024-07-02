@@ -1,7 +1,4 @@
-{% extends 'base.html' %}
-
-{% block title %} Terminos y condiciones {% endblock %}
-
+{% extends "base.html" %}
 {% block content %}
 <header>
     <h1>Políticas y Condiciones</h1>
@@ -43,4 +40,11 @@
 <footer>
     <p>&copy; 2024 Tu Plataforma. Todos los derechos reservados.</p>
 </footer>
-{% endblock%}
+
+
+<!-- Botón para volver a la página anterior -->
+<div class="text-center">
+    <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+</div>
+
+{% endblock content %}

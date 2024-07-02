@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render, redirect
+"""from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from Aplicaciones.AdministracionIntercambio.RealizarOferta.models import Oferta, FotoOferta
 from .forms import EditarOfertaForm
@@ -50,6 +50,6 @@ def editar_oferta (request, oferta_id):
     return render(request, 'AdminitracionIntercambio/editar_oferta.html', {
         'oferta_form': oferta_form,
         'fotos_oferta': fotos_oferta,
-    })
+    })"""
 
 

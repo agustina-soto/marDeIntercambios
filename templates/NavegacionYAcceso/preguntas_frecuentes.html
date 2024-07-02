@@ -1,6 +1,5 @@
-{% extends 'base.html' %}
-
-{%block content %}
+{% extends "base.html" %}
+{% block content %}
 <body>
     <header>
         <h1>Preguntas Frecuentes</h1>
@@ -61,4 +60,11 @@
     <footer>
         <p>&copy; 2024 Tu Plataforma. Todos los derechos reservados.</p>
     </footer>
-{% endblock %}
+
+
+<!-- Botón para volver a la página anterior -->
+<div class="text-center">
+    <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+</div>
+
+{% endblock content %}

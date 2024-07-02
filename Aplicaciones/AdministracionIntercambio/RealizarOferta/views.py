@@ -1,4 +1,4 @@
-from django.contrib import messages
+"""from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic.detail import DetailView
@@ -104,7 +104,7 @@ def crear_autor(oferta_form, _pass):
     return nuevoUsuario
 
 """
-def  enviar_correo(request, oferta, _template, _pass):
+"""def  enviar_correo(request, oferta, _template, _pass):
     if (request.method == 'POST'):
         destinatario = oferta.autor.username
         asunto = 'Oferta creada'

@@ -1,4 +1,4 @@
-from django import forms
+"""from django import forms
 from Aplicaciones.Modelos.models import Oferta, FotoOferta, Usuario
 from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import Publicacion
 from MDI.widgets import MultipleFileInput
@@ -109,4 +109,4 @@ class FotoOfertaForm(forms.ModelForm):
 
     class Meta:
         model = FotoOferta
-        fields = ['foto']
+        fields = ['foto']"""

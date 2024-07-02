@@ -3,7 +3,7 @@
 
 <div class="lateral-ad">
     {% if publicidad %}
-        <img src="{{ publicidad.foto_lateral.url }}" alt="Ad banner">
+        <img src="{{ publicidad.foto_lateral.url }}" alt="Ad banner" class="fixed-image">
     {%else%}
         <p>No hay publis</p>
     {% endif %}
