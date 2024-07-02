@@ -6,6 +6,7 @@ from .views import finalizar_intercambio;
 from .views import anular_finalizacion_intercambio;
 from .views import calificar_intercambio_propietario
 from .views import calificar_intercambio_comprador
+from .views import ver_calificaciones
 
 
 urlpatterns = [
@@ -15,4 +16,5 @@ urlpatterns = [
     path('anular_finalizacion_intercambio/<int:publicacion_id>/', anular_finalizacion_intercambio, name='anular_finalizacion_intercambio'),
     path('calificar/<int:intercambio_id>/prop/<int:autor_id>/', calificar_intercambio_propietario, name='calificar_intercambio_propietario'),
     path('calificar/<int:intercambio_id>/compr/<int:comprador_id>/', calificar_intercambio_comprador, name='calificar_intercambio_comprador'),
+    path('ver_calificaciones/', ver_calificaciones, name='ver_calificaciones'),
 ]

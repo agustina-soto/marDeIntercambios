@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Lista de calificaciones de intercambios</h2>
+{% if not intercambios %}
+<div>No hay calificaciones para mostrar</div>
+
+{% else %}
+<div class="py-5">
+
+    <table class="table table-striped table-hover">
+        <tbody>
+            <thead>
+                <td>Título intercambio</td>
+                <td>Fecha de aceptación</td>
+                <td class="text-center">Calificación autor</td>
+                <td>Comentario autor</td>
+                <td class="text-center">Calificación comprador</td>
+                <td>Comentario comprador</td>
+            </thead>
+{% for int in intercambios %}
+<tr>
+        <td>{{int.publicacion.titulo}}</td>
+        <td>{{int.fecha_aceptacion}}</td>
+        <td class="text-center">{{int.calificacion_autor|default:'-' }}/10</td>
+        <td>{{int.descripcion_autor|default:'-' }}</td>
+        <td class="text-center">{{int.calificacion_comprador|default:'-' }}/10</td>
+        <td>{{int.descripcion_comprador|default:'-' }}</td>
+        
+    </tr>
+    
+    {% endfor %}
+</tbody>
+</table>
+<div class="pagination">
+    <span class="step-links">
+        {% if intercambios.has_previous %}
+        <!-- <a href="?buscar={{busqueda}}&page=1">&laquo; first</a> -->
+        <a href="?buscar={{busqueda}}&page={{ intercambios.previous_page_number }}">Ver página anterior</a>
+        {% endif %}
+        
+        <span class="current">
+            Page {{ intercambios.number }} of {{ intercambios.paginator.num_pages }}.
+        </span>
+        
+        {% if intercambios.has_next %}
+        <a href="?buscar={{busqueda}}&page={{ intercambios.next_page_number }}">Ver página siguiente</a>
+        <!-- <a href="?buscar={{busqueda}}&page={{ intercambios.paginator.num_pages }}">last &raquo;</a> -->
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+</div>
+
+{% endblock %}
+
+

@@ -15,7 +15,6 @@ def banear_usuario (request, usuario_id):
 
     # Traemos todas las publicaciones del usuario
     publicacionesUsuario = Publicacion.objects.filter(autor=usuario_id)
-    # Publicacion.objects.filter(autor=usuario_id).update(estado="rechazada"); ESTO NO SRIVE PQ DEVUELVE UN INT
 
     # Recorremos cada una de las publicaciones y procesamos sus datos para la eliminación
     for pubs in publicacionesUsuario:    
@@ -24,9 +23,9 @@ def banear_usuario (request, usuario_id):
         # Rechaza los intercambios activos asociadas a esta publicación
         Intercambios.objects.filter(publicacion=pubs, estado="pendiente").update(estado="rechazado")
 
-    #     # Defino como None su oferta aceptada y asigno estado como rechazada
+    #     # Defino como None su oferta aceptada y asigno estado como eliminada
         pubs.oferta_aceptada = None
-        pubs.estado = "rechazada"
+        pubs.estado = "eliminada"
         pubs.save()
 
     # Rechazo todas las ofertas del usuario

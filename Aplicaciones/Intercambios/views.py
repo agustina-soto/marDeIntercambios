@@ -6,11 +6,14 @@ from django.core.paginator import Paginator
 from django.utils import timezone
 from Aplicaciones.Modelos.models import Publicacion, Intercambios
 from utils.Notificacion import NotificationManager
+from MDI.decorator import login_required, user_passes_test_superuser
 
 from django.http import HttpResponse
 
 
 # Create your views here.
+@login_required 
+@user_passes_test_superuser
 def ver_intercambios_activos(request):
     
     ## Los intercambios solo son posibles con publicaciones aceptadas
@@ -61,6 +64,8 @@ def ver_intercambios_activos(request):
 
     return render(request, 'Intercambios/ver_intercambios_activos.html', { "publicaciones": page_obj});
 
+@login_required 
+@user_passes_test_superuser
 def historial_intercambios(request):
 
     dataIntercambios = Intercambios.objects.filter(estado="aceptado");
@@ -79,9 +84,14 @@ def historial_intercambios(request):
 
     return render(request, 'Intercambios/historial_intercambios.html', { "intercambios": page_obj})
 
+@login_required 
+@user_passes_test_superuser
 def finalizar_intercambio (request, publicacion_id):
 
     pub_instance = Publicacion.objects.get(id=publicacion_id)
+
+    pub_instance.estado = "finalizada"
+    pub_instance.save()
 
     interc_instance = Intercambios.objects.filter(publicacion=publicacion_id)
 
@@ -108,6 +118,8 @@ def finalizar_intercambio (request, publicacion_id):
     
 
 # El método anula la finalización del intercambio siempre y cuando, no hayan pasado más de 3 días de la fecha de aceptación inicial
+@login_required 
+@user_passes_test_superuser
 def anular_finalizacion_intercambio (request, publicacion_id):
 
     intercambio_instance = Intercambios.objects.filter(publicacion_id=publicacion_id)
@@ -130,6 +142,12 @@ def anular_finalizacion_intercambio (request, publicacion_id):
         if (dias > 3):
             messages.error(request, 'No podemos anular el intercambio pues ya pasaron más de 72hs')
         else:
+            pub_instance = Publicacion.objects.filter(id=intercambio.publicacion)[0]
+
+            pub_instance.estado = "aceptada"
+            pub_instance.save()
+
+
             intercambio.estado = "pendiente";
             intercambio.fecha_aceptacion = None;
             intercambio.save()
@@ -137,14 +155,19 @@ def anular_finalizacion_intercambio (request, publicacion_id):
             gestorNotis = NotificationManager()
             gestorNotis.crear_notificacion(user=intercambio.publicacion.autor.id, message="El intercambio " + str(intercambio.id) + " ha sido marcado ANULADO", tipo="error")
         return redirect("/intercambios/ver_intercambios_activos")
-    
+
+@login_required    
 def calificar_intercambio_propietario(request, intercambio_id, autor_id):
     intercambio = Intercambios.objects.filter(id=intercambio_id)[0]
     if request.method == 'POST':
         print('Entramos por POST')
 
         intercambio.calificacion_autor = request.POST.get('calification-input')
-        intercambio.descripcion_autor = request.POST.get('textAreaCalificacion') if request.POST.get('textAreaCalificacion') else None
+
+        if request.POST.get('textAreaCalificacion'):
+            intercambio.descripcion_autor = request.POST.get('textAreaCalificacion')
+
+
         intercambio.save()
 
         return render(request, 'Intercambios/calificacion_realizada.html')
@@ -152,12 +175,12 @@ def calificar_intercambio_propietario(request, intercambio_id, autor_id):
         if (intercambio.calificacion_autor):
             messages.warning(request, 'Este intercambio ya fue calificado anteriormente')
             return redirect('home')
-        # if (intercambio.estado == "rechazado"):
-        #     messages.error(request, '¡No se puede realizar la calificación de un intercambio rechazado!')
-        #     return redirect('home')
-        # if (intercambio.estado == "pendiente"):
-        #     messages.warning(request, '¡No se puede realizar la calificación de un intercambio no finalizado!')
-        #     return redirect('home')
+        if (intercambio.estado == "rechazado"):
+            messages.error(request, '¡No se puede realizar la calificación de un intercambio rechazado!')
+            return redirect('home')
+        if (intercambio.estado == "pendiente"):
+            messages.warning(request, '¡No se puede realizar la calificación de un intercambio no finalizado!')
+            return redirect('home')
         
         
         
@@ -168,14 +191,18 @@ def calificar_intercambio_propietario(request, intercambio_id, autor_id):
         }
 
         return render(request, 'Intercambios/calificar_intercambio_propietario.html', { "context" : context })
-    
+
+@login_required   
 def calificar_intercambio_comprador(request, intercambio_id, comprador_id):
     intercambio = Intercambios.objects.filter(id=intercambio_id)[0]
     if request.method == 'POST':
         print('Entramos por POST')
 
         intercambio.calificacion_comprador = request.POST.get('calification-input')
-        intercambio.descripcion_comprador = request.POST.get('textAreaCalificacion') if request.POST.get('textAreaCalificacion') else None
+
+        if request.POST.get('textAreaCalificacion'):
+            intercambio.descripcion_comprador = request.POST.get('textAreaCalificacion')
+        
         intercambio.save()
         
         return render(request, 'Intercambios/calificacion_realizada.html')
@@ -183,12 +210,12 @@ def calificar_intercambio_comprador(request, intercambio_id, comprador_id):
         if (intercambio.calificacion_comprador):
             messages.warning(request, 'Este intercambio ya fue calificado anteriormente')
             return redirect('home')
-        # if (intercambio.estado == "rechazado"):
-        #     messages.error(request, '¡No se puede realizar la calificación de un intercambio rechazado!')
-        #     return redirect('home')
-        # if (intercambio.estado == "pendiente"):
-        #     messages.warning(request, '¡No se puede realizar la calificación de un intercambio no finalizado!')
-        #     return redirect('home')
+        if (intercambio.estado == "rechazado"):
+            messages.error(request, '¡No se puede realizar la calificación de un intercambio rechazado!')
+            return redirect('home')
+        if (intercambio.estado == "pendiente"):
+            messages.warning(request, '¡No se puede realizar la calificación de un intercambio no finalizado!')
+            return redirect('home')
         
         
         
@@ -199,3 +226,20 @@ def calificar_intercambio_comprador(request, intercambio_id, comprador_id):
         }
 
         return render(request, 'Intercambios/calificar_intercambio_comprador.html', { "context" : context })
+
+@login_required 
+@user_passes_test_superuser   
+def ver_calificaciones(request):
+
+    dataIntercambios = Intercambios.objects.filter(estado="aceptado");
+
+    resultados_paginados = Paginator(dataIntercambios, 10)
+
+    if (request.GET.get("page")):
+        page_number = request.GET.get("page")
+        page_obj = resultados_paginados.get_page(page_number)
+    else:
+        page_obj = resultados_paginados.get_page(1)
+
+
+    return render(request, 'Intercambios/lista_calificaciones.html', { "intercambios": page_obj})
