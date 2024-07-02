@@ -2,10 +2,155 @@
 
 {% block content %}
     <h2>Editar Publicidad</h2>
-    <form method="post">
+    <form id="editar-publicidad-form" method="post" enctype="multipart/form-data">  
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Guardar cambios</button>
+
+        <div class="form-group">
+            <label>{{ publicidad_form.cliente.label }} </label>
+            {{ publicidad_form.cliente }}
+            <span class="error-message">{{ publicidad_form.cliente.errors }}</span>
+        </div>
+        
+        <div class="form-group">
+            <label for="fecha">{{ publicidad_form.fecha.label }} </label>
+            {{ publicidad_form.fecha }}
+            <span class="error-message">{{ publicidad_form.fecha.errors }}</span>
+        </div>
+
+        <div class="form-group">
+            <label>{{ publicidad_form.foto_central.label }}</label>
+            {% if publicidad_form.instance.foto_central %}
+                <div>
+                    <img src="{{ publicidad_form.instance.foto_central.url }}" alt="Foto Central" style="max-width: 200px;">
+                    <input type="hidden" name="foto_central_actual" value="{{ publicidad_form.instance.foto_central.url }}">
+                    <span class="eliminar-foto" onclick="eliminarFoto(this.parentNode, 'central')">x</span>
+                </div>
+            {% endif %}
+            <input type="file" id="custom-file-central" name="foto_central" accept="image/jpeg,image/png,image/jpg" onchange="updateFileList(this, 'file-preview-central')">
+            <div id="file-preview-central" class="file-preview"></div>
+            <span class="error-message">{{ publicidad_form.foto_central.errors }}</span>
+        </div>
+        
+        <div class="form-group">
+            <label>{{ publicidad_form.foto_lateral.label }}</label>
+            {% if publicidad_form.instance.foto_lateral %}
+                <div>
+                    <img src="{{ publicidad_form.instance.foto_lateral.url }}" alt="Foto Lateral" style="max-width: 200px;">
+                    <input type="hidden" name="foto_lateral_actual" value="{{ publicidad_form.instance.foto_lateral.url }}">
+                    <span class="eliminar-foto" onclick="eliminarFoto(this.parentNode, 'lateral')">x</span>
+                </div>
+            {% endif %}
+            <input type="file" id="custom-file-lateral" name="foto_lateral" accept="image/jpeg,image/png,image/jpg" onchange="updateFileList(this, 'file-preview-lateral')">
+            <div id="file-preview-lateral" class="file-preview"></div>
+            <span class="error-message">{{ publicidad_form.foto_lateral.errors }}</span>
+        </div>
+
+        <input type="hidden" id="fotos-central-a-eliminar" name="fotos_central_a_eliminar">
+        <input type="hidden" id="fotos-lateral-a-eliminar" name="fotos_lateral_a_eliminar">
+
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>  
     </form>
     <a href="{% url 'listar_publicidades' %}">Cancelar</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Se define un array en JavaScript para almacenar las fechas ocupadas
+        var fechasOcupadas = [
+            {% for fecha in fechas_ocupadas %}
+                '{{ fecha|date:"Y-m-d" }}'{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+
+        // Configuración del Datepicker de jQuery UI
+        $(".datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',  // Formato de fecha adecuado para Django
+            changeMonth: true,
+            changeYear: true,
+            minDate: 0,  // Solo se pueden seleccionar fechas a partir de hoy
+            beforeShowDay: function(date) {
+                // Convertir la fecha del datepicker a formato yyyy-mm-dd
+                var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+
+                // Validar si la fecha está ocupada
+                var isDisabled = fechasOcupadas.includes(formattedDate);
+
+                // Validar si la fecha es anterior a hoy
+                var isPastDate = date < new Date() && date == new Date();
+
+                // Devolver un array con la clase para deshabilitar y la razón
+                return [!isDisabled && !isPastDate];
+            }
+        });
+    });
+</script>
+
+<script>
+    // Arreglo para almacenar las IDs de las fotos que se quieren eliminar
+    var fotosACentralEliminar = [];
+    var fotosALateralEliminar = [];
+
+    // Función para actualizar la lista de archivos seleccionados
+    function updateFileList(input, previewId) {
+        var preview = document.getElementById(previewId);
+        preview.innerHTML = ''; // Limpiar la lista de archivos previa
+
+        // Itera sobre los archivos seleccionados y agregarlos a la lista
+        for (var i = 0; i < input.files.length; i++) {
+            var file = input.files[i];
+            var fileReader = new FileReader();
+
+            fileReader.onload = function(e) {
+                var fileItem = document.createElement('div');
+                fileItem.classList.add('photo-container');
+                
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = file.name;
+
+                var deleteButton = document.createElement('span');
+                deleteButton.textContent = 'x';
+                deleteButton.className = 'eliminar-foto';
+                deleteButton.onclick = function() {
+                    // Encuentra y elimina el contenedor de la foto al hacer clic en el botón
+                    var container = this.parentNode;
+                    container.parentNode.removeChild(container);
+                };
+
+                fileItem.appendChild(img);
+                fileItem.appendChild(deleteButton);
+                preview.appendChild(fileItem);
+            }
+
+            fileReader.readAsDataURL(file);
+        }
+    }
+
+    // Función para actualizar el campo oculto con las IDs de las fotos a eliminar
+    function actualizarCampoFotosAEliminar() {
+        var campoFotosACentralEliminar = document.getElementById('fotos-central-a-eliminar');
+        var campoFotosALateralEliminar = document.getElementById('fotos-lateral-a-eliminar');
+
+        campoFotosACentralEliminar.value = fotosACentralEliminar.filter(Boolean).join(',');
+        campoFotosALateralEliminar.value = fotosALateralEliminar.filter(Boolean).join(',');
+    }
+
+    // Función para manejar la eliminación de una foto existente
+    function eliminarFoto(fotoContainer, tipoFoto) {
+        var fotoId = fotoContainer.getAttribute('data-id');
+        
+        // Confirmación antes de eliminar la foto
+        if (confirm('¿Estás seguro de que quieres eliminar esta foto?')) {
+            fotoContainer.remove();
+            if (tipoFoto === 'central') {
+                fotosACentralEliminar.push(fotoId);
+            } else if (tipoFoto === 'lateral') {
+                fotosALateralEliminar.push(fotoId);
+            }
+            actualizarCampoFotosAEliminar();
+        }
+    }
+</script>
+
 {% endblock %}

@@ -1,3 +1,4 @@
+from datetime import date
 import json
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
@@ -65,7 +66,13 @@ def programar_publicidad(request):
 def listar_publicidades(request):
 
     publicidades = Publicidad.objects.all()
-    context = {'publicidades': publicidades}
+    publicidades_futuras = publicidades.filter(fecha__gt=date.today())
+    publicidades_pasadas = publicidades.filter(fecha__lt=date.today())
+
+    context = {
+        'publicidades_futuras': publicidades_futuras,
+        'publicidades_pasadas': publicidades_pasadas,
+    }
 
     return render(request, 'Publicidad/listar_publicidades.html', context)
 
@@ -85,27 +92,65 @@ def mostrar_publicidad_lateral(request):
     return render(request, 'Publicidad/banner_lateral.html', {'publicidad': publicidad,})
 
 
-def editar_publicidad(request, pk):
+"""def editar_publicidad(request, pk):
+
     publicidad = get_object_or_404(Publicidad, pk=pk)
 
     if request.method == 'POST':
-        form = PublicidadForm(request.POST, instance=publicidad)
-        if form.is_valid():
-            form.save()
+        publicidad_form = PublicidadForm(request.POST, request.FILES, instance=publicidad)
+        if publicidad_form.is_valid():
+            publicidad_form.save()
             return redirect('listar_publicidades')
     else:
-        form = PublicidadForm(instance=publicidad)
+        publicidad_form = PublicidadForm(instance=publicidad)
 
-    return render(request, 'Publicidad/editar_publicidad.html', {'form': form})
+    return render(request, 'Publicidad/editar_publicidad.html', {'publicidad_form': publicidad_form})"""
+
+def editar_publicidad(request, id):
+    publicidad = get_object_or_404(Publicidad, id=id)
+
+    if request.method == 'POST':
+        publicidad_form = PublicidadForm(request.POST, request.FILES, instance=publicidad)
+        if publicidad_form.is_valid():
+            # Eliminar fotos existentes marcadas para eliminación
+            fotos_central_a_eliminar = request.POST.get('fotos_central_a_eliminar').split(',')
+            fotos_lateral_a_eliminar = request.POST.get('fotos_lateral_a_eliminar').split(',')
+
+            if 'eliminar_foto_central' in fotos_central_a_eliminar and publicidad.foto_central:
+                publicidad.foto_central.delete(save=False)
+                publicidad.foto_central = None
+
+            if 'eliminar_foto_lateral' in fotos_lateral_a_eliminar and publicidad.foto_lateral:
+                publicidad.foto_lateral.delete(save=False)
+                publicidad.foto_lateral = None
+
+            # Guardar nuevas fotos y el formulario actualizado
+            if 'foto_central' in request.FILES:
+                publicidad.foto_central = request.FILES['foto_central']
+            if 'foto_lateral' in request.FILES:
+                publicidad.foto_lateral = request.FILES['foto_lateral']
+
+            # Guardar el formulario actualizado
+            publicidad_form.save()
+
+            return redirect('listar_publicidades')
+    else:
+        publicidad_form = PublicidadForm(instance=publicidad)
+
+    # Obtener todas las fechas ocupadas y convertirlas a cadenas
+    fechas_ocupadas = Publicidad.objects.values_list('fecha', flat=True)
+
+    return render(request, 'publicidad/editar_publicidad.html', {'publicidad_form': publicidad_form, 'fechas_ocupadas': fechas_ocupadas})
 
 
-#ESTA ENTRAR EN CONFLICTO CON LA FECHA XQ SI NO LA ELIMINO DE LA BASE DE DATOS QUEDA COMO OCUPADA 
 
 def eliminar_publicidad(request, pk):
     publicidad = get_object_or_404(Publicidad, pk=pk)
 
     if request.method == 'POST':
-        publicidad.delete()
+        publicidad.estado = 'eliminada'
+        publicidad.fecha = None
+        publicidad.save()
         return redirect('listar_publicidades')
     
     return render(request, 'Publicidad/listar_publicidades.html', {'publicidades': Publicidad.objects.all()})

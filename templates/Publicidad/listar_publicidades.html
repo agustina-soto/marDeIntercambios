@@ -3,20 +3,43 @@
 
 <h1>Listado de Publicidades</h1>
 
+<h4><strong>Publicidades programadas</strong></h4>
 <ul>
-    {% for publicidad in publicidades %}
-        <li>
-            Fecha: {{ publicidad.fecha }} - Cliente: {{ publicidad.cliente }}
-            <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit">Eliminar</button>
-            </form>
-            <a href="{% url 'editar_publicidad' publicidad.id %}">
-                <button type="button">Editar</button>
-            </a>
-        </li>
+    {% for publicidad in publicidades_futuras %}
+        {% if publicidad.estado != 'eliminada' and publicidad.estado != 'Eliminada' %} 
+                <li>
+                    Fecha: {{ publicidad.fecha }} - Cliente: {{ publicidad.cliente }}
+                    <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Eliminar</button>
+                    </form>
+                    <a href="{% url 'editar_publicidad' publicidad.id %}">
+                        <button type="button">Editar</button>
+                    </a>
+                </li>
+        {% endif %}
     {% empty %}
-        <li>No hay publicidades creadas.</li>
+        <li>No hay publicidades programadas.</li>
+    {% endfor %}
+</ul>
+
+<h4><strong>Publicidades que ya fueron lanzadas</strong></h4>
+<ul>
+    {% for publicidad in publicidades_pasadas %}
+        {% if publicidad.estado != 'eliminada' and publicidad.estado != 'Eliminada' %} 
+            <li>
+                Fecha: {{ publicidad.fecha }} - Cliente: {{ publicidad.cliente }}
+                <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Eliminar</button>
+                </form>
+                <a href="{% url 'editar_publicidad' publicidad.id %}">
+                    <button type="button">Editar</button>
+                </a>
+            </li>
+        {% endif %}
+    {% empty %}
+        <li>No hay publicidades lanzadas.</li>
     {% endfor %}
 </ul>
 
