@@ -512,6 +512,8 @@ form div {
 }
 
 /*     Buscar Publicaciones         */
+
+<<<<<<<<< Temporary merge branch 1
 /*     Calificar intercambio        */
 .rate {
     float: left;
@@ -555,8 +557,10 @@ form {
     max-width: none;
 }
 form div {
-    margin-bottom: 0px;}
-    /* Estilos para las tarjetas personalizadas */
+    margin-bottom: 0px;
+=========
+
+/* Estilos para las tarjetas personalizadas */
 .card {
     border: none;
     transition: transform 0.3s;
@@ -644,58 +648,5 @@ form div {
 /* Cambios en el estilo del botón/enlace al pasar el ratón */
 .boton-info:hover {
     background-color: #8fc9dd; /* Color de fondo al pasar el ratón */
-}
-
-/*Contenedor del base */
-.custom-container {
-    width: 100%; /* Asegura que ocupe el 100% del ancho del viewport */
-    max-width: 1800px; /* Ajusta el valor según tus necesidades */
-    margin: 0 auto; /* Centra el contenedor horizontalmente */
-    padding: 0 15px; /* Ajusta el padding si necesitas espacio adicional en los lados */
-}
-
-/*     Calificar intercambio        */
-.rate {
-    float: left;
-    height: 46px;
-    padding: 0 10px;
-}
-.rate:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
-}
-.rate:not(:checked) > label {
-    float:right;
-    width:1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:35px;
-    color:#ccc;
-}
-.rate:not(:checked) > label:before {
-    content: '★ ';
-}
-.rate > input:checked ~ label {
-    color: #ffc700;    
-}
-.rate:not(:checked) > label:hover,
-.rate:not(:checked) > label:hover ~ label {
-    color: #deb217;  
-}
-.rate > input:checked + label:hover,
-.rate > input:checked + label:hover ~ label,
-.rate > input:checked ~ label:hover,
-.rate > input:checked ~ label:hover ~ label,
-.rate > label:hover ~ input:checked ~ label {
-    color: #c59b08;
-}
-
-/* Estilos para el formulario de CALIFICACION*/
-form {
-    display: block;
-    max-width: none;
-}
-form div {
-    margin-bottom: 0px;
+>>>>>>>>> Temporary merge branch 2
 }

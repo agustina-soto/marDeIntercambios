@@ -32,10 +32,6 @@
             <a href="#" class="btn btn-danger" data-borrar-url="{% url 'borrar_publicacion' post.id %}"
                 onclick="confirmarBorrado(this)">Borrar Publicación</a>
             {% endif %}
-            <!-- Botón para volver a la página anterior -->
-            <div class="text-center">
-                <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
-            </div>
         </div>
         {% else %}
             <a href="{% url 'realizar_oferta' post.id %}" class="boton-discreto">Realizar oferta</a>
@@ -49,7 +45,7 @@
             {% endif %}
         {% endif %}
 
-    <br><br><br>
+        <br><br><br>
 
     <div class="container">
         {% if fotos.all %}
@@ -97,6 +93,7 @@
 <div class="d-none d-lg-block col-lg-2 mb-3">
     {% include "Publicidad/banner_lateral.html" %}
 </div>
+
 {% endblock %}
 
 {% block scripts %}
