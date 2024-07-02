@@ -32,7 +32,10 @@
             {{ publicidad_form.foto_lateral }}
             <span class="error-message">{{ publicidad_form.foto_lateral.errors }}</span>
         </div>
-        <button type="submit" class="btn btn-primary">Programar</button>  
+        <input type="hidden" name="action" id="form-action" value="">
+
+    <button type="button" class="btn btn-primary m-1" onclick="setFormAction('previsualizar')">Previsualizar</button>
+    <button type="submit" class="btn btn-primary m-1" onclick="setFormAction('programar')">Programar</button>  
     </form>
 
 </div>
@@ -40,6 +43,10 @@
 
 {% block scripts %}
 <script>
+    function setFormAction(action) {
+    document.getElementById('form-action').value = action;
+    document.getElementById('programar-publicidad-form').submit();
+    }
     $(document).ready(function() {
         // Se define un array en JavaScript para almacenar las fechas ocupadas
         var fechasOcupadas = [
@@ -71,29 +78,4 @@
     });
 </script>
 
-<!--
-<script>
-    $(document).ready(function() {
-        // Se define un array en JavaScript para almacenar las fechas ocupadas
-        var fechasOcupadas = [
-            {% for fecha in fechas_ocupadas %}
-                '{{ fecha|date:"Y-m-d" }}'{% if not forloop.last %},{% endif %}
-            {% endfor %}
-        ];
-
-
-        // Configuración del Datepicker de jQuery UI
-        $(".datepicker").datepicker({
-            dateFormat: 'yy-mm-dd',  // Formato de fecha adecuado para Django
-            changeMonth: true,
-            changeYear: true,
-            beforeShowDay: function(date) {
-                // Función que se ejecuta antes de mostrar cada día en el calendario
-                var string = jQuery.datepicker.formatDate('yy-mm-dd', date); // Formatea la fecha actual
-                return [fechasOcupadas.indexOf(string) == -1]; // Devuelve true para mostrar el día si no está ocupado, false para ocultarlo si está ocupado(no lo deja seleccionar)
-            }
-        });
-    });
-</script>
--->
 {% endblock %}

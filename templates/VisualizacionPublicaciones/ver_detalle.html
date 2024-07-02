@@ -2,12 +2,15 @@
 
 {% block content %}
 <div class="row">
+
     <div class="col-12 mb-3">
-        {% include "Publicidad/banner_central.html" %}
+        {% include "Publicidad/banner_central.html"%}
     </div>
+    
     <div class="d-none d-lg-block col-lg-2 mb-3">
         {% include "Publicidad/banner_lateral.html" %}
     </div>
+
     <div class="col-12 col-lg-8">
         <h1>{{ post.titulo }}</h1>
         <p><strong>Tipo de embarcación:</strong> {{ post.tipo_embarcacion }}</p>
@@ -89,9 +92,11 @@
             <p>No hay fotos disponibles para esta publicación.</p>
         {% endif %}
     </div>
-    <div class="d-none d-lg-block col-lg-2 mb-3">
-        {% include "Publicidad/banner_lateral.html" %}
-    </div>
+    
+</div>
+<div class="d-none d-lg-block col-lg-2 mb-3">
+    {% include "Publicidad/banner_lateral.html" %}
+</div>
 {% endblock %}
 
 {% block scripts %}

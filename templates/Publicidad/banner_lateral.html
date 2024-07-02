@@ -2,8 +2,8 @@
 {% block banner_lateral %}
 
 <div class="lateral-ad">
-    {% if fotos %}
-        <img src="{{ fotos.url }}" alt="Ad banner">
+    {% if publicidad %}
+        <img src="{{ publicidad.foto_lateral.url }}" alt="Ad banner">
     {%else%}
         <p>No hay publis</p>
     {% endif %}

@@ -10,4 +10,5 @@ urlpatterns = [
     path('listar_publicidades/', views.listar_publicidades, name='listar_publicidades'),
     path('eliminar_publicidad/<int:pk>/', views.eliminar_publicidad, name='eliminar_publicidad'),
     path('editar/<int:id>/', views.editar_publicidad, name='editar_publicidad'),
+    path('previsualizar/<int:pk>/', views.previsualizar_publicidad, name='previsualizar_publicidad'),
 ]

@@ -1,10 +1,12 @@
 from datetime import date
 import json
+import base64
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Publicidad
 from .forms import PublicidadForm
 from django.contrib import messages
+from datetime import timedelta
 
 """def programar_publicidad(request):
     if request.method == 'POST':
@@ -42,26 +44,48 @@ from django.contrib import messages
 
 def programar_publicidad(request):
     if request.method == 'POST':
+        action = request.POST.get('action')
         publicidad_form = PublicidadForm(request.POST, request.FILES)
-
         if publicidad_form.is_valid():
-            nueva_publicidad = publicidad_form.save()  # Guarda la instancia de Publicidad con la fecha seleccionada
-            
-            messages.success(request, '¡Se programó la publicidad con éxito!')
-            return redirect('listar_publicidades')  # Redirige a la lista de publicidades programadas
+            if action == 'programar':
+                nueva_publicidad = publicidad_form.save()  # Guarda la instancia de Publicidad con la fecha seleccionada
+                messages.success(request, '¡Se programó la publicidad con éxito!')
+                return redirect('listar_publicidades')  # Redirige a la lista de publicidades programadas
+            elif action == 'previsualizar':
+                # Obtengo los archivos de imagen del formulario y los convierto(para no guardarlas)
+                foto_central = request.FILES.get('foto_central')
+                foto_lateral = request.FILES.get('foto_lateral')
+                foto_central_base64 = convert_image_to_base64(foto_central)
+                foto_lateral_base64 = convert_image_to_base64(foto_lateral)
+
+                publicidad = publicidad_form.save(commit=False)  # Creo formulario sin guardarlo en la base de datos
+                hoy = publicidad.fecha + timedelta(days=1) #Duración de publicidad
+                context = {
+                    'duracion': hoy,
+                    'foto_centralP': foto_central_base64,
+                    'foto_lateralP': foto_lateral_base64,
+                    'publicidadP': publicidad, 
+                }
+                return render(request, 'publicidad/previsualizar_publicidad.html', context)
         else:
             messages.error(request, '¡No se pudo programar la publicidad! Verifique los datos ingresados.')
 
     else:
         publicidad_form = PublicidadForm()
-    
+
     # Obtener todas las fechas ocupadas y convertirlas a cadenas
     fechas_ocupadas = Publicidad.objects.values_list('fecha', flat=True)
 
-    return render(request, 'Publicidad/programar_publicidad.html', {
+    return render(request, 'publicidad/programar_publicidad.html', {
         'publicidad_form': publicidad_form,
         'fechas_ocupadas': fechas_ocupadas  
     })
+
+# Convierte la imagen a base64 para no guardarla
+def convert_image_to_base64(image):
+    if image:
+        return base64.b64encode(image.read()).decode('utf-8')
+    return None
 
 def listar_publicidades(request):
 
@@ -74,22 +98,20 @@ def listar_publicidades(request):
         'publicidades_pasadas': publicidades_pasadas,
     }
 
-    return render(request, 'Publicidad/listar_publicidades.html', context)
+    return render(request, 'publicidad/listar_publicidades.html', context)
 
 
 def mostrar_publicidad_central(request):
     hoy = timezone.now().date()
     publicidad = Publicidad.objects.filter(fecha=hoy).first()
-    print(hoy)
-    return render(request, 'Publicidad/banner_central.html', {'publicidad': publicidad, })
+    return render(request, 'publicidad/banner_central.html', {'publicidad': publicidad})
 
 
 def mostrar_publicidad_lateral(request):
 
     hoy = timezone.now().date()
     publicidad = Publicidad.objects.filter(fecha=hoy).first()
-
-    return render(request, 'Publicidad/banner_lateral.html', {'publicidad': publicidad,})
+    return render(request, 'publicidad/banner_lateral.html', {'publicidad': publicidad,})
 
 
 """def editar_publicidad(request, pk):
@@ -154,4 +176,12 @@ def eliminar_publicidad(request, pk):
         return redirect('listar_publicidades')
     
     return render(request, 'Publicidad/listar_publicidades.html', {'publicidades': Publicidad.objects.all()})
+
+def previsualizar_publicidad(request, pk):
+    hoy = timezone.now().date() + timedelta(days=1)
+    context = {
+        'duracion': hoy
+    }
+    print(hoy)
+    return render(request, 'publicidad/previsualizar_publicidad.html', context)
 
