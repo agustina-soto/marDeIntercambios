@@ -9,13 +9,13 @@
         {% if publicidad.estado != 'eliminada' and publicidad.estado != 'Eliminada' %} 
                 <li>
                     Fecha: {{ publicidad.fecha }} - Cliente: {{ publicidad.cliente }}
+                    <a href="{% url 'editar_publicidad' publicidad.id %}">
+                        <button type="button">Editar</button>
+                    </a>
                     <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit">Eliminar</button>
                     </form>
-                    <a href="{% url 'editar_publicidad' publicidad.id %}">
-                        <button type="button">Editar</button>
-                    </a>
                 </li>
         {% endif %}
     {% empty %}
@@ -29,13 +29,13 @@
         {% if publicidad.estado != 'eliminada' and publicidad.estado != 'Eliminada' %} 
             <li>
                 Fecha: {{ publicidad.fecha }} - Cliente: {{ publicidad.cliente }}
+                <a href="{% url 'editar_publicidad' publicidad.id %}">
+                    <button type="button">Editar</button>
+                </a>
                 <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit">Eliminar</button>
                 </form>
-                <a href="{% url 'editar_publicidad' publicidad.id %}">
-                    <button type="button">Editar</button>
-                </a>
             </li>
         {% endif %}
     {% empty %}

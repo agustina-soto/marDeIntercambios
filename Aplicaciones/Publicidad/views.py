@@ -3,45 +3,15 @@ import json
 import base64
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth.decorators import login_required
+from MDI.decorator import user_passes_test_superuser 
 from .models import Publicidad
 from .forms import PublicidadForm
 from django.contrib import messages
 from datetime import timedelta
 
-"""def programar_publicidad(request):
-    if request.method == 'POST':
-        publicidad_form = PublicidadForm(request.POST)
-        foto_form = FotoPublicidadForm(request.POST, request.FILES)
-
-        if publicidad_form.is_valid():
-            fotos = request.FILES.getlist('foto')
-            if len(fotos) != 1:
-                foto_form.add_error('foto', 'Debes subir exactamente 3 fotos.')
-            else:
-                if foto_form.is_valid():
-                    try:
-                        publicidad = publicidad_form.save()
-                        for foto in fotos:
-                            FotoPublicidad.objects.create(publicidad=publicidad, foto=foto)
-                        messages.success(request, '¡Se programó la publicidad con éxito!')
-                        return redirect('listar_publicidades')  # Redirige a la lista de publicidades realizadas
-                    
-                    except Exception as e:
-                        publicidad_form.add_error(None, str(e))
-                else:
-                    messages.error(request, '¡No se pudo programar la publicidad! Verifique las fotos subidas.')
-        else:
-            messages.error(request, '¡No se pudo programar la publicidad! Verifique los datos ingresados.')
-    else:
-        publicidad_form = PublicidadForm()
-        foto_form = FotoPublicidadForm()
-
-    return render(request, 'Publicidad/programar_publicidad.html', {
-        'publicidad_form': publicidad_form,
-        'foto_form': foto_form,
-    })"""
-
-
+@login_required 
+@user_passes_test_superuser
 def programar_publicidad(request):
     if request.method == 'POST':
         action = request.POST.get('action')
@@ -87,10 +57,12 @@ def convert_image_to_base64(image):
         return base64.b64encode(image.read()).decode('utf-8')
     return None
 
+@login_required 
+@user_passes_test_superuser
 def listar_publicidades(request):
 
     publicidades = Publicidad.objects.all()
-    publicidades_futuras = publicidades.filter(fecha__gt=date.today())
+    publicidades_futuras = publicidades.filter(fecha__gte=date.today())
     publicidades_pasadas = publicidades.filter(fecha__lt=date.today())
 
     context = {
@@ -113,21 +85,8 @@ def mostrar_publicidad_lateral(request):
     publicidad = Publicidad.objects.filter(fecha=hoy).first()
     return render(request, 'publicidad/banner_lateral.html', {'publicidad': publicidad,})
 
-
-"""def editar_publicidad(request, pk):
-
-    publicidad = get_object_or_404(Publicidad, pk=pk)
-
-    if request.method == 'POST':
-        publicidad_form = PublicidadForm(request.POST, request.FILES, instance=publicidad)
-        if publicidad_form.is_valid():
-            publicidad_form.save()
-            return redirect('listar_publicidades')
-    else:
-        publicidad_form = PublicidadForm(instance=publicidad)
-
-    return render(request, 'Publicidad/editar_publicidad.html', {'publicidad_form': publicidad_form})"""
-
+@login_required 
+@user_passes_test_superuser
 def editar_publicidad(request, id):
     publicidad = get_object_or_404(Publicidad, id=id)
 
@@ -165,7 +124,8 @@ def editar_publicidad(request, id):
     return render(request, 'publicidad/editar_publicidad.html', {'publicidad_form': publicidad_form, 'fechas_ocupadas': fechas_ocupadas})
 
 
-
+@login_required 
+@user_passes_test_superuser
 def eliminar_publicidad(request, pk):
     publicidad = get_object_or_404(Publicidad, pk=pk)
 
@@ -177,6 +137,8 @@ def eliminar_publicidad(request, pk):
     
     return render(request, 'Publicidad/listar_publicidades.html', {'publicidades': Publicidad.objects.all()})
 
+@login_required 
+@user_passes_test_superuser
 def previsualizar_publicidad(request, pk):
     hoy = timezone.now().date() + timedelta(days=1)
     context = {
