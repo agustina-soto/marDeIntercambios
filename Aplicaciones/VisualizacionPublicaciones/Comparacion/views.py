@@ -15,7 +15,7 @@ def seleccionar_publicacion(request, publicacion_id):
                 messages.warning(request, 'Ya has seleccionado el máximo de 3 publicaciones para comparar.')
         request.session['publicaciones_a_comparar'] = publicaciones_seleccionadas
 
-    return redirect('home') #ahora es home, cuando definamos donde se ven las publicaciones hay que actualizar esto!
+    return redirect('VisualizacionPublicaciones:ver_publicaciones')
 
 
 def deseleccionar_publicacion(request, publicacion_id):
@@ -28,7 +28,7 @@ def deseleccionar_publicacion(request, publicacion_id):
             messages.success(request, f'Se ha deseleccionado la publicación "{publicacion.titulo}".')
         request.session['publicaciones_a_comparar'] = publicaciones_seleccionadas
 
-    return redirect('home')
+    return redirect('VisualizacionPublicaciones:ver_publicaciones')
 
 
 def comparar_publicaciones(request):

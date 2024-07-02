@@ -41,6 +41,14 @@ main {
     padding: 5px 15px;
 }
 
+/* Estilos para la barra de navegación secundaria (sub-navbar) si es necesario */
+.sub-navbar {
+    background: #f8f2ebd8 !important; /* si no se pone el important no cambia de color, en otro lado se está tocando esto */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    z-index: 1000;
+    padding: 5px 15px;
+}
+
 .navbar-nav .nav-link {
     color: #000; /* Color del texto de los enlaces */
     padding: 0px; /* Espaciado interno de los enlaces */
@@ -167,18 +175,6 @@ form div {
     width: 100px;
     height: auto;
     margin-right: 10px;
-}
-
-/* Estilos para el botón "Publicar" */
-button {
-    padding: 8px;
-    background-color: #4CAF50; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
-    border: none;
-    cursor: pointer;
-}
-button:hover {
-    background-color: #45a049; /* Cambia color de fondo al pasar sobre el botón */
 }
 
 /* Estilos para el botón "x" que elimina la seleccion de una foto */
@@ -381,8 +377,13 @@ button:hover {
 
 
 /*  ESTILO PARA BARRA DE BUSQUEDA   */
+.form-control {
+    flex: 1; /* Hace que el campo de entrada tome todo el espacio disponible */
+    min-width: 600px;
+}
+
 .barra-busqueda {
-    width: 400px; /* largo de la barra, no se como hacer para que sea proporcional al espacio entre los botones de a iqz y la der :( */
+    width: 800px; /* largo de la barra
     text-align: center; /* centrado del placeholder */
     /*padding: 8px;*/
     margin: 0;
@@ -393,20 +394,29 @@ button:hover {
     align-items: center;
 }
 
-/* Estilo específico para el botón de búsqueda */
 .search-button {
-    background-color: #28a745; /* Color de fondo */
-    color: white; /* Color del texto */
-    border: 1px solid #28a745; /* Borde */
-    border-radius: 0 5px 5px 0; /* Bordes redondeados solo a la derecha */
-    padding: 8px 12px; /* Espaciado interno */
-    cursor: pointer; /* Cursor de puntero */
-    margin: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem; /* Tamaño del icono */
+    color: #000; /* Color del icono */
+    padding: 0 8px; /* Espacio horizontal entre el botón y el input */
+    margin: 0; /* Eliminar margen adicional */
 }
 
 /* Cambios en el estilo del botón al pasar el ratón */
 .search-button:hover {
-    background-color: #218838; /* Color de fondo al pasar el ratón */
+    /* background-color: #218838; /* Color de fondo al pasar el ratón */
+    color: #007bff; /* Cambia de color al pasar el ratón por encima */
+}
+
+.search-input {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    margin-left: 8px; /* Espacio entre el botón y el input */
 }
 
 
@@ -455,6 +465,82 @@ button:hover {
 }
 
 /*     Buscar Publicaciones         */
+
+
+/* Estilos para las tarjetas personalizadas */
+.card {
+    border: none;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Efecto de elevacion al pasar el mouse */
+}
+
+.card-body {
+    padding: 1.25rem; /* Ajusta el padding interior */
+    background-color: #fff; /* Fondo blanco */
+}
+
+.custom-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Espacio entre las tarjetas */
+}
+
+.custom-card .card-header {
+    position: relative;
+    z-index: 1; /* Asegura que el contenido esté sobre la imagen de fondo */
+}
+
+
+.card-preguntas-frecuentes {
+    background-image: url('../our_images/preguntas frecuentes.jpg');
+    opacity: 0.9;
+}
+
+.card-politicas-privacidad {
+    background-image: url('../our_images/politicas de privacidad.png');
+    opacity: 0.9;
+}
+
+.card-terminos-condiciones {
+    background-image: url('../our_images/terminos y condiciones.jpg');
+    opacity: 0.9;
+}
+
+.card-contacto-puerto-aventura {
+    background-image: url('../our_images/contacto.jpg');
+    opacity: 0.9;
+}
+
+.card-informacion-puerto-aventura {
+    background-image: url('../our_images/PuertoAventura.png');
+    opacity: 0.9;
+}
+
+.card-contacto-equipo-desarrollo {
+    background-image: url('../our_images/equipoDesarrollo.jpg');
+    opacity: 0.9;
+}
+
+
+/* Para botones del home navegacion y acceso */
+.boton-info {
+    padding: 8px 12px; /* Espaciado interno */
+    cursor: pointer; /* Cursor de puntero */
+    margin: 0;
+    text-decoration: none; /* Quitar subrayado de enlaces */
+    display: inline-block; /* Para que los enlaces se comporten como botones */
+}
+
+/* Cambios en el estilo del botón/enlace al pasar el ratón */
+.boton-info:hover {
+    background-color: #8fc9dd; /* Color de fondo al pasar el ratón */
+}
+
 
 /*     Calificar intercambio        */
 .rate {
