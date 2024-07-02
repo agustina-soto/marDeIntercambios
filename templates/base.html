@@ -27,8 +27,8 @@
 
 <body>
     <main class="d-flex flex-column justify-content-between">
-        <div class="upper-section">
-
+        <div class="upper-section">            
+            <!-- Navbar con todas las opciones -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -38,27 +38,17 @@
 
                     <!-- Contenido de la Navbar -->
                     <div class="collapse navbar-collapse" id="navbarNav">
-                        <!-- A la izquierda de la Navbar -->
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="/">Inicio</a>
                             </li>
-                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'VisualizacionPublicaciones:ver_publicaciones' %}">Ver Publicaciones</a>
+                            </li>
+                            {% if user.is_authenticated and not user.is_superuser %}
                             <li class="nav-item">
                                 <a class="nav-link" href="/publicacion/realizar_publicacion/">Realizar Publicación</a>
                             </li>
-                            {% endif %}
-                        </ul>
-
-                        <!-- Formulario de Busqueda -->
-                        <form class="search-form" action="/publicacion/ver-publicacion/buscar_publicaciones/" method="GET" enctype="multipart/form-data">
-                            <input type="search" placeholder="Buscar Publicacion" name="buscar" id="buscar" class="barra-busqueda">
-                            <button type="submit" class="search-button">Buscar</button>
-                        </form>
-
-                    <!-- A la Derecha de la Navbar -->
-                    <ul class="navbar-nav">
-                        {% if user.is_authenticated %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'perfil_de_usuario' request.user.id %}">Perfil</a>
                             </li>
@@ -68,52 +58,77 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'bandeja' %}">Ver Mensajería</a>
                                 {% if unread_count > 0 %}
-                                    <span class="unread-indicator">{{ unread_count }}</span>
+                                <span class="unread-indicator">{{ unread_count }}</span>
                                 {% endif %}
                             </li>
-                        {% endif %}
-                        {% if user.is_superuser %}
+                            {% endif %}
+
+                            {% if user.is_superuser %}
                             <div class="dropdown">
-                                <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Adminstración
+                                <button class="dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Adminstración
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                  <li><a class="dropdown-item" href="/publicacion/ver_publicaciones_para_validar/">Publicaciones a Validar</a></li>
-                                  <li><a class="dropdown-item" href="/intercambios/ver_intercambios_activos">Ver Intercambios Activos</a></li>
-                                  <li><a class="dropdown-item" href="/intercambios/historial_intercambios">Historial Intercambios</a></li>
-                                  <li><a class="dropdown-item" href="/usuarios/ver_lista_usuarios">Lista de Usuarios</a></li>
-                                  <li><a class="dropdown-item" href="/usuarios/ver_lista_usuarios_baneados">Lista de Usuarios Baneados</a></li>
-                                  <li><a class="dropdown-item" href="/usuarios/registrar_usuario_administrador">Crear Usuario Administrador</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="/publicacion/ver_publicaciones_para_validar/">Publicaciones a
+                                            Validar</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="/intercambios/ver_intercambios_activos">Ver Intercambios
+                                            Activos</a></li>
+                                    <li><a class="dropdown-item" href="/intercambios/historial_intercambios">Historial
+                                            Intercambios</a></li>
+                                    <li><a class="dropdown-item" href="/usuarios/ver_lista_usuarios">Lista de
+                                            Usuarios</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="/usuarios/ver_lista_usuarios_baneados">Lista de Usuarios
+                                            Baneados</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="/usuarios/registrar_usuario_administrador">Crear Usuario
+                                            Administrador</a></li>
                                 </ul>
                             </div>
-                        {% endif %}
-                    </ul>
-                    <ul class="navbar-nav ms-auto">
-                        {% if user.is_authenticated %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="/autenticacion/logout/">Cerrar Sesión</a>
-                            </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/autenticacion/login/">Iniciar Sesión</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'registrar_usuario' %}"">Registrarse</a>
-                        </li>
-                        {% endif %}
-                    </ul>
+                            {% endif %}
+
+                            {% if user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/autenticacion/logout/">Cerrar Sesión</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/autenticacion/login/">Iniciar Sesión</a>
+                                </li>
+                            {% endif %}
+                            {% if not user.is_authenticated and not user.is_superuser %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'registrar_usuario' %}">Registrarse</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-        {% block messages %}
+            </nav>
+
+            <!-- Sub-Navbar con la barra de busqueda -->
+            <nav class="sub-navbar sub-navbar-light bg-light">
+                <div class="container">
+                    <form class="d-flex search-form" action="/publicacion/ver-publicacion/buscar_publicaciones/" method="GET" enctype="multipart/form-data">
+                        <button type="submit" class="search-button">&#128269;</button>
+                        <input class="form-control me-2 search-input" type="search" placeholder="Buscar Publicacion" name="buscar" id="buscar" aria-label="Search">
+                    </form>
+                </div>
+            </nav>
+
+            <!-- Mensajes -->
+            {% block messages %}
             {% if messages %}
-                {% for message in messages %}
-                        <div class="alert alert-{{message.tags}} alert-dismissible fade show">
-                            <span>{{ message }}</span>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags}} alert-dismissible fade show">
+                <span>{{ message }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
             {% endblock %}
         </div>
 
@@ -130,39 +145,7 @@
         <footer class="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4">
-                        <h5 class="footer-heading">Enlaces Útiles</h5>
-                        <a href="/" class="navbar-brand">
-                            <img src="{% static 'our_images/MAr de Intercambios.png' %}" alt="MarDeIntercambios"
-                                class="img-fluid logo">
-                        </a>
-                        <ul class="list-unstyled">
-                            <li><a href="{% url 'preguntas_frecuentes' %}">Preguntas Frecuentes</a></li>
-                            <li><a href="{% url 'terminos_condiciones' %}">Terminos y Condiciones</a></li>
-                            <li><a href="{% url 'politicas_privacidad' %}">Políticas de Privacidad</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h5 class="footer-heading">Contacto Puerto Aventura</h5>
-                        <a href="/" class="navbar-brand">
-                            <img src="{% static 'our_images/PuertoAventura.png' %}" alt="PuertoAventura"
-                                class="img-fluid logo">
-                        </a>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Teléfono: +123456789</a></li>
-                            <li><a href="#">Correo: PuertoAventura@gmail.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h5 class="footer-heading">Contacto Equipo de Desarrollo</h5>
-                        <a href="/" class="navbar-brand">
-                            <img src="{% static 'our_images/GlamTech.png' %}" alt="GlamTech" class="img-fluid logo">
-                        </a>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Teléfono: +123456789</a></li>
-                            <li><a href="#">Correo: GlamTech@gmail.com</a></li>
-                        </ul>
-                    </div>
+                    <p>© 2024 Mar de Intercambios. Todos los derechos reservados.</p>
                 </div>
             </div>
         </footer>

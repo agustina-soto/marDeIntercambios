@@ -19,4 +19,5 @@ urlpatterns = [
     path('chats/', include('Aplicaciones.ComunicacionEntreUsuarios.urls')),
     path('notificaciones/', include('Aplicaciones.Notificaciones.urls')),
     path('publicidad/', include('Aplicaciones.Publicidad.urls')), #incluye las urls de las publicidades
+    path('navegacion_y_acceso/', include('NavegacionYAcceso.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
