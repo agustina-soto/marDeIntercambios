@@ -2,6 +2,7 @@ ESTADO_PUBLICACION = [
         ('pendiente', 'Pendiente'),
         ('aceptada', 'Aceptada'),
         ('eliminada', 'Eliminada'),
+        ('finalizada', "Finalizada")
     ]
 
 ESTADO_OFERTA = [

@@ -76,6 +76,12 @@ class Usuario(auth_models.AbstractUser):
         tiempoRestante = (fechaDeDesbloqueo - ahora)
         return tiempoRestante.total_seconds()/3600
     
+    def cuanto_te_falta_x_baneo(self):
+        ahora = timezone.now()
+        fechaDeDesbloqueo = self.fecha_bloqueo + timedelta(days=7) #tremenda falopa, además de ser del mismo tipo, tenés que verificar que ambos datetime sean naive o aware
+        tiempoRestante = (fechaDeDesbloqueo - ahora)
+        return tiempoRestante.total_seconds()/3600
+    
     class Meta:
         verbose_name = "Mi modelo de usuario"
         verbose_name_plural = "Mis modelos de usuario"
@@ -142,7 +148,10 @@ class Intercambios(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name='intercambios', on_delete=models.CASCADE)
     estado = models.CharField(max_length=10, choices=ESTADO_INTERCAMBIO, default='aceptado')
     fecha_aceptacion = models.DateTimeField(default=now, null=True)
-
+    calificacion_comprador = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    descripcion_comprador = models.TextField(blank=True)
+    calificacion_autor = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    descripcion_autor = models.TextField(blank=True)
 
 # ---------- CHAT --------------------------------------------------------------------------------------
 class Room(models.Model):

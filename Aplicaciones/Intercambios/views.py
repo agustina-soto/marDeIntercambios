@@ -13,17 +13,19 @@ from django.http import HttpResponse
 # Create your views here.
 def ver_intercambios_activos(request):
     
-    dataPublicaciones = Publicacion.objects.filter(oferta_aceptada_id__isnull=False);
-    arrayDatos = [];
+    ## Los intercambios solo son posibles con publicaciones aceptadas
+    # dataPublicaciones = Publicacion.objects.filter(oferta_aceptada_id__isnull=False, estado="aceptada");
+    dataPublicaciones = Publicacion.objects.filter(oferta_aceptada_id__isnull=False)
+    arrayDatos = []
     for pub in dataPublicaciones:
-        dias = 0;
-        int = Intercambios.objects.filter(publicacion=pub.id);
+        dias = 0
+        int = Intercambios.objects.filter(publicacion=pub.id)
         # print("Pub: " + str(pub.id))
-        # int = Intercambios.objects.filter(publicacion=pub.id, estado='aceptado').exists()
+        int = Intercambios.objects.filter(publicacion=pub.id, estado='aceptado')
         if (int):
-            int = int[0];
+            int = int[0]
             # print("Intercambio: " + str(int.id) + " - Estado: " + int.estado)
-            estado = int.estado;
+            estado = int.estado
 
             if (int.fecha_aceptacion):
                 ## Chequeo de tiempo
@@ -47,7 +49,6 @@ def ver_intercambios_activos(request):
             arrayDatos.append(diccionario);
 
 
-    print(arrayDatos);
     # resultados_paginados = Paginator(dataPublicaciones, 10)
     resultados_paginados = Paginator(arrayDatos, 10)
 
@@ -64,8 +65,8 @@ def historial_intercambios(request):
 
     dataIntercambios = Intercambios.objects.filter(estado="aceptado");
 
-    for dataI in dataIntercambios:
-        print(dataI.publicacion.autor.dni);
+    # for dataI in dataIntercambios:
+    #     print(dataI.publicacion.autor.dni);
 
     resultados_paginados = Paginator(dataIntercambios, 10)
 
@@ -76,7 +77,7 @@ def historial_intercambios(request):
         page_obj = resultados_paginados.get_page(1)
 
 
-    return render(request, 'Intercambios/historial_intercambios.html', { "intercambios": page_obj});
+    return render(request, 'Intercambios/historial_intercambios.html', { "intercambios": page_obj})
 
 def finalizar_intercambio (request, publicacion_id):
 
@@ -96,9 +97,12 @@ def finalizar_intercambio (request, publicacion_id):
         intercambio.estado = "aceptado"
         intercambio.fecha_aceptacion = timezone.now()
         intercambio.save()
-    
+
+    mensajeNotiAutor = f"El intercambio de la publicación '{pub_instance.titulo}' ha sido marcado como Finalizado, haga <a href='/intercambios/calificar/{intercambio.id}/prop/{pub_instance.autor.id}'>click aquí para calificar su experiencia</a>"
+    mensajeNotiCompr = f"El intercambio de la publicación '{pub_instance.titulo}' ha sido marcado como Finalizado, haga <a href='/intercambios/calificar/{intercambio.id}/compr/{pub_instance.oferta_aceptada.autor.id}'>click aquí para calificar su experiencia</a>"
     gestorNotis = NotificationManager()
-    gestorNotis.crear_notificacion(user=pub_instance.autor.id, message="El intercambio" + str(intercambio.id) + " ha sido marcado como FINALIZADO", tipo="success")
+    gestorNotis.crear_notificacion(user=pub_instance.autor.id, message=mensajeNotiAutor, tipo="success")
+    gestorNotis.crear_notificacion(user=pub_instance.oferta_aceptada.autor.id, message=mensajeNotiCompr, tipo="success")
     messages.success(request, 'El intercambio fue finalizado correctamente!')
     return redirect("/intercambios/ver_intercambios_activos")
     
@@ -133,3 +137,65 @@ def anular_finalizacion_intercambio (request, publicacion_id):
             gestorNotis = NotificationManager()
             gestorNotis.crear_notificacion(user=intercambio.publicacion.autor.id, message="El intercambio " + str(intercambio.id) + " ha sido marcado ANULADO", tipo="error")
         return redirect("/intercambios/ver_intercambios_activos")
+    
+def calificar_intercambio_propietario(request, intercambio_id, autor_id):
+    intercambio = Intercambios.objects.filter(id=intercambio_id)[0]
+    if request.method == 'POST':
+        print('Entramos por POST')
+
+        intercambio.calificacion_autor = request.POST.get('calification-input')
+        intercambio.descripcion_autor = request.POST.get('textAreaCalificacion') if request.POST.get('textAreaCalificacion') else None
+        intercambio.save()
+
+        return render(request, 'Intercambios/calificacion_realizada.html')
+    else:
+        if (intercambio.calificacion_autor):
+            messages.warning(request, 'Este intercambio ya fue calificado anteriormente')
+            return redirect('home')
+        # if (intercambio.estado == "rechazado"):
+        #     messages.error(request, '¡No se puede realizar la calificación de un intercambio rechazado!')
+        #     return redirect('home')
+        # if (intercambio.estado == "pendiente"):
+        #     messages.warning(request, '¡No se puede realizar la calificación de un intercambio no finalizado!')
+        #     return redirect('home')
+        
+        
+        
+        context = {
+            "range": range(1,11),
+            "intercambio": intercambio_id,
+            "autor": autor_id
+        }
+
+        return render(request, 'Intercambios/calificar_intercambio_propietario.html', { "context" : context })
+    
+def calificar_intercambio_comprador(request, intercambio_id, comprador_id):
+    intercambio = Intercambios.objects.filter(id=intercambio_id)[0]
+    if request.method == 'POST':
+        print('Entramos por POST')
+
+        intercambio.calificacion_comprador = request.POST.get('calification-input')
+        intercambio.descripcion_comprador = request.POST.get('textAreaCalificacion') if request.POST.get('textAreaCalificacion') else None
+        intercambio.save()
+        
+        return render(request, 'Intercambios/calificacion_realizada.html')
+    else:
+        if (intercambio.calificacion_comprador):
+            messages.warning(request, 'Este intercambio ya fue calificado anteriormente')
+            return redirect('home')
+        # if (intercambio.estado == "rechazado"):
+        #     messages.error(request, '¡No se puede realizar la calificación de un intercambio rechazado!')
+        #     return redirect('home')
+        # if (intercambio.estado == "pendiente"):
+        #     messages.warning(request, '¡No se puede realizar la calificación de un intercambio no finalizado!')
+        #     return redirect('home')
+        
+        
+        
+        context = {
+            "range": range(1,11),
+            "intercambio": intercambio_id,
+            "comprador": comprador_id
+        }
+
+        return render(request, 'Intercambios/calificar_intercambio_comprador.html', { "context" : context })
