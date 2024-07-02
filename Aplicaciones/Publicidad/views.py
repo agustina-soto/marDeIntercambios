@@ -51,28 +51,20 @@ def programar_publicidad(request):
                 messages.success(request, '¡Se programó la publicidad con éxito!')
                 return redirect('listar_publicidades')  # Redirige a la lista de publicidades programadas
             elif action == 'previsualizar':
-                # Obtén los archivos de imagen del formulario
+                # Obtengo los archivos de imagen del formulario y los convierto(para no guardarlas)
                 foto_central = request.FILES.get('foto_central')
                 foto_lateral = request.FILES.get('foto_lateral')
-                
-                 # Convierte la imagen a base64
-                def convert_image_to_base64(image):
-                    if image:
-                        return base64.b64encode(image.read()).decode('utf-8')
-                    return None
-                
                 foto_central_base64 = convert_image_to_base64(foto_central)
                 foto_lateral_base64 = convert_image_to_base64(foto_lateral)
 
-                publicidad = publicidad_form.save(commit=False)  # No guarda en la base de datos
-                hoy = timezone.now().date() + timedelta(days=1)
+                publicidad = publicidad_form.save(commit=False)  # Creo formulario sin guardarlo en la base de datos
+                hoy = publicidad.fecha + timedelta(days=1) #Duración de publicidad
                 context = {
                     'duracion': hoy,
                     'foto_centralP': foto_central_base64,
                     'foto_lateralP': foto_lateral_base64,
                     'publicidadP': publicidad, 
                 }
-                print(hoy)
                 return render(request, 'publicidad/previsualizar_publicidad.html', context)
         else:
             messages.error(request, '¡No se pudo programar la publicidad! Verifique los datos ingresados.')
@@ -87,6 +79,12 @@ def programar_publicidad(request):
         'publicidad_form': publicidad_form,
         'fechas_ocupadas': fechas_ocupadas  
     })
+
+# Convierte la imagen a base64 para no guardarla
+def convert_image_to_base64(image):
+    if image:
+        return base64.b64encode(image.read()).decode('utf-8')
+    return None
 
 def listar_publicidades(request):
 
@@ -122,7 +120,7 @@ def editar_publicidad(request, pk):
 
     return render(request, 'publicidad/editar_publicidad.html', {'form': form})
 
-def eliminar_publicidad(request, pk):
+def eliminar_publicidad(request, pk): #HAY QUE ELIMINAR
     pass
 
 def previsualizar_publicidad(request, pk):
