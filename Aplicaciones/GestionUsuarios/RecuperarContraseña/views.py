@@ -31,7 +31,7 @@ def enviar_correo(correo, password):
 
     Tu nueva contraseña es: {password}
 
-    Para cambiar la contraseña debes iniciar sesión, ir a tu perfil y dar click en "Actualizar contraseña".
+    Para cambiar la contraseña debes iniciar sesión, ir a tu perfil, y dar click en editar información personal".
 
     Saludos,
     GlamTech

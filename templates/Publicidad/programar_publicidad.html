@@ -1,0 +1,86 @@
+
+{% extends "base.html" %}  
+{% load static %}
+
+{% block content %}  
+
+<div class="container">  
+    <h2>Programar Publicidad</h2>  
+    <form id ='programar-publicidad-form' method="post" enctype="multipart/form-data">  
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>{{publicidad_form.cliente.label}} </label>
+            {{ publicidad_form.cliente }}
+            <span class="error-message">{{ publicidad_form.cliente.errors }}</span>
+        </div>
+        
+        <div class="form-group">
+            <label for="fecha">{{publicidad_form.fecha.label}} </label>
+           {{ publicidad_form.fecha }}
+            <span class="error-message">{{ publicidad_form.fecha.errors }}</span>
+        </div>
+         
+        <div class="form-group">
+            <label>{{publicidad_form.foto_central.label}} </label>
+            {{ publicidad_form.foto_central }}
+            <span class="error-message">{{ publicidad_form.foto_central.errors }}</span>
+        </div>
+
+        <div class="form-group">
+            <label>{{publicidad_form.foto_lateral.label}} </label>
+            {{ publicidad_form.foto_lateral }}
+            <span class="error-message">{{ publicidad_form.foto_lateral.errors }}</span>
+        </div>
+        <input type="hidden" name="action" id="form-action" value="">
+
+    <button type="button" class="btn btn-primary m-1" onclick="setFormAction('previsualizar')">Previsualizar</button>
+    <button type="submit" class="btn btn-primary m-1" onclick="setFormAction('programar')">Programar</button>  
+    </form>
+
+    <!-- Botón para volver a la página anterior -->
+    <div class="text-center">
+        <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+    </div>
+
+</div>
+{% endblock %}  
+
+{% block scripts %}
+<script>
+    function setFormAction(action) {
+    document.getElementById('form-action').value = action;
+    document.getElementById('programar-publicidad-form').submit();
+    }
+    $(document).ready(function() {
+        // Se define un array en JavaScript para almacenar las fechas ocupadas
+        var fechasOcupadas = [
+            {% for fecha in fechas_ocupadas %}
+                '{{ fecha|date:"Y-m-d" }}'{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+
+        // Configuración del Datepicker de jQuery UI
+        $(".datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',  // Formato de fecha adecuado para Django
+            changeMonth: true,
+            changeYear: true,
+            minDate: 0,  // Solo se pueden seleccionar fechas a partir de hoy
+            beforeShowDay: function(date) {
+                // Convertir la fecha del datepicker a formato yyyy-mm-dd
+                var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+
+                // Validar si la fecha está ocupada
+                var isDisabled = fechasOcupadas.includes(formattedDate);
+
+                // Validar si la fecha es anterior a hoy
+                var isPastDate = date < new Date() && date == new Date();
+
+                // Devolver un array con la clase para deshabilitar y la razón
+                return [!isDisabled && !isPastDate];
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -77,6 +77,13 @@ img {
     border-radius: 8px; /* Bordes redondeados */
 }
 
+/* Estilos para controlar el tamaño de las imágenes en el carrusel */
+.carousel-inner img {
+    max-height: 400px; /* Ajusta esto según tus necesidades */
+    width: auto; /* Ajusta el ancho automáticamente */
+    object-fit: contain; /* Asegúrate de que la imagen mantenga su relación de aspecto */
+}
+
 /*  ESTILOS DEL FOOTER  */
 .footer {
     background-color: #f2f2f2; /* Color de fondo */
@@ -439,20 +446,59 @@ form div {
 .boton-discreto:hover {
     background-color: #b5b4b4; /* Color de fondo al pasar el ratón */
 }
-
+/* CSS para la vista maximizada */
+.image-modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Posición fija para cubrir toda la pantalla */
+    z-index: 1000; /* Coloca el modal encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9); /* Fondo negro con opacidad */
+}
 
 /* Ads */
 
-.lateral-ad img {
-    /* background-image: url("https://www.commonmind.com/hubfs/Imported_Blog_Media/google-shopping-ad-example-3.png");
-    background-size: contain;
-    background-repeat: no-repeat; */
-    width: 15%;
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-
+.scrollable-content {
+    position: sticky; /* Asegura que el contenido se mantenga visible durante el scroll */
+    top: 0; /* Ajusta según el diseño deseado */
+    height: 100%; /* Ajusta según el diseño deseado */
+    overflow-y: auto; /* Permite el scroll vertical si es necesario */
 }
+
+.lateral-ad {
+    /* Ajusta según el diseño deseado */
+    width: 100%;
+    margin: 0 auto; /* Centra horizontalmente el contenido */
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Asegura que el contenido adicional no sea visible */
+}
+
+.lateral-ad img.fixed-image {
+    max-width: 100%; /* Ajusta según el diseño deseado */
+    height: auto; /* Para mantener la proporción de la imagen */
+}
+
+
+
+/* Media query para pantallas muy pequeñas (ej. tabletas) */
+@media (max-width: 767px) {
+    .lateral-ad {
+        position: static; /* Cambia la posición para que no sea fija en pantallas pequeñas */
+        width: 100%; /* Ajusta el ancho del contenedor */
+        transform: none; /* Resetea la transformación */
+        top: auto; /* Resetea la posición superior */
+    }}
+
+.lateral-ad img {
+        width: auto; /* Ajusta el ancho de la imagen automáticamente */
+        max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+    }
 
 
 .center-ad img {
@@ -465,82 +511,6 @@ form div {
 }
 
 /*     Buscar Publicaciones         */
-
-
-/* Estilos para las tarjetas personalizadas */
-.card {
-    border: none;
-    transition: transform 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-5px); /* Efecto de elevacion al pasar el mouse */
-}
-
-.card-body {
-    padding: 1.25rem; /* Ajusta el padding interior */
-    background-color: #fff; /* Fondo blanco */
-}
-
-.custom-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px; /* Espacio entre las tarjetas */
-}
-
-.custom-card .card-header {
-    position: relative;
-    z-index: 1; /* Asegura que el contenido esté sobre la imagen de fondo */
-}
-
-
-.card-preguntas-frecuentes {
-    background-image: url('../our_images/preguntas frecuentes.jpg');
-    opacity: 0.9;
-}
-
-.card-politicas-privacidad {
-    background-image: url('../our_images/politicas de privacidad.png');
-    opacity: 0.9;
-}
-
-.card-terminos-condiciones {
-    background-image: url('../our_images/terminos y condiciones.jpg');
-    opacity: 0.9;
-}
-
-.card-contacto-puerto-aventura {
-    background-image: url('../our_images/contacto.jpg');
-    opacity: 0.9;
-}
-
-.card-informacion-puerto-aventura {
-    background-image: url('../our_images/PuertoAventura.png');
-    opacity: 0.9;
-}
-
-.card-contacto-equipo-desarrollo {
-    background-image: url('../our_images/equipoDesarrollo.jpg');
-    opacity: 0.9;
-}
-
-
-/* Para botones del home navegacion y acceso */
-.boton-info {
-    padding: 8px 12px; /* Espaciado interno */
-    cursor: pointer; /* Cursor de puntero */
-    margin: 0;
-    text-decoration: none; /* Quitar subrayado de enlaces */
-    display: inline-block; /* Para que los enlaces se comporten como botones */
-}
-
-/* Cambios en el estilo del botón/enlace al pasar el ratón */
-.boton-info:hover {
-    background-color: #8fc9dd; /* Color de fondo al pasar el ratón */
-}
-
 
 /*     Calificar intercambio        */
 .rate {
@@ -586,4 +556,102 @@ form {
 }
 form div {
     margin-bottom: 0px;
+}
+
+/* Estilos para las tarjetas personalizadas */
+.card {
+    border: none;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Efecto de elevacion al pasar el mouse */
+}
+
+.card-body {
+    padding: 1.25rem; /* Ajusta el padding interior */
+    background-color: #fff; /* Fondo blanco */
+}
+/*
+.custom-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px; /* Bordes redondeados 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Espacio entre las tarjetas 
+}*/
+
+.custom-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Espacio entre las tarjetas */
+    height: 100%; /* Ajusta la altura si es necesario */
+}
+
+.custom-card .card-header {
+    position: relative;
+    z-index: 1; /* Asegura que el contenido esté sobre la imagen de fondo */
+}
+
+
+.card-preguntas-frecuentes {
+    background-image: url('../our_images/preguntas frecuentes.jpg');
+    opacity: 0.9;
+    background-size: cover; /* Ajusta el tamaño de la imagen */
+}
+
+
+.card-politicas-privacidad {
+    background-image: url('../our_images/politicas de privacidad.png');
+    opacity: 0.9;
+    background-size: cover; /* Ajusta el tamaño de la imagen */
+}
+
+.card-terminos-condiciones {
+    background-image: url('../our_images/terminos y condiciones.jpg');
+    opacity: 0.9;
+    background-size: cover; /* Ajusta el tamaño de la imagen */
+}
+
+.card-contacto-puerto-aventura {
+    background-image: url('../our_images/contacto.jpg');
+    opacity: 0.9;
+    background-size: cover; /* Ajusta el tamaño de la imagen */
+}
+
+.card-informacion-puerto-aventura {
+    background-image: url('../our_images/PuertoAventura.png');
+    opacity: 0.9;
+    background-size: cover; /* Ajusta el tamaño de la imagen */
+}
+
+.card-contacto-equipo-desarrollo {
+    background-image: url('../our_images/equipoDesarrollo.jpg');
+    opacity: 0.9;
+    background-size: cover; /* Ajusta el tamaño de la imagen */
+}
+
+
+/* Para botones del home navegacion y acceso */
+.boton-info {
+    padding: 8px 12px; /* Espaciado interno */
+    cursor: pointer; /* Cursor de puntero */
+    margin: 0;
+    text-decoration: none; /* Quitar subrayado de enlaces */
+    display: inline-block; /* Para que los enlaces se comporten como botones */
+}
+
+/* Cambios en el estilo del botón/enlace al pasar el ratón */
+.boton-info:hover {
+    background-color: #8fc9dd; /* Color de fondo al pasar el ratón */
+}
+
+/*Contenedor del base */
+.custom-container {
+    width: 100%; /* Asegura que ocupe el 100% del ancho del viewport */
+    max-width: 1800px; /* Ajusta el valor según tus necesidades */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    padding: 0 15px; /* Ajusta el padding si necesitas espacio adicional en los lados */
 }

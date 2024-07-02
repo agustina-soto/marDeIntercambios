@@ -1,4 +1,4 @@
-from django import forms
+"""from django import forms
 from Aplicaciones.Modelos.models import Oferta, FotoOferta, Usuario
 from Aplicaciones.AdministracionPublicaciones.RealizarPublicacion.models import Publicacion
 from MDI.widgets import MultipleFileInput
@@ -54,7 +54,7 @@ class OfertaForm(forms.ModelForm):
 
     def clean_publicacion(self):
         publicacion = self.publicacion
-        if publicacion and publicacion.estado == 'pendiente':  # Verificamos el estado de la publicación
+        if publicacion and publicacion.estado != 'pendiente':  # Verificamos el estado de la publicación
             raise forms.ValidationError('La publicación no puede recibir ofertas por el momento porque está a la espera de validación.') 
         return publicacion
     
@@ -109,4 +109,4 @@ class FotoOfertaForm(forms.ModelForm):
 
     class Meta:
         model = FotoOferta
-        fields = ['foto']
+        fields = ['foto']"""

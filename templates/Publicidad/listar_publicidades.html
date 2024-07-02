@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Listado de Publicidades</h1>
+
+<h4><strong>Publicidades programadas</strong></h4>
+
+<table class="table table-striped table-hover">
+    <tbody>
+        <thead>
+            <td>Cliente</td>
+            <td>Fecha</td>
+            <td rowspan="3"></td>
+        </thead>
+
+        {% for publicidad in publicidades_futuras %}
+            {% if publicidad.estado != 'eliminada' and publicidad.estado != 'Eliminada' %} 
+                <tr>
+                    <td>{{ publicidad.cliente }}</td>
+                    <td>{{ publicidad.fecha }}</td>
+                    <td>
+                        <a href="{% url 'editar_publicidad' publicidad.id %}" class="text-decoration-none btn btn-primary">Editar</a>
+                        <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="text-decoration-none btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>    
+                </tr>
+            {% endif %}
+        {% empty %}
+            No hay publicidades programadas.
+        {% endfor %}
+    </tbody>
+</table>
+
+<!--
+<ul>
+    {% for publicidad in publicidades_futuras %}
+        {% if publicidad.estado != 'eliminada' and publicidad.estado != 'Eliminada' %} 
+                <li>
+                    Fecha: {{ publicidad.fecha }} - Cliente: {{ publicidad.cliente }}
+                    <a href="{% url 'editar_publicidad' publicidad.id %}" class="boton-discreto">Editar</a>
+                    <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="boton-discreto">Eliminar</button>
+                    </form>
+                </li>
+        {% endif %}
+    {% empty %}
+        <li>No hay publicidades programadas.</li>
+    {% endfor %}
+    <a href="{% url 'eliminar_publicidad' publicidad.id %}" class="text-decoration-none btn btn-danger">Eliminar</a>
+</ul> -->
+
+<h4><strong>Publicidades que ya fueron lanzadas</strong></h4>
+<table class="table table-striped table-hover">
+    <tbody>
+        <thead>
+            <td>Cliente</td>
+            <td>Fecha</td>
+            <td rowspan="3"></td>
+        </thead>
+
+        {% for publicidad in publicidades_pasadas %}
+            {% if publicidad.estado != 'eliminada' and publicidad.estado != 'Eliminada' %} 
+                <tr>
+                    <td>{{ publicidad.cliente }}</td>
+                    <td>{{ publicidad.fecha }}</td>
+                    <td>
+                        <a href="{% url 'editar_publicidad' publicidad.id %}" class="text-decoration-none btn btn-primary">Editar</a>
+                        <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="text-decoration-none btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>    
+                </tr>
+            {% endif %}
+        {% empty %}
+            No hay publicidades programadas.
+        {% endfor %}
+    </tbody>
+</table>
+<!--
+<ul>
+    {% for publicidad in publicidades_pasadas %}
+        {% if publicidad.estado != 'eliminada' and publicidad.estado != 'Eliminada' %} 
+            <li>
+                Fecha: {{ publicidad.fecha }} - Cliente: {{ publicidad.cliente }}
+                <a href="{% url 'editar_publicidad' publicidad.id %}" class="boton-discreto">Editar</a>
+                <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="boton-discreto">Eliminar</button>
+                </form>
+            </li>
+        {% endif %}
+    {% empty %}
+        <li>No hay publicidades lanzadas.</li>
+    {% endfor %}
+</ul>-->
+
+<!-- Botón para volver a la página anterior -->
+<div class="text-center">
+    <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+</div>
+
+{% endblock %}

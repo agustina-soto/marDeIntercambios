@@ -6,7 +6,7 @@ from django.utils.timezone import now
 from Aplicaciones.AdministracionPublicaciones.choices import TIPOS_EMBARCACION
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import models as auth_models
-from Aplicaciones.Modelos.estados import ESTADO_CUENTA, ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO
+from Aplicaciones.Modelos.estados import ESTADO_CUENTA, ESTADO_PUBLICACION, ESTADO_OFERTA, ESTADO_INTERCAMBIO, ESTADO_ROOM, ESTADO_PUBLICIDAD
 
 # ---------- USUARIOS ---------------------------------------------------------------------------
 
@@ -70,9 +70,15 @@ class Usuario(auth_models.AbstractUser):
         self.resetear_ingresos_fallidos()
         self.save(update_fields=['bloqueado', 'fecha_bloqueo'])
     
-    def cuanto_te_falta(self):
+    def cuanto_te_falta_por_bloqueo(self):
         ahora = timezone.now()
         fechaDeDesbloqueo = self.fecha_bloqueo + timedelta(minutes=2) #tremenda falopa, además de ser del mismo tipo, tenés que verificar que ambos datetime sean naive o aware
+        tiempoRestante = (fechaDeDesbloqueo - ahora)
+        return tiempoRestante.total_seconds()/3600
+    
+    def cuanto_te_falta_por_baneo(self):
+        ahora = timezone.now()
+        fechaDeDesbloqueo = self.fecha_bloqueo + timedelta(days=7)
         tiempoRestante = (fechaDeDesbloqueo - ahora)
         return tiempoRestante.total_seconds()/3600
     
@@ -158,7 +164,7 @@ class Room(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     users = models.ManyToManyField(Usuario, through='RoomUser', related_name='roomsUser')
-
+    estado = models.CharField(max_length=10, choices=ESTADO_ROOM, default='activa')
 class RoomUser(models.Model):
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
@@ -202,4 +208,12 @@ class Historial(models.Model):
 
     def __str__(self):
         return f"{self.usuario.username} - {self.publicacion.titulo} - {self.fecha_visita}"
+    
 
+# --------------- PUBLICIDADES --------------------------------------------------------------------------------------
+class Publicidad(models.Model):
+    fecha = models.DateField(null=True)
+    estado = models.CharField(max_length=10,choices=ESTADO_PUBLICIDAD, default='activa')
+    cliente = models.CharField(max_length=50, default='-')
+    foto_central = models.ImageField(upload_to='archivos-estaticos/publicidades/', null=True, blank=True)
+    foto_lateral = models.ImageField(upload_to='archivos-estaticos/publicidades/', null=True, blank=True)

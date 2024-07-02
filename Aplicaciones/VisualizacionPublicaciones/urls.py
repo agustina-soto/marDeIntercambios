@@ -8,6 +8,8 @@ from Aplicaciones.VisualizacionPublicaciones.VerPublicaciones.views import ver_p
 
 app_name = 'VisualizacionPublicaciones' #crea un namespace para que pueda ser referenciado facielmente en otras aplicaciones
 
+app_name = 'VisualizacionPublicaciones' #crea un namespace para que pueda ser referenciado facielmente en otras aplicaciones
+
 urlpatterns = [
     path('ver_detalle/<int:pk>/', vistas_visualizacion.ver_detalle.as_view(), name='ver_detalle'),
     path('buscar_publicaciones/', vistas_buscar_publicaciones.buscar_publicaciones, name='buscar_publicaciones'),

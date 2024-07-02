@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     'channels', #Para el chat pip install channels
     "channels_redis", #Para el chat pip install channels_redis
     'Aplicaciones.Notificaciones.Notificacion',
-    'anymail', #Correo pip install django-anymail (Lo dejo acá, lo más probable es que lo volemos luego de la demo)
+    'Aplicaciones.Publicidad',
 ]
 
 
@@ -91,8 +91,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                 # Añado procesador de contexto personalizado
+                # Añado procesador de contexto personalizado
                 'Aplicaciones.ComunicacionEntreUsuarios.BandejaDeMensajes.context_processors.unread_messages_processor',
+                # Contexto personalizado de publicidad
+                'Aplicaciones.Publicidad.context_processors.publicidad_context_processor',
             ],
         },
     },

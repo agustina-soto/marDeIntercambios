@@ -79,12 +79,13 @@
 
         <br><br>
 
-        <h3><u>Tus Ofertas</u></h3>
-        <div class="row">
-            {% if not ofertas %}
-                <p class="col-12">No tiene ofertas a su nombre.</p>
-            {% else %}
-                {% for oferta in ofertas %}
+    <h3><u>Tus Ofertas</u></h3>
+    <div class="row">
+        {% if not ofertas %}
+            <p class="col-12">No tiene ofertas a su nombre.</p>
+        {% else %}
+            {% for oferta in ofertas %}
+                {%if oferta.estado != 'eliminada' and oferta.estado != 'Eliminada' %}
                     <div class="col-md-4 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
@@ -119,9 +120,10 @@
                             </div>
                         </div>
                     </div>
-                {% endfor %}
-            {% endif %}
-        </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
 
         {% if todas_ofertas_count > 3 %}
             <div class="mt-3">
