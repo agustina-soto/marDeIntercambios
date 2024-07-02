@@ -493,12 +493,17 @@ form div {
         width: 100%; /* Ajusta el ancho del contenedor */
         transform: none; /* Resetea la transformación */
         top: auto; /* Resetea la posición superior */
-    }
+    }}
 
-    .lateral-ad img {
-        width: auto; /* Ajusta el ancho de la imagen automáticamente */
-        max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
-    }
+.lateral-ad img {
+    /* background-image: url("https://www.commonmind.com/hubfs/Imported_Blog_Media/google-shopping-ad-example-3.png");
+    background-size: contain;
+    background-repeat: no-repeat; */
+    width: 15%;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+
 }
 
 
@@ -647,4 +652,12 @@ form div {
 /* Cambios en el estilo del botón/enlace al pasar el ratón */
 .boton-info:hover {
     background-color: #8fc9dd; /* Color de fondo al pasar el ratón */
+}
+
+/*Contenedor del base */
+.custom-container {
+    width: 100%; /* Asegura que ocupe el 100% del ancho del viewport */
+    max-width: 1800px; /* Ajusta el valor según tus necesidades */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    padding: 0 15px; /* Ajusta el padding si necesitas espacio adicional en los lados */
 }
