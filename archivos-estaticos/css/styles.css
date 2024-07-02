@@ -513,7 +513,6 @@ form div {
 
 /*     Buscar Publicaciones         */
 
-<<<<<<<<< Temporary merge branch 1
 /*     Calificar intercambio        */
 .rate {
     float: left;
@@ -558,7 +557,7 @@ form {
 }
 form div {
     margin-bottom: 0px;
-=========
+}
 
 /* Estilos para las tarjetas personalizadas */
 .card {
@@ -648,5 +647,4 @@ form div {
 /* Cambios en el estilo del botón/enlace al pasar el ratón */
 .boton-info:hover {
     background-color: #8fc9dd; /* Color de fondo al pasar el ratón */
->>>>>>>>> Temporary merge branch 2
 }
