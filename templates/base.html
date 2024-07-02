@@ -26,6 +26,8 @@
                     <!-- Contenido de la Navbar -->
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
+
+                            <!-- FUNCIONALIDADES DE USUARIOS REGISTRADOS -->
                             <li class="nav-item">
                                 <a class="nav-link" href="/">Inicio</a>
                             </li>
@@ -35,9 +37,6 @@
                             {% if user.is_authenticated and not user.is_superuser %}
                             <li class="nav-item">
                                 <a class="nav-link" href="/publicacion/realizar_publicacion/">Realizar Publicación</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'perfil_de_usuario' request.user.id %}">Perfil</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/notificaciones/">Notificaciones</a>
@@ -50,6 +49,7 @@
                             </li>
                             {% endif %}
 
+                            <!-- FUNCIONALIDADES DE ADMINISTRACION -->
                             {% if user.is_superuser %}
                             <div class="dropdown">
                                 <button class="dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -79,7 +79,12 @@
                             </div>
                             {% endif %}
 
+
+                            <!-- LOGIN - LOGOUT- REGISTER -->
                             {% if user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'perfil_de_usuario' request.user.id %}">Perfil</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/autenticacion/logout/">Cerrar Sesión</a>
                                 </li>
@@ -87,8 +92,6 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/autenticacion/login/">Iniciar Sesión</a>
                                 </li>
-                            {% endif %}
-                            {% if not user.is_authenticated and not user.is_superuser %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'registrar_usuario' %}">Registrarse</a>
                                 </li>
