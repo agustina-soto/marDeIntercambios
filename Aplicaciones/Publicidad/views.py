@@ -133,6 +133,7 @@ def eliminar_publicidad(request, pk):
         publicidad.estado = 'eliminada'
         publicidad.fecha = None
         publicidad.save()
+        messages.success(request, 'La publicidad se elimino con éxito')
         return redirect('listar_publicidades')
     
     return render(request, 'Publicidad/listar_publicidades.html', {'publicidades': Publicidad.objects.all()})
