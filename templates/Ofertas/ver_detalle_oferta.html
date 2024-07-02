@@ -9,14 +9,42 @@
     <p>Descripción: {{ oferta.descripcion }}</p>
     <p>Precio Estimado: ${{ oferta.precio_estimado }}</p>
 
-    {% if oferta.fotos.all %} <!-- habria que hacerlo con carousel asi queda igual al resto de la muestra de fotos, pero respeten la division de columnas, no se puede hacer un copy paste asi nomas!!!!! :) -->
-        <p>Fotos:</p>
-        <div class="row">
-            {% for foto in oferta.fotos.all %}
-                <div class="col-md-3">
-                    <img src="{{ foto.foto.url }}" class="img-fluid" alt="Foto de oferta">
+    {% if fotos.all %}
+        <div id="photoCarousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                {% for photo in fotos.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <a href="#" class="carousel-image" data-bs-toggle="modal" data-bs-target="#imageModal" data-img-url="{{ photo.foto.url }}" data-img-title="{{ photo.title }}">
+                        <img class="d-block w-100" src="{{ photo.foto.url }}" style="width: 100%; max-height: 350px;" id="img{{ forloop.counter }}">
+                    </a>
+                    <div class="carousel-caption d-none d-md-block">
+                        <p>{{ photo.title }}</p>
+                    </div>
                 </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <!-- Div para la vista maximizada -->
+        <div id="imageModal" class="modal fade" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img class="img-fluid" id="modalImage" src="" alt="Imagen Maximizada">
+                    </div>
+                </div>
+            </div>
         </div>
     {% endif %}
 
@@ -31,5 +59,22 @@
     <div class="text-center">
         <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var modalImage = document.getElementById('modalImage');
+            var modal = new bootstrap.Modal(document.getElementById('imageModal'));
+
+            document.querySelectorAll('.carousel-image').forEach(function(img) {
+                img.addEventListener('click', function() {
+                    var imgUrl = this.getAttribute('data-img-url');
+                    modalImage.src = imgUrl;
+                    modal.show();
+                });
+            });
+        });
+    </script>
 {% endblock %}
 
