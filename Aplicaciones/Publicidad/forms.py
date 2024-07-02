@@ -4,6 +4,7 @@ from MDI.widgets import MultipleFileInput
 from .models import Publicidad
 from datetime import date, timedelta  # Importa date y timedelta desde el módulo datetime para manejar fechas
 from django.utils import timezone
+
 class PublicidadForm(forms.ModelForm):
     cliente = forms.CharField(label='cliente', required=False)
 
@@ -28,14 +29,25 @@ class PublicidadForm(forms.ModelForm):
         self.fields['foto_central'].widget.attrs.update({'class': 'form-control'})
         self.fields['foto_lateral'].widget.attrs.update({'class': 'form-control'})
 
+    """def clean_fecha(self):
+        fecha_aux = self.cleaned_data.get('fecha')
+        if not fecha_aux:
+            self.add_error('fecha', "Por favor, ingrese una fecha")
+        else: 
+            if Publicidad.objects.filter(fecha=fecha_aux).exists():
+                self.add_error('fecha', "La fecha ingresada ya está ocupada")
+                #raise ValidationError("La fecha ingresada ya esta ocupada")
+        return fecha_aux"""
+    
     def clean_fecha(self):
         fecha_aux = self.cleaned_data.get('fecha')
         if not fecha_aux:
             self.add_error('fecha', "Por favor, ingrese una fecha")
-        else:
-            if Publicidad.objects.filter(fecha=fecha_aux).exists():
+        else: 
+            # Excluir la instancia actual en la validación
+            if Publicidad.objects.filter(fecha=fecha_aux).exclude(id=self.instance.id).exists():
                 self.add_error('fecha', "La fecha ingresada ya está ocupada")
-            #raise ValidationError("La fecha ingresada ya esta ocupada")
+                #raise ValidationError("La fecha ingresada ya esta ocupada")
         return fecha_aux
     
     def clean(self):
