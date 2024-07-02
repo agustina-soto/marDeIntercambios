@@ -70,9 +70,15 @@ class Usuario(auth_models.AbstractUser):
         self.resetear_ingresos_fallidos()
         self.save(update_fields=['bloqueado', 'fecha_bloqueo'])
     
-    def cuanto_te_falta(self):
+    def cuanto_te_falta_por_bloqueo(self):
         ahora = timezone.now()
         fechaDeDesbloqueo = self.fecha_bloqueo + timedelta(minutes=2) #tremenda falopa, además de ser del mismo tipo, tenés que verificar que ambos datetime sean naive o aware
+        tiempoRestante = (fechaDeDesbloqueo - ahora)
+        return tiempoRestante.total_seconds()/3600
+    
+    def cuanto_te_falta_por_baneo(self):
+        ahora = timezone.now()
+        fechaDeDesbloqueo = self.fecha_bloqueo + timedelta(days=7)
         tiempoRestante = (fechaDeDesbloqueo - ahora)
         return tiempoRestante.total_seconds()/3600
     

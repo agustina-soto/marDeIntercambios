@@ -48,7 +48,8 @@ def banear_usuario (request, usuario_id):
 
     usuario.estado_cuenta = "baneado"
     usuario.bloquear()
-
+    usuario.is_active = False
+    usuario.save()
     print("Baneamos al usuario " + str(usuario_id))
     return redirect("ver_lista_usuarios_baneados")
 
@@ -70,7 +71,8 @@ def desbanear_usuario (request, usuario_id):
 
     usuario.estado_cuenta = "activo"
     usuario.desbloquear()
-
+    usuario.is_active = True
+    usuario.save()
 
     print("Desbaneamos al usuario " + str(usuario_id))
     return redirect("ver_lista_usuarios")

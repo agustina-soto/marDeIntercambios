@@ -1,12 +1,14 @@
 {% load static %}
 {% block banner_lateral %}
 
-<div class="lateral-ad">
-    {% if publicidad %}
-        <img src="{{ publicidad.foto_lateral.url }}" alt="Ad banner" class="fixed-image">
-    {%else%}
-        <p>No hay publis</p>
-    {% endif %}
-</div>
+
+    <!-- Contenido que deseas que se desplace con el scroll -->
+    <div class="lateral-ad scrollable-content">
+        {% if publicidad %}
+            <img src="{{ publicidad.foto_lateral.url }}" alt="Ad banner" class="fixed-image">
+        {% else %}
+            <p>No hay publis</p>
+        {% endif %}
+    </div>
 
 {% endblock banner_lateral %}
