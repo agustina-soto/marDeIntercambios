@@ -24,7 +24,8 @@
         <a href="{% url 'ver_ofertas' oferta.publicacion.id %}" class="btn btn-secondary">Volver a Ofertas</a>
     {% else %}
         <a href="{% url 'editar_oferta' oferta.id %}" class="boton-discreto">Editar</a> <!-- hay que cambiar el editar y el agregar para que lleven a esta vista, deberia hacerlo la persona que hizo el codigo-->
-        <a href="{% url 'eliminar_oferta' oferta.id %}" class="boton-discreto">Eliminar</a> 
+        <a href="#" class="btn btn-danger" data-borrar-url="{% url 'eliminar_oferta' oferta.id %}"
+                onclick="confirmarBorrado(this)">Eliminar Oferta</a>
     {% endif %}
 
     <!-- Botón para volver a la página anterior -->
