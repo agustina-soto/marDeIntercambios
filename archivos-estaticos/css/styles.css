@@ -496,15 +496,9 @@ form div {
     }}
 
 .lateral-ad img {
-    /* background-image: url("https://www.commonmind.com/hubfs/Imported_Blog_Media/google-shopping-ad-example-3.png");
-    background-size: contain;
-    background-repeat: no-repeat; */
-    width: 15%;
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-
-}
+        width: auto; /* Ajusta el ancho de la imagen automáticamente */
+        max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+    }
 
 
 .center-ad img {
