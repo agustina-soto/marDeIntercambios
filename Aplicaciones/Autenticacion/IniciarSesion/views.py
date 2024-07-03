@@ -32,7 +32,7 @@ def no_esta_baneado(request, usuario):
             usuario.estado_cuenta = 'activo'
             return True
         else:
-            context = f'Usuario baneado el día {usuario.fecha_bloqueo.strftime("%d-%m-%Y")}, su cuenta se desbloqueará el día {(usuario.fecha_bloqueo + timedelta(days=7)).strftime("%Y-%m-%d")}'
+            context = f'Usuario baneado el día {usuario.fecha_bloqueo.strftime("%d-%m-%Y")}, su cuenta se desbloqueará el día {(usuario.fecha_bloqueo + timedelta(days=7)).strftime("%d-%m-%Y")}'
             messages.error(request, context)
             return False
     return True
