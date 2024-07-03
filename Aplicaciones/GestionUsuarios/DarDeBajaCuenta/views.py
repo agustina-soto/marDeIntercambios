@@ -15,7 +15,7 @@ def dar_de_baja(request, user_id):
         motivo = request.POST.get('motivo')
         ok = True;
         if (not motivo):
-            messages.error(request, "el campo motivo no debe quedar vacío debe completarse el motivo de la eliminación para proceder con la desactivación de la cuenta")
+            messages.error(request, "el campo motivo no debe quedar vacío. Debe completarse el motivo de la eliminación para proceder con la desactivación de la cuenta")
             ok = False
         else:
             if (tiene_oferta_propia_aceptada(usuario)):
