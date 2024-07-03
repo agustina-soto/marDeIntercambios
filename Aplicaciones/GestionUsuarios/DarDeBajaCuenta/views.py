@@ -39,7 +39,7 @@ def tiene_oferta_propia_aceptada(usuario):
 def eliminar_cuenta(usuario, motivo):
     usuario.is_active = False
     usuario.estado_cuenta = 'Deshabilitado' #Estaba en el modelo, no quise tocarlo por si se usaba en otra parte
-    usuario.motivo = motivo
+    usuario.motivo_de_baja = motivo
 
     for publicacion in usuario.publicaciones.all():
         publicacion.estado = 'Eliminada'
