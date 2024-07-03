@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Lista de usuarios registrados activos</h2>
+<h2>Lista de usuarios registrados registrados</h2>
 {% if not usuarios %}
 <div>No hay usuarios para mostrar</div>
 
@@ -17,6 +17,7 @@
             <td rowspan="3"></td>
         </thead>
 {% for us in usuarios %}
+{% if us.estado_cuenta != 'baneado' %}
 <tr>
     <td>{{us.username}}</td>
             <td>{{us.dni}}</td>
@@ -32,8 +33,12 @@
                 {% if us.estado_cuenta != "Deshabilitado" %}
                 <a href="/usuarios/banear_usuario/{{us.id}}" class="text-decoration-none btn btn-danger">Banear usuario</a>
                 {% endif %}
+                {% if us.estado_cuenta == "Deshabilitado" %}
+                <a href="#" class="text-decoration-none btn btn-secondary" data-toggle="tooltip" data-placement="top" title="{{us.motivo_de_baja}}">Motivo de baja</a>
+                {% endif %}
             </td>    
 </tr>
+{% endif %}
 
 {% endfor %}
     </tbody>
@@ -56,6 +61,12 @@
     </span>
 </div>
 {% endif %}
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 
 {% endblock %}
 
