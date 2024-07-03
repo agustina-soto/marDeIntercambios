@@ -479,11 +479,15 @@ form div {
     overflow: hidden; /* Asegura que el contenido adicional no sea visible */
 }
 
+.lateral-ad img {
+    width: auto; /* Ajusta el ancho de la imagen automáticamente */
+    max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+}
+
 .lateral-ad img.fixed-image {
     max-width: 100%; /* Ajusta según el diseño deseado */
     height: auto; /* Para mantener la proporción de la imagen */
 }
-
 
 
 /* Media query para pantallas muy pequeñas (ej. tabletas) */
@@ -495,11 +499,6 @@ form div {
         top: auto; /* Resetea la posición superior */
     }}
 
-.lateral-ad img {
-        width: auto; /* Ajusta el ancho de la imagen automáticamente */
-        max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
-    }
-
 
 .center-ad img {
     /* background-image: url("https://creatives.sascdn.com/diff/4308/advertiser/489787/CopaAmerica_2024_Banner_Medium_Rectangle_b9fb1ccd-f776-4387-b776-bb564a24a457.jpeg");
@@ -510,7 +509,11 @@ form div {
 
 }
 
+
+
 /*     Buscar Publicaciones         */
+
+
 
 /*     Calificar intercambio        */
 .rate {
