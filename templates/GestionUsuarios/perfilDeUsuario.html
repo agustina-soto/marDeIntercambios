@@ -85,42 +85,42 @@
             <p class="col-12">No tiene ofertas a su nombre.</p>
         {% else %}
             {% for oferta in ofertas %}
-                {%if oferta.estado != 'eliminada' and oferta.estado != 'Eliminada' %}
-                    <div class="col-md-4 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">Estado: {{ oferta.estado }}</h5>
-                                <p class="card-text">Descripción: {{ oferta.descripcion }}</p>
-                                <p class="card-text">Precio Estimado: ${{ oferta.precio_estimado }}</p>
-                                {% if oferta.fotos.all %}
-                                    <div id="photoCarousel-oferta-{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
-                                        <div class="carousel-inner">
-                                            {% for foto in oferta.fotos.all %}
-                                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                                    <a href="{{ foto.foto.url }}" data-lightbox="offer-{{ oferta.id }}">
-                                                        <img class="d-block w-100" src="{{ foto.foto.url }}" style="width: auto; max-height: 150px;">
-                                                    </a>
-                                                    <div class="carousel-caption d-none d-md-block">
-                                                        <p>{{ foto.descripcion }}</p>
-                                                    </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Estado: {{ oferta.estado }}</h5>
+                            <p class="card-text">Descripción: {{ oferta.descripcion }}</p>
+                            <p class="card-text">Precio Estimado: ${{ oferta.precio_estimado }}</p>
+                            {% if oferta.fotos.all %}
+                                <div id="photoCarousel-oferta-{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        {% for foto in oferta.fotos.all %}
+                                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                                <a href="{{ foto.foto.url }}" data-lightbox="offer-{{ oferta.id }}">
+                                                    <img class="d-block w-100" src="{{ foto.foto.url }}" style="width: auto; max-height: 150px;">
+                                                </a>
+                                                <div class="carousel-caption d-none d-md-block">
+                                                    <p>{{ foto.descripcion }}</p>
                                                 </div>
-                                            {% endfor %}
-                                        </div>
-                                        <a class="carousel-control-prev" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        </a>
+                                            </div>
+                                        {% endfor %}
                                     </div>
-                                {% else %}
-                                    <p>No hay fotos disponibles para esta oferta.</p>
-                                {% endif %}
-                                <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="btn btn-secondary mt-3">Ver Detalle</a>
-                            </div>
+                                    <a class="carousel-control-prev" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            {% else %}
+                                <p>No hay fotos disponibles para esta oferta.</p>
+                            {% endif %}
+
+                            <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="btn btn-secondary mt-3">Ver Detalle</a>
+                            
                         </div>
                     </div>
-                {% endif %}
+                </div>
             {% endfor %}
         {% endif %}
     </div>

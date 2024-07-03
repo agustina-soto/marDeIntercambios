@@ -3,51 +3,44 @@
 
 {% block content %}
     <div class="container">
-        <h1>Publicaciones Comparadas</h1>
+        <h2>Publicaciones Comparadas</h2> <br>
 
-        <!-- Hice una tabla para la comparación de publicaciones  -->
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Campo</th>
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="row-color-dark">
+                        <th>Publicaciones</th> <!-- Título para la columna de publicaciones -->
+                        <th colspan="{{ campos|length }}">Campos</th> <!-- Colspan para abarcar todas las columnas de campos -->
+                    </tr>
+                    <tr class="row-color-light">
+                        <th>Título</th>
+                        {% for campo in campos %}
+                            <th>{{ campo }}</th> <!-- Títulos de los campos como encabezados -->
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
                     {% for publicacion in publicaciones %}
-                        <th>{{ publicacion.titulo }}</th>
+                        <tr>
+                            <td>{{ publicacion.titulo }}</td> <!-- Título de la publicación como primera columna -->
+                            <td>{{ publicacion.descripcion }}</td> <!-- Datos de descripción para el campo de descripción -->
+                            <td>{{ publicacion.precio_minimo }}</td> <!-- Datos de precio mínimo para el campo de precio mínimo -->
+                            <td>{{ publicacion.tipo_embarcacion }}</td> <!-- Datos de tipo de embarcación para el campo de tipo de embarcación -->
+                            <td>{{ publicacion.anio }}</td> <!-- Datos de año para el campo de año -->
+                            <td>{{ publicacion.estado }}</td> <!-- Datos de estado para el campo de estado -->
+                            <td>
+                                {% if publicacion.oferta_aceptada %}
+                                    Si
+                                {% else %}
+                                    No
+                                {% endif %}
+                            </td> <!-- Datos de oferta aceptada para el campo de oferta aceptada -->
+                        </tr>
                     {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Descripción</td>
-                    {% for publicacion in publicaciones %}
-                        <td>{{ publicacion.descripcion }}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>Precio mínimo</td>
-                    {% for publicacion in publicaciones %}
-                        <td>{{ publicacion.precio_minimo }}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>Tipo Embarcación</td>
-                    {% for publicacion in publicaciones %}
-                        <td>{{ publicacion.tipo_embarcacion }}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>Año</td>
-                    {% for publicacion in publicaciones %}
-                        <td>{{ publicacion.anio }}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>Estado</td>
-                    {% for publicacion in publicaciones %}
-                        <td>{{ publicacion.estado }}</td>
-                    {% endfor %}
-                </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
 
         <!-- Botón para volver a la página anterior -->
         <div class="text-center">
