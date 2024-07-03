@@ -40,9 +40,20 @@ def comparar_publicaciones(request):
 
     # Publicaciones seleccionadas
     publicaciones = Publicacion.objects.filter(id__in=publicaciones_seleccionadas)
+    
+    # Campos a mostrar
+    campos = [
+        'Descripción',
+        'Precio mínimo',
+        'Tipo Embarcación',
+        'Año',
+        'Estado',
+        '¿Tiene Oferta Aceptada?'
+    ]
 
     context = {
         'publicaciones': publicaciones,
+        'campos': campos,
     }
 
     return render(request, 'VisualizacionPublicaciones/comparar_publicaciones.html', context)

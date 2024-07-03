@@ -662,7 +662,14 @@ lo dejo comentado porque ya no queda bien, prefiero que no se pinte de ningun co
 }
 
 
-/*  ESTILOS PARA COMPARAR PUBLICACIONES  (le tengo que poner color o algo prque esta re triston ahora) */
+/*  ESTILOS PARA COMPARAR PUBLICACIONES   */
+table.table-bordered.table-striped thead tr.row-color-dark th {
+    background-color: #5199d0cb;/*7dbae8cb*/
+}
+
+table.table-bordered.table-striped thead tr.row-color-light th {
+    background-color: #7dbae8cb;
+}
 
 
 /* ESTILOS PARA LA INFO DE LAS CARDS DEL HOME  */
@@ -702,4 +709,3 @@ lo dejo comentado porque ya no queda bien, prefiero que no se pinte de ningun co
 .contact-info a:hover {
         text-decoration: underline;
     }
-
