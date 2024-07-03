@@ -583,6 +583,16 @@ form div {
 .custom-card .card-header {
     position: relative;
     z-index: 1; /* Asegura que el contenido esté sobre la imagen de fondo */
+    
+    /* agrego estas lineas para que todas las cards muestren la misma cantidad de imagen, independientemente del largo de su titulo */
+    height: 150px; /* Ajusta este valor según el espacio que quieras reservar para el título */
+    overflow: hidden; /* Evita que el contenido se desborde */
+    text-align: center; /* Centra el texto verticalmente si es necesario */
+    
+    /* para centrar verticalmente hay que poner estos 3 que estan abajo */
+    display: flex; /* Usa flexbox para centrar verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
 }
 
 
@@ -631,12 +641,17 @@ form div {
     margin: 0;
     text-decoration: none; /* Quitar subrayado de enlaces */
     display: inline-block; /* Para que los enlaces se comporten como botones */
+    color: #0c1f34; /* Color del texto */
 }
 
-/* Cambios en el estilo del botón/enlace al pasar el ratón */
+
+/* Cambios en el estilo del botón/enlace al pasar el ratón
 .boton-info:hover {
-    background-color: #8fc9dd; /* Color de fondo al pasar el ratón */
+    background-color: #daedf5f7;
 }
+lo dejo comentado porque ya no queda bien, prefiero que no se pinte de ningun color
+*/
+
 
 /*Contenedor del base */
 .custom-container {
@@ -647,28 +662,44 @@ form div {
 }
 
 
-/*  ESTILOS PARA COMPARAR PUBLICACIONES  */
-.table {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #b2d4e6;
-}
-.table th,
-.table td {
-    padding: 1rem;
-    vertical-align: top;
-    border-top: 1px solid #b2d4e6;
-}
-
-.table thead th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #b2d4e6;
-}
-
-.table-responsive {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
 /*  ESTILOS PARA COMPARAR PUBLICACIONES  (le tengo que poner color o algo prque esta re triston ahora) */
+
+
+/* ESTILOS PARA LA INFO DE LAS CARDS DEL HOME  */
+.main-content section {
+    margin-bottom: 20px;
+}
+
+.main-content h2 {
+    font-size: 2rem;
+    margin-top: 20px;
+    color: #000;
+}
+
+.main-content ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.main-content ul li {
+    margin-bottom: 10px;
+}
+
+.contact-info {
+        list-style-type: none;
+        padding: 0;
+    }
+
+.contact-info li {
+        margin: 10px 0;
+    }
+
+.contact-info a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+.contact-info a:hover {
+        text-decoration: underline;
+    }
+

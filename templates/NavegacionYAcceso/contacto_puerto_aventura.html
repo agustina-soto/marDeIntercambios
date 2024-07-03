@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
-    <h1>Contacto Puerto Aventura</h1>
-    <p>Teléfono: +123456789</p>
-    <p>Correo: PuertoAventura@gmail.com</p>
+<div class="container main-content">
+    <h2><u>Contacto de Puerto Aventura</u></h2>
+    <br>
+    <section>
+        <p>Para más información o consultas, puedes contactarnos a través de los siguientes medios:</p> <br>
+        <ul class="contact-info">
+            <li><strong>Teléfono:  </strong> +123456789</li>
+            <li><strong>Correo:  </strong> PuertoAventura@gmail.com</li>
+        </ul>
+    </section>
 </div>
 
 <!-- Botón para volver a la página anterior -->
 <div class="text-center">
-    <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+    <a href="javascript:history.back()" class="btn btn-primary" title="Volver a la página anterior">Atrás</a>
 </div>
-
 {% endblock content %}
