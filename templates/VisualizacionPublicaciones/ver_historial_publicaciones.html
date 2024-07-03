@@ -35,8 +35,8 @@
         {% endif %}
     </div>
 
-    <!-- Botón para volver a la página anterior -->
+    <!-- Botón para volver al perfil -->
     <div class="text-center">
-        <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+        <a href="{% url 'perfil_de_usuario' user.id %}" class="btn btn-primary m-1">Volver a mi perfil</a>
     </div>
 {% endblock %}
