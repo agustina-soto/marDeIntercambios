@@ -40,7 +40,7 @@
                         </div>
                     {% endif %}
 
-                    <a href="{% url 'VisualizacionPublicaciones:ver_detalle' publicacion.id %}" class="btn btn-secondary">Ver Detalle</a>
+                    <a href="{% url 'VisualizacionPublicaciones:ver_detalle' publicacion.id %}" class="nuestro-btn">Ver Detalle</a>
                 </div>
             {% endfor %}
         {% endif %}
@@ -48,6 +48,6 @@
 
     <!-- Botón para volver a la página anterior -->
     <div class="text-center">
-        <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+        <a href="javascript:history.back()" class="nuestro-btn">Atrás</a>
     </div>
 {% endblock %}

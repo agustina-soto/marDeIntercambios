@@ -6,14 +6,14 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-outline-secondary">Guardar Cambios</button>
+        <button type="submit" class="nuestro-btn">Guardar Cambios</button>
     </form>
 
     <br>
 
     <!-- Botón para volver a la página anterior -->
     <div class="text-center">
-        <a href="{% url 'perfil_de_usuario' user_id %}" class="btn btn-outline-secondary">Atrás (no guardar cambios)</a>
+        <a href="{% url 'perfil_de_usuario' user_id %}" class="nuestro-btn">Atrás (no guardar cambios)</a>
     </div>
 
     <br>

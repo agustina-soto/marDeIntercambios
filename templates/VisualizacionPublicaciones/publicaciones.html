@@ -22,9 +22,9 @@
         {% else %}
             <div class="text-center">
                 {% if publicaciones_a_comparar|length >= 2 %}
-                    <a href="{% url 'VisualizacionPublicaciones:comparar_publicaciones' %}" class="btn btn-primary">Comparar Publicaciones</a>
+                    <a href="{% url 'VisualizacionPublicaciones:comparar_publicaciones' %}" class="nuestro-btn">Comparar Publicaciones</a>
                 {% else %}
-                    <button class="btn btn-primary" disabled>Comparar Publicaciones</button>
+                    <button class="nuestro-btn" disabled>Comparar Publicaciones</button>
                 {% endif %}
             </div>
             <div class="row">
@@ -50,16 +50,16 @@
                                     {% endif %}
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="{% url 'VisualizacionPublicaciones:ver_detalle' pub.id %}" class="btn btn-primary">Ver Detalle</a>
+                                    <a href="{% url 'VisualizacionPublicaciones:ver_detalle' pub.id %}" class="nuestro-btn">Ver Detalle</a>
                                     {% if pub.id in publicaciones_a_comparar %}
                                         <form method="POST" action="{% url 'VisualizacionPublicaciones:deseleccionar_publicacion' pub.id %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-outline-danger">Deseleccionar</button>
+                                            <button type="submit" class="nuestro-btn3">Deseleccionar</button>
                                         </form>
                                     {% else %}
                                         <form method="POST" action="{% url 'VisualizacionPublicaciones:seleccionar_publicacion' pub.id %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-outline-primary">Seleccionar para Comparar</button>
+                                            <button type="submit" class="nuestro-btn2">Seleccionar para Comparar</button>
                                         </form>
                                     {% endif %}
                                 </div>

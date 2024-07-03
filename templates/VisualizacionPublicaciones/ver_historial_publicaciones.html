@@ -17,7 +17,7 @@
                                 <br>
                                 <small class="text-muted">Visto el: {{ item.fecha_visita|date:"d M Y, H:i" }}</small>
                             </div>
-                            <a href="{% url 'VisualizacionPublicaciones:quitar_de_historial' item.publicacion.id %}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas quitar esta publicación del historial?');">
+                            <a href="{% url 'VisualizacionPublicaciones:quitar_de_historial' item.publicacion.id %}" class="nuestro-btn3" onclick="return confirm('¿Estás seguro de que deseas quitar esta publicación del historial?');">
                                 <i class="fa fa-trash"></i> Quitar del Historial
                             </a>
                         </li>
@@ -37,6 +37,6 @@
 
     <!-- Botón para volver al perfil -->
     <div class="text-center">
-        <a href="{% url 'perfil_de_usuario' user.id %}" class="btn btn-primary m-1">Volver a mi perfil</a>
+        <a href="{% url 'perfil_de_usuario' user.id %}" class="nuestro-btn">Volver a mi perfil</a>
     </div>
 {% endblock %}

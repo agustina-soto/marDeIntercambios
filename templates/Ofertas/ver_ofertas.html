@@ -8,7 +8,7 @@
             {% for oferta in ofertas %}
                 <li>
                     Oferta de ${{ oferta.precio_estimado }} - "{{ oferta.descripcion }}"
-                    <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="btn btn-primary">Ver Detalle</a>
+                    <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="nuestro-btn">Ver Detalle</a>
                     {% if publicacion.estado != 'eliminada' and publicacion.estado != 'Eliminada' %}
                         {% if oferta.estado == 'rechazada' or oferta.estado == 'Rechazada' %}
                             <!-- Si la oferta está rechazada, muestra el texto "Oferta Rechazada" -->
@@ -38,7 +38,7 @@
         <h5> No hay ofertas para esta publicación.</h5>
     {% endif %}
     <br>
-    <a href="/publicacion/ver-publicacion/ver_detalle/{{publicacion.id}}" class="btn btn-secondary">Volver a la publicación</a> 
+    <a href="/publicacion/ver-publicacion/ver_detalle/{{publicacion.id}}" class="nuestro-btn">Volver a la publicación</a> 
 {% endblock %}
 
 <!--Cambie el link porque href="{% url 'ver_detalle' publicacion.id %}" no me andaba, no sé que pasó al hacer el merge, hay que arreglarlo-->

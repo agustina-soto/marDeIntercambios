@@ -16,7 +16,7 @@
             <li><p>Fecha de Nacimiento: {{ fechaNacimiento }}</p></li>
             <li><p>DNI: {{ dni }}</p></li>
         </ul>
-        <a href="{% url 'editar_perfil_usuario' request.user.id %}" class="btn btn-outline-secondary">Editar Información Personal</a>
+        <a href="{% url 'editar_perfil_usuario' request.user.id %}" class="boton-discreto">Editar Información Personal</a>
         <a href="{% url 'dar_de_baja_cuenta' user_id %}" class="boton-discreto">Eliminar Cuenta</a><br>
     </div>
 
@@ -63,7 +63,7 @@
                                         </button>
                                     </div>
                                 {% endif %}
-                                <a href="{% url 'VisualizacionPublicaciones:ver_detalle' publicacion.id %}" class="btn btn-secondary mt-3">Ver Detalle</a>
+                                <a href="{% url 'VisualizacionPublicaciones:ver_detalle' publicacion.id %}" class="nuestro-btn mt-3">Ver Detalle</a>
                             </div>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
 
         {% if todas_publicaciones_count > 3 %}
             <div class="mt-3">
-                <a href="{% url 'ver_todas_mis_publicaciones' %}" class="btn btn-outline-secondary">Ver Todas Mis Publicaciones</a>
+                <a href="{% url 'ver_todas_mis_publicaciones' %}" class="nuestro-btn">Ver Todas Mis Publicaciones</a>
             </div>
         {% endif %}
 
@@ -116,7 +116,7 @@
                                 <p>No hay fotos disponibles para esta oferta.</p>
                             {% endif %}
 
-                            <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="btn btn-secondary mt-3">Ver Detalle</a>
+                            <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="nuestro-btn mt-3">Ver Detalle</a>
                             
                         </div>
                     </div>
@@ -127,7 +127,7 @@
 
         {% if todas_ofertas_count > 3 %}
             <div class="mt-3">
-                <a href="{% url 'ver_todas_mis_ofertas' %}" class="btn btn-outline-secondary">Ver Todas Mis Ofertas</a>
+                <a href="{% url 'ver_todas_mis_ofertas' %}" class="nuestro-btn">Ver Todas Mis Ofertas</a>
             </div>
         {% endif %}
 
