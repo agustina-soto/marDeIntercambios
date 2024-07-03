@@ -22,7 +22,7 @@
                         <a href="{% url 'editar_publicidad' publicidad.id %}" class="text-decoration-none btn btn-primary">Editar</a>
                         <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit" class="text-decoration-none btn btn-danger">Eliminar</button>
+                            <button type="submit" class="text-decoration-none btn btn-danger" onclick="confirmarBorrado(this)">Eliminar</button>
                         </form>
                     </td>    
                 </tr>
@@ -33,24 +33,6 @@
     </tbody>
 </table>
 
-<!--
-<ul>
-    {% for publicidad in publicidades_futuras %}
-        {% if publicidad.estado != 'eliminada' and publicidad.estado != 'Eliminada' %} 
-                <li>
-                    Fecha: {{ publicidad.fecha }} - Cliente: {{ publicidad.cliente }}
-                    <a href="{% url 'editar_publicidad' publicidad.id %}" class="boton-discreto">Editar</a>
-                    <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <button type="submit" class="boton-discreto">Eliminar</button>
-                    </form>
-                </li>
-        {% endif %}
-    {% empty %}
-        <li>No hay publicidades programadas.</li>
-    {% endfor %}
-    <a href="{% url 'eliminar_publicidad' publicidad.id %}" class="text-decoration-none btn btn-danger">Eliminar</a>
-</ul> -->
 
 <h4><strong>Publicidades que ya fueron lanzadas</strong></h4>
 <table class="table table-striped table-hover">

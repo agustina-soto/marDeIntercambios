@@ -8,22 +8,27 @@
             <img src="data:image/jpeg;base64,{{ foto_centralP }}" alt="Central Ad">
         </div>
         {% block banner_lateral %}
-        <div class="d-none d-lg-block col-lg-2 mb-3 lateral-ad">
-            <img src="data:image/jpeg;base64,{{ foto_lateralP }}" alt="Central Ad">
-        </div>
+        <div class="d-none d-lg-block col-lg-2 mb-3" style="position: relative;">
+            <div class="lateral-ad scrollable-content">
+                <img src="data:image/jpeg;base64,{{ foto_lateralP }}" alt="Central Ad" class="fixed-image">
+            </div>
+        </div>
         {% endblock banner_lateral %}
         <div class="col-2 col-lg-8 text-center">
-            <h1>PUBLICIDADES PREVISUALIZADAS</h1>
-            <p>Cliente: {{publicidadP.cliente}}</p>
-            <p>Fecha de publicación: {{publicidadP.fecha}}</p>
-            <p>Duración hasta: {{duracion}}</p>
+            <h2><strong>Previzualización de publicidad a programar</strong></h2>
+            <div><p>Cliente: {{publicidadP.cliente}}</p>
+                <p>Fecha: {{publicidadP.fecha}}</p>
+            </div>
+            <!--<p>Duración hasta: {{duracion}}</p>-->
             <div>
                 <a href="javascript:history.back()" class="btn btn-primary m-1">Volver</a>
             </div>
         </div>
-        <div class="d-none d-lg-block col-lg-2 mb-3 lateral-ad">
-            <img src="data:image/jpeg;base64,{{ foto_lateralP }}" alt="Central Ad">
-        </div>
+        <div class="d-none d-lg-block col-lg-2 mb-3" style="position: relative;">
+            <div class="lateral-ad scrollable-content">
+                <img src="data:image/jpeg;base64,{{ foto_lateralP }}" alt="Central Ad" class="fixed-image">
+            </div>
+        </div>
     </div>
 <!--
     <style>

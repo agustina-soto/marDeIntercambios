@@ -6,7 +6,7 @@ from datetime import date, timedelta  # Importa date y timedelta desde el módul
 from django.utils import timezone
 
 class PublicidadForm(forms.ModelForm):
-    cliente = forms.CharField(label='cliente', required=False)
+    cliente = forms.CharField(label='Cliente', required=False)
 
     fecha = forms.DateField(required=False, widget=forms.DateInput(attrs={
         'class': 'datepicker form-control',
