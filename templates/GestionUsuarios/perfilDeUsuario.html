@@ -3,8 +3,8 @@
 
 {% block content %}
     <br>
-    <a href="{% url 'VisualizacionPublicaciones:ver_favoritos' %}" class="boton-discreto">Ver Publicaciones Favoritas</a>
-    <a href="{% url 'VisualizacionPublicaciones:ver_historial' %}" class="boton-discreto">Ver Historial de Publicaciones</a>
+    <a href="{% url 'VisualizacionPublicaciones:ver_favoritos' %}" class="nuestro-btn4">Ver Publicaciones Favoritas</a>
+    <a href="{% url 'VisualizacionPublicaciones:ver_historial' %}" class="nuestro-btn2">Ver Historial de Publicaciones</a>
 
     <br><br>
 
@@ -16,8 +16,8 @@
             <li><p>Fecha de Nacimiento: {{ fechaNacimiento }}</p></li>
             <li><p>DNI: {{ dni }}</p></li>
         </ul>
-        <a href="{% url 'editar_perfil_usuario' request.user.id %}" class="boton-discreto">Editar Información Personal</a>
-        <a href="{% url 'dar_de_baja_cuenta' user_id %}" class="boton-discreto">Eliminar Cuenta</a><br>
+        <a href="{% url 'editar_perfil_usuario' request.user.id %}" class="nuestro-btn2">Editar Información Personal</a>
+        <a href="{% url 'dar_de_baja_cuenta' user_id %}" class="nuestro-btn3">Eliminar Cuenta</a><br>
     </div>
 
 
