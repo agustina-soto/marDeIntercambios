@@ -100,7 +100,7 @@ class Publicacion(models.Model):
     tipo_embarcacion = models.CharField(max_length=60, choices=TIPOS_EMBARCACION)
     anio = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(timezone.now().year)])
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='publicaciones')
-    descripcion = models.CharField(max_length=150, null=True, blank=True)
+    descripcion = models.CharField(max_length=150, null=True, blank=True, default='Sin descripción')
     estado = models.CharField(max_length=10, choices=ESTADO_PUBLICACION, default='pendiente')
     oferta_aceptada = models.OneToOneField('Oferta', on_delete=models.SET_NULL, null=True, related_name='publicacion_ofertada')
     # Con el OneToOne cada publicacion puede tener como maximo una oferta aceptada, y cada oferta aceptada puede estar vinculada solo a una publicacion
