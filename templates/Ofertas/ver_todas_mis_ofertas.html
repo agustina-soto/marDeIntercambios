@@ -40,7 +40,7 @@
                             <p>No hay fotos disponibles para esta oferta.</p>
                         {% endif %}
 
-                        <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="btn btn-secondary">Ver Detalle</a>
+                        <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="nuestro-btn">Ver Detalle</a>
                     </div>
                 {% endif %}
             {% endfor %}
@@ -49,6 +49,6 @@
 
     <!-- Botón para volver a la página anterior -->
     <div class="text-center">
-        <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+        <a href="javascript:history.back()" class="nuestro-btn">Atrás</a>
     </div>
 {% endblock %}

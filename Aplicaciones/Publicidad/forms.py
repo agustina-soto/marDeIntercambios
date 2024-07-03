@@ -25,7 +25,7 @@ class PublicidadForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['cliente'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese el nombre del cliente o compañía'})
+        self.fields['cliente'].widget.attrs.update({'class': 'form-control'})
         self.fields['foto_central'].widget.attrs.update({'class': 'form-control'})
         self.fields['foto_lateral'].widget.attrs.update({'class': 'form-control'})
 

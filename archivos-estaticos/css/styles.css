@@ -418,7 +418,7 @@ form div {
 /* Para botones y enlaces con clase .boton-discreto */
 .boton-discreto,
 .boton-discreto:hover {
-    background-color: #d6d6d6; /* Color de fondo */
+    background-color: #b5b4b4; /* Color de fondo */
     color: rgb(255, 255, 255); /* Color del texto */
     border: none;
     border-radius: 0 5px 5px 0; /* Bordes redondeados solo a la derecha */
@@ -431,7 +431,7 @@ form div {
 
 /* Cambios en el estilo del botón/enlace al pasar el ratón */
 .boton-discreto:hover {
-    background-color: #b5b4b4; /* Color de fondo al pasar el ratón */
+    background-color: #999898; /* Color de fondo al pasar el ratón */
 }
 /* CSS para la vista maximizada */
 .image-modal {
@@ -747,4 +747,72 @@ table.table-bordered.table-striped thead tr.row-color-light th {
 
 .dropdown-content ul li {
     font-size: 12px;
+}
+
+.nuestro-btn,
+.nuestro-btn:hover {
+    display: inline-block; /* Para que el estilo funcione en elementos <a> */
+    text-decoration: none; /* Quita el subrayado por defecto en los enlaces */
+    background-color: #6ea4cd; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    padding: 0.5rem 1rem; /* Padding interno del botón */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    border-radius: 0.25rem; /* Borde redondeado */
+    margin: 0.25rem; /* Margen alrededor del botón */
+}
+
+.nuestro-btn:hover {
+    background-color: #5983a3; /* Color de fondo al pasar el cursor */
+}
+
+.nuestro-btn2,
+.nuestro-btn2:hover {
+    display: inline-block; /* Para que el estilo funcione en elementos <a> */
+    text-decoration: none; /* Quita el subrayado por defecto en los enlaces */
+    background-color: #edc16a; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    padding: 0.5rem 1rem; /* Padding interno del botón */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    border-radius: 0.25rem; /* Borde redondeado */
+    margin: 0.25rem; /* Margen alrededor del botón */
+}
+
+.nuestro-btn2:hover {
+    background-color: #c6a259; /* Color de fondo al pasar el cursor */
+}
+
+.nuestro-btn3,
+.nuestro-btn3:hover {
+    display: inline-block; /* Para que el estilo funcione en elementos <a> */
+    text-decoration: none; /* Quita el subrayado por defecto en los enlaces */
+    background-color: #e86e61; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    padding: 0.5rem 1rem; /* Padding interno del botón */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    border-radius: 0.25rem; /* Borde redondeado */
+    margin: 0.25rem; /* Margen alrededor del botón */
+}
+
+.nuestro-btn3:hover {
+    background-color: #ca5e51; /* Color de fondo al pasar el cursor */
+}
+
+.nuestro-btn4,
+.nuestro-btn4:hover {
+    display: inline-block; /* Para que el estilo funcione en elementos <a> */
+    text-decoration: none; /* Quita el subrayado por defecto en los enlaces */
+    background-color: #6dc476; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    padding: 0.5rem 1rem; /* Padding interno del botón */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    border-radius: 0.25rem; /* Borde redondeado */
+    margin: 0.25rem; /* Margen alrededor del botón */
+}
+
+.nuestro-btn4:hover {
+    background-color: rgb(92, 163, 111); /* Color de fondo al pasar el cursor */
 }

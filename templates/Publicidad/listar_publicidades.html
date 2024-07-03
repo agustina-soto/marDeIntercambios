@@ -19,10 +19,10 @@
                     <td>{{ publicidad.cliente }}</td>
                     <td>{{ publicidad.fecha }}</td>
                     <td>
-                        <a href="{% url 'editar_publicidad' publicidad.id %}" class="text-decoration-none btn btn-primary">Editar</a>
+                        <a href="{% url 'editar_publicidad' publicidad.id %}" class="text-decoration-none nuestro-btn2">Editar</a>
                         <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit" class="text-decoration-none btn btn-danger" onclick="confirmarBorrado(this)">Eliminar</button>
+                            <button type="submit" class="text-decoration-none nuestro-btn3" onclick="confirmarBorrado(this)">Eliminar</button>
                         </form>
                     </td>    
                 </tr>
@@ -49,10 +49,10 @@
                     <td>{{ publicidad.cliente }}</td>
                     <td>{{ publicidad.fecha }}</td>
                     <td>
-                        <a href="{% url 'editar_publicidad' publicidad.id %}" class="text-decoration-none btn btn-primary">Editar</a>
+                        <a href="{% url 'editar_publicidad' publicidad.id %}" class="text-decoration-none nuestro-btn2">Editar</a>
                         <form action="{% url 'eliminar_publicidad' publicidad.id %}" method="post" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit" class="text-decoration-none btn btn-danger">Eliminar</button>
+                            <button type="submit" class="text-decoration-none nuestro-btn3">Eliminar</button>
                         </form>
                     </td>    
                 </tr>
@@ -80,9 +80,9 @@
     {% endfor %}
 </ul>-->
 
-<!-- Botón para volver a la página anterior -->
+<!-- Botón para volver al inicio -->
 <div class="text-center">
-    <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+    <a href="{% url 'home' %}" class="nuestro-btn">Volver a Inicio</a>
 </div>
 
 {% endblock %}

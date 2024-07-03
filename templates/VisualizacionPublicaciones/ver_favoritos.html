@@ -8,7 +8,7 @@
             {% for publicacion in publicaciones_favoritas %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <a href="{% url 'VisualizacionPublicaciones:ver_detalle' publicacion.id %}">{{ publicacion.titulo }}</a>
-                <a href="{% url 'VisualizacionPublicaciones:quitar_de_favoritos' publicacion.id %}" class="btn btn-sm btn-danger">Quitar de Favoritos</a>
+                <a href="{% url 'VisualizacionPublicaciones:quitar_de_favoritos' publicacion.id %}" class="nuestro-btn3">Quitar de Favoritos</a>
             </li>
             {% empty %}
             <li class="list-group-item">
@@ -18,9 +18,9 @@
         </ul>
     </div>
 
-    <!-- Botón para volver a la página anterior -->
+    <!-- Botón para volver al perfil -->
     <div class="text-center">
-        <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+        <a href="{% url 'perfil_de_usuario' user.id %}" class="nuestro-btn">Volver a mi perfil</a>
     </div>
 
 {% endblock %}
