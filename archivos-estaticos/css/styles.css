@@ -262,19 +262,6 @@ form div {
     margin-right: 10px;
 }
 
-/* Estilo para el botón "Publicar" */
-.btn-publicar {
-    padding: 10px;
-    background-color: #4CAF50; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
-    border: none;
-    cursor: pointer;
-}
-
-.btn-publicar:hover {
-    background-color: #45a049; /* Cambia color de fondo al pasar sobre el botón */
-}
-
 /* Estilos para el botón "x" que elimina la selección de una foto */
 .eliminar-foto {
     display: inline-flex; /* Cambia la visualización a flex para centrar verticalmente */
@@ -658,3 +645,30 @@ form div {
     margin: 0 auto; /* Centra el contenedor horizontalmente */
     padding: 0 15px; /* Ajusta el padding si necesitas espacio adicional en los lados */
 }
+
+
+/*  ESTILOS PARA COMPARAR PUBLICACIONES  */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #b2d4e6;
+}
+.table th,
+.table td {
+    padding: 1rem;
+    vertical-align: top;
+    border-top: 1px solid #b2d4e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #b2d4e6;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/*  ESTILOS PARA COMPARAR PUBLICACIONES  (le tengo que poner color o algo prque esta re triston ahora) */

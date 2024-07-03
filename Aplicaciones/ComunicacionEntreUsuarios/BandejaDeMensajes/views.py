@@ -7,7 +7,7 @@ def ver_lista_mensajes(request):
     user = request.user
     _rooms = user.roomsUser.all()
     rooms_with_unread_messages = Room.objects.filter(roomuser__user=user, roomuser__unread_messages=True)
-    active_rooms = [room for room in _rooms if room.estado == 'activa']
+    active_rooms = [room for room in _rooms if room.estado == 'activa' or room.estado == 'Activa']
     context = {
         'active_rooms': active_rooms,
         'rooms_with_unread_messages': rooms_with_unread_messages,

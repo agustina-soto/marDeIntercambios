@@ -114,7 +114,7 @@ class OfertaForm(forms.ModelForm):
 
     def clean_publicacion(self):
         publicacion = self.publicacion
-        if publicacion and publicacion.estado != 'pendiente':  # Verificamos el estado de la publicación
+        if publicacion and publicacion.estado == 'pendiente' and publicacion.estado == 'Pendiente':  # Verificamos el estado de la publicación
             raise forms.ValidationError('La publicación no puede recibir ofertas por el momento porque está a la espera de validación.') 
         return publicacion
     
@@ -201,7 +201,7 @@ class EditarOfertaForm (forms.ModelForm):
     #si la oferta ya fue aceptada no se puede editar
     def clean_estado (self):
         estado = self.cleaned_data.get('estado')
-        if estado == 'aceptada':
+        if estado == 'aceptada' or estado == 'Aceptada':
             raise forms.ValidationError('La oferta ya fue aceptada por el dueño de la publicación y no se puede modificar.') 
         return estado
     

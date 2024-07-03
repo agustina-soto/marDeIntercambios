@@ -69,7 +69,7 @@ def realizar_oferta(request, publicacion_id):
 def eliminar_oferta(request, oferta_id):
     oferta = get_object_or_404(Oferta, id=oferta_id)
 
-    if oferta.estado == 'aceptada':
+    if oferta.estado == 'aceptada' or oferta.estado == 'Aceptada':
         messages.error(request, "No se puede eliminar la ofetra porque ya fue aceptada")
         return redirect(reverse('VisualizacionPublicaciones:ver_detalle', kwargs={'pk': oferta.publicacion.pk}))#"reverse" genera URLs a partir de nombres de vistas y parámetros para redireccionar a una vista especifica
     

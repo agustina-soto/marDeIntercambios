@@ -16,7 +16,7 @@
         <p><strong>Estado:</strong> {{ post.estado }}</p>
         <p><strong>Año:</strong> {{ post.anio }}</p>
 
-        {% if post.estado == 'eliminada' or pub.estado == 'Eliminada' %}
+        {% if post.estado == 'eliminada' and pub.estado == 'Eliminada' %}
         <div class="alert alert-warning" role="alert">
             Esta publicación ha sido eliminada y no está disponible.
         </div>
