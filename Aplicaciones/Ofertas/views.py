@@ -246,4 +246,7 @@ def crear_sala(publicacion, oferta):
         room = Room.objects.create(name=room_name, slug=slug)
         room.users.add(publicacion.autor, oferta.autor)
         room.save()
-    
+    else:
+        if (existe_room.estado == 'eliminada'):
+            existe_room.estado = 'activa'
+            existe_room.save()
