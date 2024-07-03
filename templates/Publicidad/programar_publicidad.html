@@ -1,57 +1,77 @@
-
 {% extends "base.html" %}  
 {% load static %}
 
 {% block content %}  
 
-<div class="container">  
-    <h2>Programar Publicidad</h2>  
-    <form id ='programar-publicidad-form' method="post" enctype="multipart/form-data">  
-        {% csrf_token %}
+<div class="container">
+    <h2>Programar Publicidad</h2>
 
-        <div class="form-group">
-            <label>{{publicidad_form.cliente.label}} </label>
-            {{ publicidad_form.cliente }}
-            <span class="error-message">{{ publicidad_form.cliente.errors }}</span>
-        </div>
-        
-        <div class="form-group">
-            <label for="fecha">{{publicidad_form.fecha.label}} </label>
-           {{ publicidad_form.fecha }}
-            <span class="error-message">{{ publicidad_form.fecha.errors }}</span>
-        </div>
-         
-        <div class="form-group">
-            <label>{{publicidad_form.foto_central.label}} </label>
-            {{ publicidad_form.foto_central }}
-            <span class="error-message">{{ publicidad_form.foto_central.errors }}</span>
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Acerca de programar una publicidad:</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">1. Ingresa los datos del cliente o la compañía que desea mostrar.</li>
+                        <li class="list-group-item">2. Una publicidad se programa por 24 horas. Selecciona la fecha y sube las imágenes necesarias.</li>
+                        <li class="list-group-item">3. Puedes previsualizar la publicidad antes de programarla definitivamente.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label>{{publicidad_form.foto_lateral.label}} </label>
-            {{ publicidad_form.foto_lateral }}
-            <span class="error-message">{{ publicidad_form.foto_lateral.errors }}</span>
+        <!-- Columna derecha con el formulario -->
+        <div class="col-md-6">
+            <form id="programar-publicidad-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>{{ publicidad_form.cliente.label }}</label>
+                    {{ publicidad_form.cliente }}
+                    <span class="error-message">{{ publicidad_form.cliente.errors }}</span>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ publicidad_form.fecha.label }}</label>
+                    {{ publicidad_form.fecha }}
+                    <span class="error-message">{{ publicidad_form.fecha.errors }}</span>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ publicidad_form.foto_central.label }}</label>
+                    {{ publicidad_form.foto_central }}
+                    <span class="error-message">{{ publicidad_form.foto_central.errors }}</span>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ publicidad_form.foto_lateral.label }}</label>
+                    {{ publicidad_form.foto_lateral }}
+                    <span class="error-message">{{ publicidad_form.foto_lateral.errors }}</span>
+                </div>
+                <input type="hidden" name="action" id="form-action" value="">
+
+                <button type="button" class="btn btn-primary m-1" onclick="setFormAction('previsualizar')">Previsualizar</button>
+                <button type="submit" class="btn btn-primary m-1" onclick="setFormAction('programar')">Programar</button>
+            </form>
+
+            <!-- Botón para volver a la página anterior -->
+            <div class="text-center">
+                <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
+            </div>
         </div>
-        <input type="hidden" name="action" id="form-action" value="">
-
-    <button type="button" class="btn btn-primary m-1" onclick="setFormAction('previsualizar')">Previsualizar</button>
-    <button type="submit" class="btn btn-primary m-1" onclick="setFormAction('programar')">Programar</button>  
-    </form>
-
-    <!-- Botón para volver a la página anterior -->
-    <div class="text-center">
-        <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
     </div>
-
 </div>
-{% endblock %}  
+{% endblock %}
 
 {% block scripts %}
 <script>
     function setFormAction(action) {
-    document.getElementById('form-action').value = action;
-    document.getElementById('programar-publicidad-form').submit();
+        document.getElementById('form-action').value = action;
+        document.getElementById('programar-publicidad-form').submit();
     }
+
     $(document).ready(function() {
         // Se define un array en JavaScript para almacenar las fechas ocupadas
         var fechasOcupadas = [
@@ -82,5 +102,4 @@
         });
     });
 </script>
-
 {% endblock %}
