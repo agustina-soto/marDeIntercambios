@@ -8,8 +8,10 @@
             <img src="data:image/jpeg;base64,{{ foto_centralP }}" alt="Central Ad">
         </div>
         {% block banner_lateral %}
-        <div class="d-none d-lg-block col-lg-2 mb-3 lateral-ad">
-            <img src="data:image/jpeg;base64,{{ foto_lateralP }}" alt="Central Ad">
+        <div class="d-none d-lg-block col-lg-2 mb-3" style="position: relative;">
+            <div class="lateral-ad scrollable-content">
+                <img src="data:image/jpeg;base64,{{ foto_lateralP }}" alt="Central Ad" class="fixed-image">
+            </div>
         </div>
         {% endblock banner_lateral %}
         <div class="col-2 col-lg-8 text-center">
@@ -21,9 +23,13 @@
                 <a href="javascript:history.back()" class="btn btn-primary m-1">Volver</a>
             </div>
         </div>
-        <div class="d-none d-lg-block col-lg-2 mb-3 lateral-ad">
-            <img src="data:image/jpeg;base64,{{ foto_lateralP }}" alt="Central Ad">
+        <div class="d-none d-lg-block col-lg-2 mb-3" style="position: relative;">
+            <div class="lateral-ad scrollable-content">
+                <img src="data:image/jpeg;base64,{{ foto_lateralP }}" alt="Central Ad" class="fixed-image">
+            </div>
         </div>
+
+        
     </div>
 <!--
     <style>
