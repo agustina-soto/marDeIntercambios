@@ -13,16 +13,16 @@ def dar_de_baja(request, user_id):
     if (request.method == 'POST'):
         usuario = Usuario.objects.get(id=user_id)
         motivo = request.POST.get('motivo')
-        ok = True;
+        ok = True
         if (not motivo):
-            messages.error(request, "el campo motivo no debe quedar vacío. Debe completarse el motivo de la eliminación para proceder con la desactivación de la cuenta")
+            messages.error(request, "Debe completarse el motivo de la eliminación para proceder con la desactivación de la cuenta")
             ok = False
         else:
             if (tiene_oferta_propia_aceptada(usuario)):
-                messages.error(request, "No pueden eliminarse cuentas con ofertas aceptadas. Debe comunicarse con administración para proceder con la baja de la cuenta")
+                messages.error(request, "No pueden eliminarse cuentas con ofertas propias aceptadas. Debe contactarse con con el equipo de desarrollo a través de 'PuertoAventura@gmail.com' para proceder con la baja de la cuenta")
                 ok = False
             if (tiene_oferta_ajena_aceptada(usuario)):
-                messages.error(request, " No pueden eliminarse cuentas con ofertas aceptadas. Debes cancelar la oferta aceptada para proceder con la baja de la cuenta")
+                messages.error(request, " No pueden eliminarse cuentas con ofertas aceptadas en sus publicaciones. Debes cancelar la oferta aceptada para proceder con la baja de la cuenta")
                 ok = False
         if (ok):
             eliminar_cuenta(usuario, motivo)
