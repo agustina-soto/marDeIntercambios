@@ -29,9 +29,8 @@
             {% endif %}
             <td>{{us.estado_cuenta}}</td>
             <td>
-                <!-- <a href="/publicacion/ver-publicacion/ver_detalle/{{us.id}}" class="text-decoration-none btn btn-primary">Ver perfil</a> -->
                 {% if us.estado_cuenta != "Deshabilitado" %}
-                <a href="/usuarios/banear_usuario/{{us.id}}" class="text-decoration-none btn btn-danger">Banear usuario</a>
+                <a href="/usuarios/banear_usuario/{{us.id}}" class="text-decoration-none nuestro-btn3">Banear usuario</a>
                 {% endif %}
                 {% if us.estado_cuenta == "Deshabilitado" %}
                 <a href="#" class="text-decoration-none btn btn-secondary" data-toggle="tooltip" data-placement="top" title="{{us.motivo_de_baja}}">Motivo de baja</a>

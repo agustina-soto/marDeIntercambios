@@ -78,7 +78,7 @@ def eliminar_oferta(request, oferta_id):
     oferta.save()
 
     messages.success(request, "La oferta ha sido eliminada exitosamente.")
-    return redirect(reverse('VisualizacionPublicaciones:ver_detalle', kwargs={'pk': oferta.publicacion.pk}))
+    return render(request, 'Ofertas/ver_detalle_oferta.html', {'oferta': oferta})
 
 def crear_autor(oferta_form, _pass):
     unUser = oferta_form.cleaned_data['visitante']

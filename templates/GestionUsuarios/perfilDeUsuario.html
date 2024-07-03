@@ -2,25 +2,25 @@
 {% load static %}
 
 {% block content %}
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between mb-4">
-            <a href="{% url 'VisualizacionPublicaciones:ver_favoritos' %}" class="btn btn-outline-primary">Ver Publicaciones Favoritas</a>
-            <a href="{% url 'VisualizacionPublicaciones:ver_historial' %}" class="btn btn-outline-primary">Ver Historial de Publicaciones</a>
-        </div>
+    <br>
+    <a href="{% url 'VisualizacionPublicaciones:ver_favoritos' %}" class="nuestro-btn4">Ver Publicaciones Favoritas</a>
+    <a href="{% url 'VisualizacionPublicaciones:ver_historial' %}" class="nuestro-btn2">Ver Historial de Publicaciones</a>
 
-        <h2 class="mb-4"><u>Información Personal</u></h2>
-        <div class="perfil-info mb-4">
-            <ul class="list-group">
-                <li class="list-group-item"><strong>Correo Electrónico:</strong> {{ username }}</li>
-                <li class="list-group-item"><strong>Fecha de Nacimiento:</strong> {{ fechaNacimiento }}</li>
-                <li class="list-group-item"><strong>DNI:</strong> {{ dni }}</li>
-            </ul>
-            <div class="mt-3">
-                <a href="{% url 'editar_perfil_usuario' request.user.id %}" class="btn btn-outline-secondary">Editar Información Personal</a>
-                <a href="{% url 'dar_de_baja_cuenta' user_id %}" class="btn btn-outline-danger">Eliminar Cuenta</a>
-            </div>
-        </div>
+    <br><br>
 
+    <h2><u>Información Personal</u></h2>
+    <br><br>
+    <div class="perfil-info">
+        <ul>
+            <li><p>Correo Electrónico: {{ username }}</p></li>
+            <li><p>Fecha de Nacimiento: {{ fechaNacimiento }}</p></li>
+            <li><p>DNI: {{ dni }}</p></li>
+        </ul>
+        <a href="{% url 'editar_perfil_usuario' request.user.id %}" class="nuestro-btn2">Editar Información Personal</a>
+        <a href="{% url 'dar_de_baja_cuenta' user_id %}" class="nuestro-btn3">Eliminar Cuenta</a><br>
+    </div>
+
+        <!-- SI NO ES ADMINISTRACION, SE MUESTRAN SUS PUBLICACIONES Y OFERTAS -->
         {% if not user.is_superuser %}
             <h3 class="mb-4"><u>Tus Publicaciones</u></h3>
             <div class="row">
@@ -59,7 +59,7 @@
                                             </button>
                                         </div>
                                     {% endif %}
-                                    <a href="{% url 'VisualizacionPublicaciones:ver_detalle' publicacion.id %}" class="btn btn-secondary mt-3">Ver Detalle</a>
+                                    <a href="{% url 'VisualizacionPublicaciones:ver_detalle' publicacion.id %}" class="nuestro-btn mt-3">Ver Detalle</a>
                                 </div>
                             </div>
                         </div>
@@ -72,54 +72,67 @@
                 </div>
             {% endif %}
 
-            <h3 class="mt-5 mb-4"><u>Tus Ofertas</u></h3>
-            <div class="row">
-                {% if not ofertas %}
-                    <p class="col-12 text-muted">No tiene ofertas a su nombre.</p>
-                {% else %}
-                    {% for oferta in ofertas %}
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">Estado: {{ oferta.estado }}</h5>
-                                    <p class="card-text"><strong>Descripción:</strong> {{ oferta.descripcion }}</p>
-                                    <p class="card-text"><strong>Precio Estimado:</strong> ${{ oferta.precio_estimado }}</p>
-                                    {% if oferta.fotos.all %}
-                                        <div id="photoCarousel-oferta-{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
-                                            <div class="carousel-inner">
-                                                {% for foto in oferta.fotos.all %}
-                                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                                        <a href="{{ foto.foto.url }}" data-lightbox="offer-{{ oferta.id }}">
-                                                            <img class="d-block w-100" src="{{ foto.foto.url }}" style="width: auto; max-height: 150px;">
-                                                        </a>
-                                                        <div class="carousel-caption d-none d-md-block">
-                                                            <p>{{ foto.descripcion }}</p>
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
-                                            <a class="carousel-control-prev" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            </a>
-                                            <a class="carousel-control-next" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            </a>
-                                        </div>
-                                    {% else %}
-                                        <p>No hay fotos disponibles para esta oferta.</p>
-                                    {% endif %}
-                                    <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="btn btn-secondary mt-3">Ver Detalle</a>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% endif %}
+    
+        {% if todas_publicaciones_count > 3 %}
+            <div class="mt-3">
+                <a href="{% url 'ver_todas_mis_publicaciones' %}" class="nuestro-btn">Ver Todas Mis Publicaciones</a>
             </div>
-            {% if todas_ofertas_count > 3 %}
-                <div class="mt-3">
-                    <a href="{% url 'ver_todas_mis_ofertas' %}" class="btn btn-outline-secondary">Ver Todas Mis Ofertas</a>
+        {% endif %}
+
+        <br><br>
+
+    <h3><u>Tus Ofertas</u></h3>
+    <div class="row">
+        {% if not ofertas %}
+            <p class="col-12">No tiene ofertas a su nombre.</p>
+        {% else %}
+            {% for oferta in ofertas %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Estado: {{ oferta.estado }}</h5>
+                            <p class="card-text">Descripción: {{ oferta.descripcion }}</p>
+                            <p class="card-text">Precio Estimado: ${{ oferta.precio_estimado }}</p>
+                            {% if oferta.fotos.all %}
+                                <div id="photoCarousel-oferta-{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        {% for foto in oferta.fotos.all %}
+                                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                                <a href="{{ foto.foto.url }}" data-lightbox="offer-{{ oferta.id }}">
+                                                    <img class="d-block w-100" src="{{ foto.foto.url }}" style="width: auto; max-height: 150px;">
+                                                </a>
+                                                <div class="carousel-caption d-none d-md-block">
+                                                    <p>{{ foto.descripcion }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <a class="carousel-control-prev" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            {% else %}
+                                <p>No hay fotos disponibles para esta oferta.</p>
+                            {% endif %}
+
+                            <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="nuestro-btn mt-3">Ver Detalle</a>
+                            
+                        </div>
+                    </div>
                 </div>
-            {% endif %}
+            {% endfor %}
         {% endif %}
     </div>
+
+        {% if todas_ofertas_count > 3 %}
+            <div class="mt-3">
+                <a href="{% url 'ver_todas_mis_ofertas' %}" class="nuestro-btn">Ver Todas Mis Ofertas</a>
+            </div>
+        {% endif %}
+
+    {% endif %}
+
 {% endblock %}
