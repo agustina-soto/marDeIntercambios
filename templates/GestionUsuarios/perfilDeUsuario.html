@@ -9,7 +9,7 @@
     <br><br>
 
     <h2><u>Información Personal</u></h2>
-    <br><br>
+    <br>
     <div class="perfil-info">
         <ul>
             <li><p>Correo Electrónico: {{ username }}</p></li>
@@ -20,6 +20,7 @@
         <a href="{% url 'dar_de_baja_cuenta' user_id %}" class="nuestro-btn3">Eliminar Cuenta</a><br>
     </div>
 
+    <br><br><br>
         <!-- SI NO ES ADMINISTRACION, SE MUESTRAN SUS PUBLICACIONES Y OFERTAS -->
         {% if not user.is_superuser %}
             <h3 class="mb-4"><u>Tus Publicaciones</u></h3>
@@ -71,13 +72,6 @@
                     <a href="{% url 'ver_todas_mis_publicaciones' %}" class="btn btn-outline-secondary">Ver Todas Mis Publicaciones</a>
                 </div>
             {% endif %}
-
-    
-        {% if todas_publicaciones_count > 3 %}
-            <div class="mt-3">
-                <a href="{% url 'ver_todas_mis_publicaciones' %}" class="nuestro-btn">Ver Todas Mis Publicaciones</a>
-            </div>
-        {% endif %}
 
         <br><br>
 
