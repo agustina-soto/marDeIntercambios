@@ -6,47 +6,96 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Rooms</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
 </head>
 <body>
     {% block content %}
-        <h1>Mis Mensajes</h1>
-        {% if active_rooms %}
-            <ul>
-                {% for room in active_rooms %}
-                    {% if room.estado == 'activa' or room.estado == 'Activa' %}
-                        <li {% if room in rooms_with_unread_messages %} style="background-color: yellow;"{% endif %}>
-                                <a href="{% url 'room' room.slug %}">{{ room.name }}</a><br>
-                                {% if room.messages.all %}
-                                    {% with last_message=room.messages.last %}
-                                        {% if last_message.content %}
-                                            {% if last_message.foto %}
-                                                <div>
-                                                    Último mensaje: Imagen
-                                                </div>
-                                            {% else %}
-                                                <div>
-                                                    Último mensaje: {{ last_message.content }}
-                                                </div>
+    <style>
+        .room-item {
+            border: 1px solid #7c7777;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .room-item.unread {
+            background-color: #ebeae1;
+        }
+        .room-item .room-info {
+            flex-grow: 1;
+            text-align: left;
+        }
+        .room-item .last-message {
+            font-size: 0.9em;
+            color: #555;
+        }
+        .room-item .btn-delete {
+            background-color: #dd4e5c;
+            color: white;
+            border: none;
+            margin-left: 15px;
+        }
+        .room-item a.room-link {
+            text-decoration: none;
+            color: #2d3135;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .room-item a.room-link:hover {
+            text-decoration: underline;
+            color: #a7b1bb;
+        }
+    </style>
+        <div class="container mt-4">
+            <h1 class="mb-4">Mis Mensajes</h1>
+            {% if active_rooms %}
+                <div class="list-group">
+                    {% for room in active_rooms %}
+                        {% if room.estado == 'activa' or room.estado == 'Activa' %}
+                            <div class="list-group-item room-item {% if room in rooms_with_unread_messages %}unread{% endif %}">
+                                <div class="room-info">
+                                    <h5>
+                                        <a href="{% url 'room' room.slug %}" class="room-link">{{ room.name }}</a>
+                                    </h5>
+                                    {% if room.messages.all %}
+                                        {% with last_message=room.messages.last %}
+                                            {% if last_message.content %}
+                                                {% if last_message.foto %}
+                                                    <div class="last-message">
+                                                        Último mensaje: Imagen
+                                                    </div>
+                                                {% else %}
+                                                    <div class="last-message">
+                                                        Último mensaje: {{ last_message.content }}
+                                                    </div>
+                                                {% endif %}
                                             {% endif %}
-                                        {% endif %}
-                                    {% endwith %}
-                                {% else %}
-                                    <div>
-                                        No hay mensajes en esta sala.
-                                    </div>
-                                {% endif %}
-                                <form method="post" action="{% url 'eliminar_chat' %}" >
+                                        {% endwith %}
+                                    {% else %}
+                                        <div class="last-message">
+                                            No hay mensajes en esta sala.
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <form method="post" action="{% url 'eliminar_chat' %}" class="mb-0">
                                     {% csrf_token %}
                                     <input type="hidden" name="room_id" value="{{ room.id }}">
-                                    <button type="submit">Eliminar Chat</button>
+                                    <button type="submit" class="btn btn-delete btn-sm">Eliminar Chat</button>
                                 </form>
-                            </li>            
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No tiene chats para mostrar</p>
-        {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No tiene chats para mostrar</p>
+            {% endif %}
+        </div>
     {% endblock %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
