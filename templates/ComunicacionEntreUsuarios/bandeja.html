@@ -13,7 +13,7 @@
         {% if active_rooms %}
             <ul>
                 {% for room in active_rooms %}
-                    {% if room.estado == 'activa' %}
+                    {% if room.estado == 'activa' or room.estado == 'Activa' %}
                         <li {% if room in rooms_with_unread_messages %} style="background-color: yellow;"{% endif %}>
                                 <a href="{% url 'room' room.slug %}">{{ room.name }}</a><br>
                                 {% if room.messages.all %}

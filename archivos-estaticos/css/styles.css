@@ -262,19 +262,6 @@ form div {
     margin-right: 10px;
 }
 
-/* Estilo para el botón "Publicar" */
-.btn-publicar {
-    padding: 10px;
-    background-color: #4CAF50; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
-    border: none;
-    cursor: pointer;
-}
-
-.btn-publicar:hover {
-    background-color: #45a049; /* Cambia color de fondo al pasar sobre el botón */
-}
-
 /* Estilos para el botón "x" que elimina la selección de una foto */
 .eliminar-foto {
     display: inline-flex; /* Cambia la visualización a flex para centrar verticalmente */
@@ -479,11 +466,15 @@ form div {
     overflow: hidden; /* Asegura que el contenido adicional no sea visible */
 }
 
+.lateral-ad img {
+    width: auto; /* Ajusta el ancho de la imagen automáticamente */
+    max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+}
+
 .lateral-ad img.fixed-image {
     max-width: 100%; /* Ajusta según el diseño deseado */
     height: auto; /* Para mantener la proporción de la imagen */
 }
-
 
 
 /* Media query para pantallas muy pequeñas (ej. tabletas) */
@@ -495,11 +486,6 @@ form div {
         top: auto; /* Resetea la posición superior */
     }}
 
-.lateral-ad img {
-        width: auto; /* Ajusta el ancho de la imagen automáticamente */
-        max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
-    }
-
 
 .center-ad img {
     /* background-image: url("https://creatives.sascdn.com/diff/4308/advertiser/489787/CopaAmerica_2024_Banner_Medium_Rectangle_b9fb1ccd-f776-4387-b776-bb564a24a457.jpeg");
@@ -510,7 +496,11 @@ form div {
 
 }
 
+
+
 /*     Buscar Publicaciones         */
+
+
 
 /*     Calificar intercambio        */
 .rate {
@@ -655,3 +645,30 @@ form div {
     margin: 0 auto; /* Centra el contenedor horizontalmente */
     padding: 0 15px; /* Ajusta el padding si necesitas espacio adicional en los lados */
 }
+
+
+/*  ESTILOS PARA COMPARAR PUBLICACIONES  */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #b2d4e6;
+}
+.table th,
+.table td {
+    padding: 1rem;
+    vertical-align: top;
+    border-top: 1px solid #b2d4e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #b2d4e6;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/*  ESTILOS PARA COMPARAR PUBLICACIONES  (le tengo que poner color o algo prque esta re triston ahora) */
