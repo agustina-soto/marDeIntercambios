@@ -142,7 +142,7 @@ def anular_finalizacion_intercambio (request, publicacion_id):
         if (dias > 3):
             messages.error(request, 'No podemos anular el intercambio pues ya pasaron más de 72hs')
         else:
-            pub_instance = Publicacion.objects.filter(id=intercambio.publicacion)[0]
+            pub_instance = Publicacion.objects.filter(id=intercambio.publicacion.id)[0]
 
             pub_instance.estado = "aceptada"
             pub_instance.save()

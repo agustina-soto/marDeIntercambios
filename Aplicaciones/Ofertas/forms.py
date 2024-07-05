@@ -114,7 +114,7 @@ class OfertaForm(forms.ModelForm):
 
     def clean_publicacion(self):
         publicacion = self.publicacion
-        if publicacion and publicacion.estado == 'pendiente' and publicacion.estado == 'Pendiente':  # Verificamos el estado de la publicación
+        if publicacion and publicacion.estado == 'pendiente':  # Verificamos el estado de la publicación
             raise forms.ValidationError('La publicación no puede recibir ofertas por el momento porque está a la espera de validación.') 
         return publicacion
     

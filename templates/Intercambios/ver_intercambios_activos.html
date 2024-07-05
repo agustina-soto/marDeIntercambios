@@ -49,10 +49,10 @@
         </div>
     </div>
     <div class="mt-3 d-flex justify-content-end pe-5">
-        {% if pub.estado_intercambio == 'pendiente' or pub.estado_intercambio == 'Pendiente' %}
+        {% if pub.estado_intercambio == 'pendiente' %}
         <a id="" class="w-25 nuestro-btn4" href="/intercambios/finalizar_intercambio/{{pub.detalle.id}}">Finalizar
             Intercambio</a>
-        {% elif pub.estado_intercambio == 'aceptado' or pub.estado_intercambio == 'Aceptado' %}
+        {% elif pub.estado_intercambio == 'aceptado' %}
             <a id="" class="w-25 nuestro-btn3" href="/intercambios/anular_finalizacion_intercambio/{{pub.detalle.id}}">Anular
                 Finalizar Intercambio</a>
         {% endif %}

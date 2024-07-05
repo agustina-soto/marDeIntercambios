@@ -77,7 +77,7 @@
         {% endif %}
         <section>
             {% if not publicaciones %}
-                <div>No se encontraron resultados para: {{ busqueda }}</div>
+                <div>No se encontraron resultados.</div>
             {% else %}
                 {% for pub in publicaciones %}
                     <div class="card my-3 p-3">
@@ -107,6 +107,10 @@
                     </span>
                 </div>
             {% endif %}
+            <!-- Botón para volver a la página anterior -->
+            <div class="text-center">
+                <a href="javascript:history.back()" class="nuestro-btn">Atrás</a>
+            </div>
         </section>
     </div>
     <div class="d-none d-lg-block col-lg-2 mb-3">
