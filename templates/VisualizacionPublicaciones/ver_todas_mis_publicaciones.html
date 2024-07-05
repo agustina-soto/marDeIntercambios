@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h2>Todas tus Publicaciones</h2>
+    <div class="publicaciones">
+        {% if not publicaciones %}
+            <p>No tiene publicaciones</p>
+        {% else %}
+            {% for publicacion in publicaciones %}
+                <div class="item">
+                    <p>Título: {{ publicacion.titulo }}</p>
+                    <p>Precio Mínimo: {{ publicacion.precio_minimo }}</p>
+                    <p>Tipo de Embarcación: {{ publicacion.tipo_embarcacion }}</p>
+                    <p>Año: {{ publicacion.anio }}</p>
+                    
+                    {% if publicacion.fotos.all %}
+                        <p>Fotos:</p>
+                        <div id="photoCarousel-{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for photo in publicacion.fotos.all %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <a href="{{ photo.foto.url }}" data-lightbox="post-{{ publicacion.id }}">
+                                            <img class="d-block w-100" src="{{ photo.foto.url }}" style="width: auto; max-height: 250px;">
+                                        </a>
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <p>{{ photo.title }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel-{{ forloop.counter }}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel-{{ forloop.counter }}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    {% endif %}
+
+                    <a href="{% url 'VisualizacionPublicaciones:ver_detalle' publicacion.id %}" class="nuestro-btn">Ver Detalle</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Botón para volver a la página anterior -->
+    <div class="text-center">
+        <a href="javascript:history.back()" class="nuestro-btn">Atrás</a>
+    </div>
+{% endblock %}

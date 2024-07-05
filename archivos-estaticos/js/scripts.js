@@ -1,5 +1,5 @@
 function confirmarBorrado(elemento) {
-    if (confirm("¿Estás seguro de que deseas eliminar esta publicación?")) {
+    if (confirm("¿Estás seguro de que deseas eliminarla?")) {
         var url = elemento.getAttribute('data-borrar-url');
         window.location.href = url;
     }

@@ -30,7 +30,7 @@
         <div>
             {% for notificacion in notificaciones %}
                 <div class="notificacion">
-                   <P> {{ notificacion.descripcion }}</P>
+                   <P> {{ notificacion.descripcion|safe }}</P>
                    <p class="fecha">Fecha de recibido: {{ notificacion.fecha }}</p>
                 </div>
             {% empty %}

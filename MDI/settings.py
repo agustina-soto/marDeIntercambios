@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'Aplicaciones.Autenticacion.CerrarSesion',
     'Aplicaciones.GestionUsuarios.RegistrarUsuario',
     'Aplicaciones.GestionUsuarios.VerPerfilUsuario',
+    'Aplicaciones.GestionUsuarios.ActualizarContraseña',
+    'Aplicaciones.GestionUsuarios.RecuperarContraseña',
+    'Aplicaciones.GestionUsuarios.DarDeBajaCuenta',
     'Aplicaciones.AdministracionPublicaciones.RealizarPublicacion',
     'Aplicaciones.AdministracionPublicaciones.EditarPublicacion',
     'Aplicaciones.AdministracionPublicaciones.BorrarPublicacion',
@@ -52,6 +55,7 @@ INSTALLED_APPS = [
     'Aplicaciones.VisualizacionPublicaciones.VerDetallePublicacion',
     'Aplicaciones.VisualizacionPublicaciones.Comparacion',
     'Aplicaciones.VisualizacionPublicaciones.Favoritos',
+    'Aplicaciones.VisualizacionPublicaciones.VerPublicaciones',
     'Aplicaciones.AdministracionIntercambio.RealizarOferta',
     'Aplicaciones.AdministracionIntercambio.EditarOferta',
     'Aplicaciones.ComunicacionEntreUsuarios.SalaDeChat',
@@ -60,7 +64,7 @@ INSTALLED_APPS = [
     'channels', #Para el chat pip install channels
     "channels_redis", #Para el chat pip install channels_redis
     'Aplicaciones.Notificaciones.Notificacion',
-    'anymail', #Correo pip install django-anymail (Lo dejo acá, lo más probable es que lo volemos luego de la demo)
+    'Aplicaciones.Publicidad',
 ]
 
 
@@ -87,8 +91,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                 # Añado procesador de contexto personalizado
+                # Añado procesador de contexto personalizado
                 'Aplicaciones.ComunicacionEntreUsuarios.BandejaDeMensajes.context_processors.unread_messages_processor',
+                # Contexto personalizado de publicidad
+                'Aplicaciones.Publicidad.context_processors.publicidad_context_processor',
             ],
         },
     },
@@ -174,22 +180,15 @@ AUTH_USER_MODEL = 'Modelos.Usuario'
 
 LOGIN_URL = 'login' # Esto le dice a Django que redirija a la URL llamada login cuando un usuario no autenticado intente acceder a una vista protegida
 
-## PARA EL ENVIO DE CORREO ELECTRONICO (CON CORREO APARTE, SOLO FUNCIONA PARA 10 EMAILS Y DESPUES TE SALTA ERROR DE SPAM)
+#PARA EL ENVIO DE CORREO ELECTRONICO (CON CORREO APARTE, OJITO CON MANDAR MUCHOS EN POCO TIEMPO)
+
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #PARA PROBAR EL CODIGO EN CONSOLA
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'Glam.Tech@hotmail.com'
-EMAIL_HOST_PASSWORD = 'GlamTech2024'
-
-EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
-
-ANYMAIL = {
-    "MAILGUN_API_KEY": "84fa9a60811232f31aa3f09350ff7e7a-51356527-8336bd6b",
-    "MAILGUN_SENDER_DOMAIN": "sandboxbd2e9d473ef2468aa3aa326aa72d36fd.mailgun.org",  # Debes verificar y usar tu propio dominio
-}
-
-DEFAULT_FROM_EMAIL = "Glam.Tech@sandboxbd2e9d473ef2468aa3aa326aa72d36fd.mailgun.org"  # Asegúrate de usar el mismo dominio
+EMAIL_HOST_USER = 'somos.glam.tech@gmail.com'
+EMAIL_HOST_PASSWORD = 'khmp xtsw pqlo qmki'
 
 MESSAGE_TAGS = {
         messages.ERROR: 'danger',

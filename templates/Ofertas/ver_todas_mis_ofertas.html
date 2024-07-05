@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h2>Todas tus Ofertas</h2>
+    <div class="ofertas">
+        {% if not ofertas %}
+            <p>No tiene ofertas a su nombre</p>
+        {% else %}
+            {% for oferta in ofertas %}
+                <!-- agus: negada a no mostrar las eliminadas {%if oferta.estado != 'eliminada' and oferta.estado != 'Eliminada' %} -->
+                    <div class="item">
+                        <p>Estado: {{ oferta.estado }}</p>
+                        <p>Descripción: {{ oferta.descripcion }}</p>
+                        <p>Precio Estimado: ${{ oferta.precio_estimado }}</p>
+                    
+                        {% if oferta.fotos.all %}
+                            <p>Fotos:</p>
+                            <div id="photoCarousel-oferta-{{ forloop.counter }}" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    {% for foto in oferta.fotos.all %}
+                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                            <a href="{{ foto.foto.url }}" data-lightbox="offer-{{ oferta.id }}">
+                                                <img class="d-block w-100" src="{{ foto.foto.url }}" style="width: auto; max-height: 250px;">
+                                            </a>
+                                            <div class="carousel-caption d-none d-md-block">
+                                                <p>{{ foto.descripcion }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <a class="carousel-control-prev" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                </a>
+                                <a class="carousel-control-next" href="#photoCarousel-oferta-{{ forloop.counter }}" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                </a>
+                            </div>
+                        {% else %}
+                            <p>No hay fotos disponibles para esta oferta.</p>
+                        {% endif %}
+
+                        <a href="{% url 'ver_detalle_oferta' oferta.id %}" class="nuestro-btn">Ver Detalle</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Botón para volver a la página anterior -->
+    <div class="text-center">
+        <a href="javascript:history.back()" class="nuestro-btn">Atrás</a>
+    </div>
+{% endblock %}

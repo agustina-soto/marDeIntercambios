@@ -3,10 +3,10 @@
 {% block content %}
 <div class="row">
     <div class="col-12 mb-3">
-        {% include "Publicidades/banner_central.html" %}
+        {% include "Publicidad/banner_central.html"%}
     </div>
-    <div class="d-none d-lg-block col-lg-2 mb-3">
-        {% include "Publicidades/banner_lateral.html" %}
+    <div class="d-none d-lg-block col-lg-2 mb-3" style="position: relative;">
+        {% include "Publicidad/banner_lateral.html" %}
     </div>
 
     <div class="col-12 col-lg-8">
@@ -16,7 +16,7 @@
         <p><strong>Estado:</strong> {{ post.estado }}</p>
         <p><strong>Año:</strong> {{ post.anio }}</p>
 
-        {% if post.estado == 'eliminada' or pub.estado == 'Eliminada' %}
+        {% if post.estado == 'eliminada' and pub.estado == 'Eliminada' %}
         <div class="alert alert-warning" role="alert">
             Esta publicación ha sido eliminada y no está disponible.
         </div>
@@ -24,30 +24,33 @@
 
         {% if es_dueno %}
         <div class="action-buttons">
-            <a href="{% url 'ver_ofertas' post.id %}" class="btn btn-primary">Ver Ofertas</a>
+            <a href="{% url 'ver_ofertas' post.id %}" class="nuestro-btn">Ver Ofertas</a>
             {% if post.estado != 'eliminada' and post.estado != 'Eliminada' %}
-            <a href="{% url 'editar_publicacion' post.id %}" class="btn btn-info">Editar Publicación</a>
-            <a href="#" class="btn btn-danger" data-borrar-url="{% url 'borrar_publicacion' post.id %}"
+            <a href="{% url 'editar_publicacion' post.id %}" class="nuestro-btn2">Editar Publicación</a>
+            <a href="#" class="nuestro-btn3" data-borrar-url="{% url 'borrar_publicacion' post.id %}"
                 onclick="confirmarBorrado(this)">Borrar Publicación</a>
             {% endif %}
-            <!-- Botón para volver a la página anterior -->
-            <div class="text-center">
-                <a href="javascript:history.back()" class="btn btn-primary">Atrás</a>
-            </div>
         </div>
         {% else %}
-            <a href="{% url 'realizar_oferta' post.id %}" class="button">Realizar oferta</a>
+            <a href="{% url 'realizar_oferta' post.id %}" class="nuestro-btn2">Realizar oferta</a>
             {% if user.is_authenticated %}
                 <!-- Si no es dueño de la publicación y está autenticado, puede agregarla/quitarla a/de favoritos-->
                 {% if post in user.favoritos.all %}
-                    <a href="{% url 'VisualizacionPublicaciones:quitar_de_favoritos' post.id %}" class="btn btn-danger">Quitar de Favoritos</a>
+                    <a href="{% url 'VisualizacionPublicaciones:quitar_de_favoritos' post.id %}" class="nuestro-btn3">Quitar de Favoritos</a>
                 {% else %}
-                    <a href="{% url 'VisualizacionPublicaciones:agregar_a_favoritos' post.id %}" class="btn btn-success">Agregar a Favoritos</a>
+                    <a href="{% url 'VisualizacionPublicaciones:agregar_a_favoritos' post.id %}" class="nuestro-btn4">Agregar a Favoritos</a>
                 {% endif %}
             {% endif %}
         {% endif %}
 
-        <br><br><br>
+        <br><br>
+        
+        <!-- Botón para volver a la página anterior -->
+        <div class="text-center">
+            <a href="javascript:history.back()" class="nuestro-btn">Atrás</a>
+        </div>
+
+        <br>
 
         <div class="container">
             {% if fotos.all %}
@@ -79,8 +82,9 @@
             {% endif %}
         </div>
     </div>
-    <div class="d-none d-lg-block col-lg-2 mb-3">
-        {% include "Publicidades/banner_lateral.html" %}
+    <div class="d-none d-lg-block col-lg-2 mb-3" style="position: relative;">
+        {% include "Publicidad/banner_lateral.html" %}
     </div>
 </div>
+
 {% endblock %}

@@ -47,7 +47,7 @@ from Aplicaciones.Modelos.models import Publicacion
 #         return render(request, 'VisualizacionPublicaciones/buscar_publicaciones.html', { 'publicaciones': page_obj})
 
 def buscar_publicaciones(request):
-    dataPublicaciones = Publicacion.objects.exclude(estado='eliminada')
+    dataPublicaciones = Publicacion.objects.exclude(estado='finalizada').exclude(estado='eliminada')
 
     query = request.GET.get('buscar')
     tipo = request.GET.get('tipo')

@@ -8,7 +8,7 @@
 {% for int in intercambios %}
 <div class="card my-3 p-3">
     <div>
-        <h3>Datos del Intercambio {{int.id}}</h3>
+        <h3>Datos del Intercambio {{int.id}} - {{int.publicacion.titulo}}</h3>
         <p>Fecha de aceptación: {{int.fecha_aceptacion}}</p>
         <hr>
         <div class="accordion" id="accordionExample">
@@ -34,6 +34,13 @@
                         <h4>Datos del ofertante</h4>
                         <p>Usuario: {{int.publicacion.oferta_aceptada.autor.username}}</p>
                         <p>DNI: {{int.publicacion.oferta_aceptada.autor.dni}}</p>
+                        <h5>Valoración del intercambio</h5>
+                        <div class="border-bottom dark">
+                            <p>Valoración Autor: {{int.calificacion_autor|default:'-' }}/10</p>
+                            <p>Comentario: {{int.descripcion_autor|default:'-' }}</p>
+                        </div>
+                        <p>Valoración Comprador: {{int.calificacion_comprador|default:'-' }}/10</p>
+                        <p>Comentario: {{int.descripcion_comprador|default:'-' }}</p>
                     </div>
                 </div>
             </div>

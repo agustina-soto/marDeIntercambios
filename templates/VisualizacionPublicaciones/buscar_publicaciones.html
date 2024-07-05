@@ -1,13 +1,25 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block Buscar %}
+ <!-- Sub-Navbar con la barra de busqueda -->
+ <nav class="sub-navbar sub-navbar-light bg-light">
+    <div class="container">
+        <form class="d-flex search-form" action="/publicacion/ver-publicacion/buscar_publicaciones/" method="GET" enctype="multipart/form-data">
+            <button type="submit" class="search-button">&#128269;</button>
+            <input class="form-control me-2 search-input" type="search" placeholder="Buscar Publicacion" name="buscar" id="buscar" aria-label="Search">
+        </form>
+    </div>
+</nav>
+{% endblock %}
+
 {% block content %}
 <div class="row buscar-contenido">
     <div class="col-12 mb-3">
-        {% include "Publicidades/banner_central.html" %}
+        {% include "Publicidad/banner_central.html" %}
     </div>
     <div class="d-none d-lg-block col-lg-2 mb-3">
-        {% include "Publicidades/banner_lateral.html" %}
+        {% include "Publicidad/banner_lateral.html" %}
     </div>
     <div class="center-content col-12 col-lg-8">
         <h1>Lista de Publicaciones</h1>
@@ -16,7 +28,7 @@
             <p class="col-12">Filtro de publicaciones</p>
             <div>
 
-                <a class="col-2 btn btn-danger" href="?buscar=">Limpiar filtros</a>
+                <a class="col-2 nuestro-btn3" href="?buscar=">Limpiar filtros</a>
             </div>
             <div class="col-12 col-lg-3">
                 <p>Tipo de embarcación</p>
@@ -65,7 +77,7 @@
         {% endif %}
         <section>
             {% if not publicaciones %}
-                <div>No se encontraron resultados para: {{ busqueda }}</div>
+                <div>No se encontraron resultados.</div>
             {% else %}
                 {% for pub in publicaciones %}
                     <div class="card my-3 p-3">
@@ -74,7 +86,7 @@
                             <p>Año: {{ pub.anio }}</p>
                             <p>Tipo: {{ pub.tipo_embarcacion }}</p>
                             <p>Precio: ${{ pub.precio_minimo }}</p>
-                            <button class="button">Ver Detalle</button>
+                            <button class="boton-discreto">Ver Detalle</button>
                         </a>
                     </div>
                     <hr>
@@ -95,10 +107,14 @@
                     </span>
                 </div>
             {% endif %}
+            <!-- Botón para volver a la página anterior -->
+            <div class="text-center">
+                <a href="javascript:history.back()" class="nuestro-btn">Atrás</a>
+            </div>
         </section>
     </div>
     <div class="d-none d-lg-block col-lg-2 mb-3">
-        {% include "Publicidades/banner_lateral.html" %}
+        {% include "Publicidad/banner_lateral.html" %}
     </div>
 </div>
 {% endblock %}
